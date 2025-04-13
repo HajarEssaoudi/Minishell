@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 20:11:00 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/04/13 22:01:02 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/04/13 21:50:46 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/04/13 21:51:39 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <readline/readline.h>
+#ifndef MINISHELL_H
+#define MINISHELL_H
 
-int	main(int ac, char **av)
-{
-	char *line;
-	char **arg;
-	char *cmd;
-	char *pathCmd;
-	while (1)
-	{
-		line = readline("Minishell$> ");
-		arg = ft_split(line, ' ');
-		if (execvp(arg[0], arg) == -1)
-		{
-			perror("execvp failed");
-		}
-	}
-	return (0);
-}
+char	**ft_split(char const *s, char c);
+
+#endif
