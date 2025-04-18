@@ -12,6 +12,54 @@ typedef struct s_div
 	struct s_div	*next;
 }					t_div;
 
+void check_redirect(char *input)
+{
+	if (input[0] == '>' && input[1] == '>')
+	{
+		printf("zsh: parse error near '>>'\n");
+		exit(1);
+	}
+	else if (input[0] == '<' && input[1] == '<')
+	{
+		printf("zsh: parse error near '<<'\n");
+		exit(1);
+	}
+	int i = 0;
+	while (input[i])
+	{
+		if (input[i] == '>' && input[i + 1] == '>')
+			i += 2;
+		else if (input[i] == '<' && input[i + 1] == '<')
+			i += 2;
+		else if (input[i] == '>' && input[i + 1] != '>')
+			i++;
+		else if (input[i] == '<' && input[i + 1] != '<')
+			i++;
+		while (input[i] == ' ')
+			i++;
+		if (input[i] == '>' && input[i + 1] != '>')
+		{
+			printf("zsh: parse error near '>'\n");
+			exit(1);
+		}
+		else if (input[i] == '>' && input[i + 1] == '>')
+		{
+			printf("zsh: parse error near '>>'\n");
+			exit(1);
+		}
+		if (input[i] == '<' && input[i + 1] != '<')
+		{
+			printf("zsh: parse error near '<'\n");
+			exit(1);
+		}
+		else if (input[i] == '<' && input[i + 1] == '<')
+		{
+			printf("zsh: parse error near '<<'\n");
+			exit(1);
+		}
+		i++;
+	}
+}
 void	add_ch(t_div **div, char *type, char *input)
 {
 	t_div *token = malloc(sizeof(t_div));
@@ -59,32 +107,6 @@ t_div	*ft_div(char *input)
 		}
 		else if (input[i] == '>')
 		{
-			int j = i;
-			int k = 0;
-			while (input[j] == '>')
-			{
-				while (input[j + 1] == ' ')
-				{
-					j++;
-					if (input[j + 1] == '>')
-					{
-						printf ("zsh: parse error near `>'\n");
-						exit(1);
-					}
-				}
-					j++;
-					k++;
-			}
-			if (k == 3)
-			{
-				printf ("zsh: parse error near `>'\n");
-				exit(1);
-			}
-			else if (k > 3)
-			{
-				printf ("zsh: parse error near `>>'\n");
-				exit(1);
-			}
 			if (input[i + 1] == '>')
 			{
 				add_ch(&div, "redirect_out", ">>");
