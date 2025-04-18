@@ -29,7 +29,7 @@ t_div	ft_div(char *input)
 			if (i > 1 && input[i - 1] != ' ')
 			{
 				add_ch(&div, "pip", input[i]);
-        i++;
+        		i++;
 			}
 			else
 			{
@@ -44,11 +44,11 @@ t_div	ft_div(char *input)
 				add_ch(&div, "redirect_out", ">>");
 				i += 2;
 			}
-      else
-      {
-        add_ch(&div, "redirect_out", ">");
+      		else
+      		{
+        		add_ch(&div, "redirect_out", ">");
 				i++;
-      }
+      		}
 		}
     else if (input[i] == '<')
 		{
@@ -57,24 +57,31 @@ t_div	ft_div(char *input)
 				add_ch(&div, "redirect_out", "<<");
 				i += 2;
 			}
-      else
-      {
-        add_ch(&div, "redirect_out", "<");
+      		else
+      		{
+        		add_ch(&div, "redirect_out", "<");
 				i++;
-      }
+      		}
 		}
-    // else if (input[i] == '"' || input[i] == '\'')
-    // {
-    //   char  q = input[i];
-    //   int j = ++i;
-    //   while (input[i] && input[i] != q)
-    //     i++;
-    //   if (input[i] && input[i] == q)
-    //   {
-    //     char  *str = ft_
-    //   }
-      
-    // }
+    else if (input[i] == '"' || input[i] == '\'')
+    {
+      char  q = input[i];
+      int j = ++i;
+      while (input[i] && input[i] != q)
+        i++;
+      if (input[i] && input[i] == q)
+      {
+        char  *str = ft_substr(input, j, i - j);
+		add_ch(&div, "string", str);
+		free(str);
+		i++;
+	  }
+	  else
+	  {
+		printf("zsh: parse error near '%c'\n", q);
+		exit(1);
+      }
+    }
 	}
 }
 int	main(int argc, char **argv)
