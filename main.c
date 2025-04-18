@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct s_div
 {
@@ -11,7 +12,25 @@ typedef struct s_div
 	struct s_div	*next;
 }					t_div;
 
-t_div	ft_div(char *input)
+void	add_ch(t_div **div, char *type, char *input)
+{
+	t_div *token = malloc(sizeof(t_div));
+	t_div *tmp;
+
+	token->args = ft_strdup(input);
+	token->type = ft_strdup(type);
+	token->next = NULL;
+	if (!*div)
+		*div = token;
+	else
+	{
+		tmp = *div;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = token;
+	}
+}
+t_div	*ft_div(char *input)
 {
 	int		i;
 	t_div	*div;
@@ -28,17 +47,44 @@ t_div	ft_div(char *input)
 		{
 			if (i > 1 && input[i - 1] != ' ')
 			{
-				add_ch(&div, "pip", input[i]);
+				add_ch(&div, "pip", "|");
         		i++;
 			}
 			else
 			{
-        printf("zsh: parse error near '|'\n");
-        exit(1);
-      }
+				// perror("pipe");
+        		printf("zsh: parse error near '|'\n");
+        		exit(1);
+      		}
 		}
 		else if (input[i] == '>')
 		{
+			int j = i;
+			int k = 0;
+			while (input[j] == '>')
+			{
+				while (input[j + 1] == ' ')
+				{
+					j++;
+					if (input[j + 1] == '>')
+					{
+						printf ("zsh: parse error near `>'\n");
+						exit(1);
+					}
+				}
+					j++;
+					k++;
+			}
+			if (k == 3)
+			{
+				printf ("zsh: parse error near `>'\n");
+				exit(1);
+			}
+			else if (k > 3)
+			{
+				printf ("zsh: parse error near `>>'\n");
+				exit(1);
+			}
 			if (input[i + 1] == '>')
 			{
 				add_ch(&div, "redirect_out", ">>");
@@ -50,53 +96,74 @@ t_div	ft_div(char *input)
 				i++;
       		}
 		}
-    else if (input[i] == '<')
+    	else if (input[i] == '<')
 		{
 			if (input[i + 1] == '<')
 			{
-				add_ch(&div, "redirect_out", "<<");
+				add_ch(&div, "redirect_in", "<<");
 				i += 2;
 			}
       		else
       		{
-        		add_ch(&div, "redirect_out", "<");
+        		add_ch(&div, "redirect_in", "<");
 				i++;
       		}
 		}
-    else if (input[i] == '"' || input[i] == '\'')
-    {
-      char  q = input[i];
-      int j = ++i;
-      while (input[i] && input[i] != q)
-        i++;
-      if (input[i] && input[i] == q)
-      {
-        char  *str = ft_substr(input, j, i - j);
-		add_ch(&div, "string", str);
-		free(str);
-		i++;
-	  }
-	  else
-	  {
-		printf("zsh: parse error near '%c'\n", q);
-		exit(1);
-      }
-    }
+    	else if (input[i] == '"' || input[i] == '\'')
+    	{
+      		char  q = input[i];
+      		int j = ++i;
+      		while (input[i] && input[i] != q)
+        		i++;
+      		if (input[i] && input[i] == q)
+      		{
+        		char  *str = ft_substr(input, j, i - j);
+				add_ch(&div, "string", str);
+				free(str);
+				i++;
+	  		}
+	  		else
+	  		{
+				printf("zsh: parse error near '%c'\n", q);
+				exit(1);
+      		}	
+    	}
+		else
+    	{
+      		int j = i;
+      		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|' && input[i] != ' ')
+        		i++;
+      		if (input[i])
+      		{
+        		char  *str = ft_substr(input, j, i - j);
+				add_ch(&div, "string", str);
+				free(str);
+				i++;
+	  		}
+    	}
 	}
+	return	div;
 }
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
-	char *l = readline(">> ");
+	char *l = readline("Minishell>> ");
 	int n = 0;
 	while (l)
 	{
 		t_div *div;
-		ft_memset(div, 0, sizeof(t_div));
-		printf("=> %s\n", l);
+		// ft_memset(div, 0, sizeof(t_div));
+		div = ft_div(l);
+		t_div *tmp = div;
+		while (tmp)
+		{
+			printf ("%s => %s\n", tmp->args, tmp->type);
+			tmp = tmp->next;
+		}
+		
 		add_history(l);
 
 		free(l);
-		l = readline(">> ");
+		l = readline("Minishell>> ");
 	}
 	return (0);
 }
