@@ -69,62 +69,71 @@ char    *cv_var(char *str)
     return NULL;
 }
 
-char    *ft_var(char *str, char **cp_env)
+char *ft_var(char *str, char **cp_env)
 {
-	char *key = cv_var(str);
-	char *var = NULL;
-	if (key != NULL && key != "1")
-    	var = get_env_var(cp_env, key);
+	int i = 0, j = 0;
+	char *result = malloc(1);
+	result[0] = '\0';
 
-    char *g_var;
-    int s = ft_strlen(str) + 1;
-    int i = 0;
-    int j = 0;
-    if (var != NULL)
-    {
-        while (str[i] && str[i] != '$')
-            i++;
-        while (str[i] && str[i] != ' ')
-        {
-            i++;
-            j++;
-        }
-        int v = (s - j) + ft_strlen(var);
-        g_var = malloc (sizeof(char *) * v);
-    }
-    else
-        g_var = malloc (sizeof(char *) * s);
-    i = 0;
-    j = 0;
-    while (str[i])
-    {
-		if (str[i] != '$')
-			g_var[j++] = str[i++];
-        else if (var != NULL)
-        {
-            while (str[i] && str[i] != '$')
-                g_var[j++] = str[i++];
-            int k = 0;
-            while (var[k])
-                g_var[j++] = var[k++];
-            while (str[i] && (str[i] != ' ' && str[i] != '-'))
-                i++;
-			
-        }
-		else if (key == "1")
+	while (str[i])
+	{
+		if (str[i] == '$')
 		{
-			while(str[i] != '$')
-        		i++;
-   			 i++;
-   			 while (str[i] && (str[i] == '~' || str[i] == '=' || str[i] == '^'))
-        		i++;
-			while (str[i] >= '0' && str[i] <= '9')
+			i++;
+			if (str[i] == '?')
+			{
+				char *exit_code = ft_itoa(g_exit_status);
+				char *tmp = ft_strjoin(result, exit_code);
+				free(result);
+				result = tmp;
+				free(exit_code);
 				i++;
-			key = 0;
+			}
+			else if (str[i] == '{')
+			{
+				i++;
+				int start = i;
+				while (str[i] && str[i] != '}') i++;
+				if (str[i] == '}')
+				{
+					char *key = ft_substr(str, start, i - start);
+					char *val = get_env_var(cp_env, key);
+					char *tmp = ft_strjoin(result, val ? val : "");
+					free(result);
+					result = tmp;
+					free(key);
+					i++;
+				}
+			}
+			else if (ft_isalpha(str[i]) || str[i] == '_')
+			{
+				int start = i;
+				while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+					i++;
+				char *key = ft_substr(str, start, i - start);
+				char *val = get_env_var(cp_env, key);
+				char *tmp = ft_strjoin(result, val ? val : "");
+				free(result);
+				result = tmp;
+				free(key);
+			}
+			else
+			{
+				result = ft_strjoin_free(result, "$", 1);
+			}
 		}
-    }
-    return g_var;
+		else
+		{
+			char tmp[2] = {str[i], 0};
+			char *tmp_result = ft_strjoin(result, tmp);
+			free(result);
+			result = tmp_result;
+			i++;
+		}
+	}
+	return result;
 }
+
 
 void check_redirect(char *input)
 {
@@ -240,6 +249,17 @@ t_div	*ft_div(char *input, char **cp_env)
         		exit(1);
       		}
 		}
+		else if (input[i] == '~' && (input[i + 1] == '/' || input[i + 1] == '\0'))
+{
+	char *home = get_env_var(cp_env, "HOME");
+	char *rest = ft_substr(input, i + 1, ft_strlen(input) - i - 1);
+	char *path = ft_strjoin(home ? home : "", rest);
+	add_ch(&div, "string", path);
+	free(rest);
+	free(path);
+	break;
+}
+
 		else if (input[i] == '>')
 		{
 			if (input[i + 1] == '>')
