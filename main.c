@@ -64,12 +64,17 @@ char    *cv_var(char *str)
         char *var = ft_substr(str, j, i - j);
         return var;
     }
+	else if (str[i] && ft_isdigit(str[i]))
+		return ("1");
     return NULL;
 }
 
 char    *ft_var(char *str, char **cp_env)
 {
-    char *var = get_env_var(cp_env, cv_var(str));
+	char *key = cv_var(str);
+	char *var = NULL;
+	if (key != NULL && key != "1")
+    	var = get_env_var(cp_env, key);
 
     char *g_var;
     int s = ft_strlen(str) + 1;
@@ -93,7 +98,9 @@ char    *ft_var(char *str, char **cp_env)
     j = 0;
     while (str[i])
     {
-        if (var != NULL)
+		if (str[i] != '$')
+			g_var[j++] = str[i++];
+        else if (var != NULL)
         {
             while (str[i] && str[i] != '$')
                 g_var[j++] = str[i++];
@@ -102,8 +109,19 @@ char    *ft_var(char *str, char **cp_env)
                 g_var[j++] = var[k++];
             while (str[i] && (str[i] != ' ' && str[i] != '-'))
                 i++;
+			
         }
-        g_var[j++] = str[i++];
+		else if (key == "1")
+		{
+			while(str[i] != '$')
+        		i++;
+   			 i++;
+   			 while (str[i] && (str[i] == '~' || str[i] == '=' || str[i] == '^'))
+        		i++;
+			while (str[i] >= '0' && str[i] <= '9')
+				i++;
+			key = 0;
+		}
     }
     return g_var;
 }
