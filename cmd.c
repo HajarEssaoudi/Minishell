@@ -18,5 +18,5 @@ int check_path(char *input, char **cp_env)
 int check_cmd(char *input, char **cp_env)
 {
     char *cmd[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-    char
+    
 }

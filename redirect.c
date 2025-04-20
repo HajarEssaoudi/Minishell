@@ -52,7 +52,6 @@ int	check_redirect(char *input)
 					return 1;
 				}
 			}
-			continue;
 		}
 		if (input[i] == '<')
 		{
@@ -81,7 +80,6 @@ int	check_redirect(char *input)
 					return 1;
 				}
 			}
-			continue;
 		}
 		i++;
 	}

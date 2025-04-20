@@ -21,6 +21,19 @@ int size_env(char **env)
   return i;
 }
 
+void	free_div(t_div *div)
+{
+	t_div	*tmp = div;
+	while (div)
+	{
+		tmp = div;
+		div = div->next;
+		free(tmp->args);
+		free(tmp->type);
+		free(tmp);
+	}
+	
+}
 char *get_env_var(char **cp_env, char *key)
 {
     int i = 0;
@@ -229,28 +242,18 @@ t_div	*ft_div(char *input, char **cp_env)
 		}
     	else if (input[i] == '"' || input[i] == '\'')
     	{
-      		char  q = input[i];
-      		int j = ++i;
-      		while (input[i] && input[i] != q)
-        		i++;
-      		if (input[i] && input[i] == q)
-      		{
-        		char  *str;
-				if (q == '"')
-				{
-					str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
-				}
-				else
-					str = ft_substr(input, j, i - j);
+			char	*str = check_quot(input, i, input[i], cp_env);
+      		if (str)
+			{
 				add_ch(&div, "string", str);
 				free(str);
 				i++;
-	  		}
-	  		else
-	  		{
-				printf("zsh: parse error near '%c'\n", q);
-				exit(1);
-      		}
+			}
+			else
+			{
+				free_div(div);
+				return (NULL);
+			}
     	}
 		else
     	{
@@ -268,6 +271,7 @@ t_div	*ft_div(char *input, char **cp_env)
 	}
 	return	div;
 }
+
 int	main(int argc, char **argv, char **env)
 {
 	char **cp_env = cop_env(env);
@@ -277,7 +281,7 @@ int	main(int argc, char **argv, char **env)
 		t_div *div;
 		// ft_memset(div, 0, sizeof(t_div));
 		div = ft_div(l, cp_env);
-		if (div)
+		if (div != NULL)
 		{
 			t_div *tmp = div;
 			while (tmp)
@@ -289,7 +293,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		else
 		{
-			return (1);
+			free_div(div);
 		}
 		add_history(l);
 
