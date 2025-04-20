@@ -43,3 +43,12 @@ int check_in(char *input, char **cp_env)
     }
     return (0);
 }
+
+int check_cmd(char *input, char **cp_env)
+{
+    if (check_in(input, cp_env) == 1 && check_ext(input, cp_env) == 0)
+    {
+        return (1);
+    }
+    return (0);
+}
