@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "minishell.h"
 
 typedef struct s_div
 {
@@ -71,118 +72,67 @@ char    *cv_var(char *str)
 
 char *ft_var(char *str, char **cp_env)
 {
-	int i = 0, j = 0;
-	char *result = malloc(1);
-	result[0] = '\0';
+    int i = 0;
+    char *result = malloc(1);
+    result[0] = '\0';
 
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			i++;
-			if (str[i] == '?')
-			{
-				char *exit_code = ft_itoa(g_exit_status);
-				char *tmp = ft_strjoin(result, exit_code);
-				free(result);
-				result = tmp;
-				free(exit_code);
-				i++;
-			}
-			else if (str[i] == '{')
-			{
-				i++;
-				int start = i;
-				while (str[i] && str[i] != '}') i++;
-				if (str[i] == '}')
-				{
-					char *key = ft_substr(str, start, i - start);
-					char *val = get_env_var(cp_env, key);
-					char *tmp = ft_strjoin(result, val ? val : "");
-					free(result);
-					result = tmp;
-					free(key);
-					i++;
-				}
-			}
-			else if (ft_isalpha(str[i]) || str[i] == '_')
-			{
-				int start = i;
-				while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-					i++;
-				char *key = ft_substr(str, start, i - start);
-				char *val = get_env_var(cp_env, key);
-				char *tmp = ft_strjoin(result, val ? val : "");
-				free(result);
-				result = tmp;
-				free(key);
-			}
-			else
-			{
-				result = ft_strjoin_free(result, "$", 1);
-			}
-		}
-		else
-		{
-			char tmp[2] = {str[i], 0};
-			char *tmp_result = ft_strjoin(result, tmp);
-			free(result);
-			result = tmp_result;
-			i++;
-		}
-	}
-	return result;
+    while (str[i])
+    {
+        if (str[i] == '~' && (i == 0 || str[i - 1] == ' ') && 
+            (str[i + 1] == '/' || str[i + 1] == '\0' || str[i + 1] == ' '))
+        {
+            char *val = get_env_var(cp_env, "HOME");
+            char *tmp = ft_strjoin(result, val ? val : "");
+            free(result);
+            result = tmp;
+            i++;
+        }
+        else if (str[i] == '$')
+        {
+            i++;
+            if (str[i] == '{')
+            {
+                i++;
+                int start = i;
+                while (str[i] && str[i] != '}') i++;
+                if (str[i] == '}')
+                {
+                    char *key = ft_substr(str, start, i - start);
+                    char *val = get_env_var(cp_env, key);
+                    char *tmp = ft_strjoin(result, val ? val : "");
+                    free(result);
+                    result = tmp;
+                    free(key);
+                    i++;
+                }
+            }
+            else if (ft_isalpha(str[i]) || str[i] == '_')
+            {
+                int start = i;
+                while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+                    i++;
+                char *key = ft_substr(str, start, i - start);
+                char *val = get_env_var(cp_env, key);
+                char *tmp = ft_strjoin(result, val ? val : "");
+                free(result);
+                result = tmp;
+                free(key);
+            }
+        }
+        else
+        {
+            char tmp[2] = {str[i], 0};
+            char *tmp_result = ft_strjoin(result, tmp);
+            free(result);
+            result = tmp_result;
+            i++;
+        }
+    }
+    return result;
 }
 
 
-void check_redirect(char *input)
-{
-	if (input[0] == '>' && input[1] == '>')
-	{
-		printf("zsh: parse error near '>>'\n");
-		exit(1);
-	}
-	else if (input[0] == '<' && input[1] == '<')
-	{
-		printf("zsh: parse error near '<<'\n");
-		exit(1);
-	}
-	int i = 0;
-	while (input[i])
-	{
-		if (input[i] == '>' && input[i + 1] == '>')
-			i += 2;
-		else if (input[i] == '<' && input[i + 1] == '<')
-			i += 2;
-		else if (input[i] == '>' && input[i + 1] != '>')
-			i++;
-		else if (input[i] == '<' && input[i + 1] != '<')
-			i++;
-		while (input[i] == ' ')
-			i++;
-		if (input[i] == '>' && input[i + 1] != '>')
-		{
-			printf("zsh: parse error near '>'\n");
-			exit(1);
-		}
-		else if (input[i] == '>' && input[i + 1] == '>')
-		{
-			printf("zsh: parse error near '>>'\n");
-			exit(1);
-		}
-		if (input[i] == '<' && input[i + 1] != '<')
-		{
-			printf("zsh: parse error near '<'\n");
-			exit(1);
-		}
-		else if (input[i] == '<' && input[i + 1] == '<')
-		{
-			printf("zsh: parse error near '<<'\n");
-			exit(1);
-		}
-		i++;
-	}
-}
+
 // void get_variable(char *str)
 // {
 // 	char *v = NULL;
@@ -237,31 +187,21 @@ t_div	*ft_div(char *input, char **cp_env)
 			exit(1);
 		if (input[i] == '|')
 		{
-			if (i > 1 && input[i - 1] != ' ')
+			if (check_pip(input))
+				break;
+			else
 			{
 				add_ch(&div, "pip", "|");
         		i++;
 			}
-			else
-			{
-				// perror("pipe");
-        		printf("zsh: parse error near '|'\n");
-        		exit(1);
-      		}
 		}
-		else if (input[i] == '~' && (input[i + 1] == '/' || input[i + 1] == '\0'))
-{
-	char *home = get_env_var(cp_env, "HOME");
-	char *rest = ft_substr(input, i + 1, ft_strlen(input) - i - 1);
-	char *path = ft_strjoin(home ? home : "", rest);
-	add_ch(&div, "string", path);
-	free(rest);
-	free(path);
-	break;
-}
-
 		else if (input[i] == '>')
 		{
+			if (check_redirect(input))
+			{
+				free(div);
+				break;
+			}
 			if (input[i + 1] == '>')
 			{
 				add_ch(&div, "redirect_out", ">>");
@@ -275,6 +215,7 @@ t_div	*ft_div(char *input, char **cp_env)
 		}
     	else if (input[i] == '<')
 		{
+			check_redirect(input);
 			if (input[i + 1] == '<')
 			{
 				add_ch(&div, "redirect_in", "<<");
@@ -309,7 +250,7 @@ t_div	*ft_div(char *input, char **cp_env)
 	  		{
 				printf("zsh: parse error near '%c'\n", q);
 				exit(1);
-      		}	
+      		}
     	}
 		else
     	{
@@ -318,7 +259,7 @@ t_div	*ft_div(char *input, char **cp_env)
         		i++;
       		if (input[i])
       		{
-        		char  *str = ft_substr(input, j, i - j);
+        		char  *str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
 				add_ch(&div, "string", str);
 				free(str);
 				i++;
@@ -336,12 +277,19 @@ int	main(int argc, char **argv, char **env)
 		t_div *div;
 		// ft_memset(div, 0, sizeof(t_div));
 		div = ft_div(l, cp_env);
-		t_div *tmp = div;
-		while (tmp)
+		if (div)
 		{
-			printf ("%s => %s\n", tmp->args, tmp->type);
-			// get_variable(tmp->args);
-			tmp = tmp->next;
+			t_div *tmp = div;
+			while (tmp)
+			{
+				printf ("%s => %s\n", tmp->args, tmp->type);
+				// get_variable(tmp->args);
+				tmp = tmp->next;
+			}
+		}
+		else
+		{
+			return (1);
 		}
 		add_history(l);
 
