@@ -4,59 +4,86 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
+static int	skip_spaces(const char *input, int i)
+{
+	while (input[i] && input[i] == ' ')
+		i++;
+	return i;
+}
+
+static void	syntax_error(const char *token)
+{
+	printf("zsh: parse error near `%s`\n", token);
+}
 
 int	check_redirect(char *input)
 {
-	int i = 0;
+	int	i = 0;
+
 	while (input[i])
 	{
-        if (input[i] == '>' && input[i + 1] == ' ')
+		i = skip_spaces(input, i);
+		if (input[i] == '>')
 		{
-			i++;
-			while (input[i] == ' ')
-				i++;
-			if (input[i] == '>')
+			if (input[i + 1] == '>' && input[i + 2] == '>')
 			{
-				printf("zsh: parse error near '>'\n");
-				return (1);
+				syntax_error(">");
+				return 1;
 			}
-			
+			else if (input[i + 1] == '>')
+			{
+				i += 2;
+				i = skip_spaces(input, i);
+				if (!input[i] || input[i] == '|' || input[i] == '<' || input[i] == '>')
+				{
+					syntax_error(">>");
+					return 1;
+				}
+			}
+			else
+			{
+				i++;
+				i = skip_spaces(input, i);
+				if (!input[i] || input[i] == '|' || input[i] == '<' || input[i] == '>')
+				{
+					syntax_error(">");
+					return 1;
+				}
+			}
+			continue;
 		}
-		if (i == 0 && (input[i] == '>' || (input[i] == '>' && input[1 + 1] == '>')))
+		if (input[i] == '<')
 		{
-			printf("zsh: parse error near '\\n'\n");
-			return (1);
-		}
-		else if (i == 0 && (input[0] == '<' || (input[0] == '<' && input[1] == '<')))
-		{
-			printf("zsh: parse error near '\\n'\n");
-			return (1);
-		}
-		else if (input[i] == '>' && (input[i + 1] == '\0' || input[i + 1] == '|'
-				|| input[i + 1] == '<'))
-		{
-			printf("zsh: parse error near '>'\n");
-			return (1);
-		}
-		if (input[i] == '>' && input[i + 1] == '>' && (input[i + 2] == '\0'
-				|| input[i + 2] == '|' || input[i + 2] == '<'))
-		{
-			printf("zsh: parse error near '>>'\n");
-			return (1);
-		}
-		if (input[i] == '<' && (input[i + 1] == '\0' || input[i + 1] == '|'
-				|| input[i + 1] == '>'))
-		{
-			printf("zsh: parse error near '<'\n");
-			return (1);
-		}
-		if (input[i] == '<' && input[i + 1] == '<' && (input[i + 2] == '\0'
-				|| input[i + 2] == '|' || input[i + 2] == '>'))
-		{
-			printf("zsh: parse error near '<<'\n");
-			return (1);
+			if (input[i + 1] == '<' && input[i + 2] == '<')
+			{
+				syntax_error("<");
+				return 1;
+			}
+			else if (input[i + 1] == '<')
+			{
+				i += 2;
+				i = skip_spaces(input, i);
+				if (!input[i] || input[i] == '|' || input[i] == '>' || input[i] == '<')
+				{
+					syntax_error("<<");
+					return 1;
+				}
+			}
+			else
+			{
+				i++;
+				i = skip_spaces(input, i);
+				if (!input[i] || input[i] == '|' || input[i] == '>' || input[i] == '<')
+				{
+					syntax_error("<");
+					return 1;
+				}
+			}
+			continue;
 		}
 		i++;
 	}
-    return (0);
+	return 0;
 }
