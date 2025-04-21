@@ -253,10 +253,10 @@ t_div    *ft_div(char *input, char **cp_env)
         {
             j = i;
             while (input[i] && input[i] != '>' && input[i] != '<'
-                && input[i] != '|' && input[i] != ' ')
+                && input[i] != '|' && input[i] != ' ' && input[i] != '"' && input[i] != '\'')
                 i++;
             if (input[i])
-            {
+            {i--;
                 str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
                 add_ch(&div, "string", str);
                 free(str);
