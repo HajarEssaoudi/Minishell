@@ -12,19 +12,13 @@ static int	check_last(int i, char *input)
 	int	k;
 
 	k = ++i;
-	while (input[k] == ' ')
-		k++;
+	k = skip_spaces(input, k);
 	if (input[k] == '>')
 	{
 		printf ("zsh: parse error near `>'\n");
 		return (1);
 	}
-	else if (input[k] == '|')
-	{
-		printf ("zsh: parse error near `|'\n");
-		return (1);
-	}
-	else if (input[k] == '>' && input[k + 1] == '>')
+	 if (input[k] == '>' && input[k + 1] == '>')
 	{
 		printf ("zsh: parse error near `>>'\n");
 		return (1);
@@ -55,12 +49,8 @@ static int	check_last(int i, char *input)
 		return (1);
 	}
 }
-static void	syntax_error(const char *token)
-{
-	printf("zsh: parse error near `%s`\n", token);
-}
 
-int	check_redirect(char *input)
+int	check_redirect2(char *input)
 {
 	int	i;
 
@@ -70,13 +60,9 @@ int	check_redirect(char *input)
 		i = skip_spaces(input, i);
 		if ((input[i] == '>' && input[i + 1] != '>') || (input[i] == '<' && input[i + 1] != '<'))
 		{
-			
+			i++;
 			if (check_last(i, input))
 				return (1);
-		}
-		else if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<' && input[i + 1] == '<'))
-		{
-			check_redirect2(input);
 		}
 		i++;
 	}

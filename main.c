@@ -1,101 +1,118 @@
-#include "lib/libft.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "minishell.h"
 
 typedef struct s_div
 {
-	char			*args;
-	char			*type;
-	struct s_div	*next;
-}					t_div;
+    char            *args;
+    char            *type;
+    struct s_div    *next;
+}                   t_div;
 
 int size_env(char **env)
 {
-  int i = 0;
-  while (env[i])
-    i++;
-  return i;
+    int i;
+
+    i = 0;
+    while (env[i])
+        i++;
+    return (i);
 }
 
-void	free_div(t_div *div)
+void    free_div(t_div *div)
 {
-	t_div	*tmp = div;
-	while (div)
-	{
-		tmp = div;
-		div = div->next;
-		free(tmp->args);
-		free(tmp->type);
-		free(tmp);
-	}
-	
+    t_div    *tmp;
+
+    tmp = div;
+    while (div)
+    {
+        tmp = div;
+        div = div->next;
+        free(tmp->args);
+        free(tmp->type);
+        free(tmp);
+    }
 }
-char *get_env_var(char **cp_env, char *key)
+
+char    *get_env_var(char **cp_env, char *key)
 {
-    int i = 0;
-    size_t len = ft_strlen(key);
+    int        i;
+    size_t    len;
+
+    i = 0;
+    len = ft_strlen(key);
     while (cp_env[i])
     {
         if (ft_strncmp(cp_env[i], key, len) == 0 && cp_env[i][len] == '=')
-            return &cp_env[i][len + 1];
+            return (&cp_env[i][len + 1]);
         i++;
     }
-    return NULL;
+    return (NULL);
 }
 
-char **cop_env(char **env)
+char    **cop_env(char **env)
 {
-  int size = size_env(env) + 1;
-  char **cp_env = malloc(sizeof(char *) * size);
+    int        size;
+    char    **cp_env;
+    int        i;
+    int        j;
 
-  int i = 0;
-  int j = 0;
-  while (env[i])
-  {
-    cp_env[j++] = ft_strdup(env[i++]);
-  }
-  cp_env[j] = NULL;
-  return cp_env;
+    size = size_env(env) + 1;
+    cp_env = malloc(sizeof(char *) * size);
+    i = 0;
+    j = 0;
+    while (env[i])
+    {
+        cp_env[j++] = ft_strdup(env[i++]);
+    }
+    cp_env[j] = NULL;
+    return (cp_env);
 }
 
 char    *cv_var(char *str)
 {
-    int i = 0;
-    while(str[i] != '$')
+    int        i;
+    int        j;
+    char    *var;
+
+    i = 0;
+    while (str[i] != '$')
         i++;
     i++;
     while (str[i] && (str[i] == '~' || str[i] == '=' || str[i] == '^'))
         i++;
     if (str[i] && !(ft_isdigit(str[i])))
     {
-        int j = i;
+        j = i;
         while ((ft_isalpha(str[i]) || str[i] == '_') && str[i])
             i++;
-        char *var = ft_substr(str, j, i - j);
-        return var;
+        var = ft_substr(str, j, i - j);
+        return (var);
     }
-	else if (str[i] && ft_isdigit(str[i]))
-		return ("1");
-    return NULL;
+    else if (str[i] && ft_isdigit(str[i]))
+        return ("1");
+    return (NULL);
 }
 
-char *ft_var(char *str, char **cp_env)
+char    *ft_var(char *str, char **cp_env)
 {
-    int i = 0;
-    char *result = malloc(1);
-    result[0] = '\0';
+    int        i;
+    char    *result;
+    char    *val;
+    char    *tmp;
+    int        start;
+    char    *key;
+    char    tmp_char[2] = {0};
+    char    *tmp_result;
 
+    i = 0;
+    result = malloc(1);
+    result[0] = '\0';
     while (str[i])
     {
-        if (str[i] == '~' && (i == 0 || str[i - 1] == ' ') && 
-            (str[i + 1] == '/' || str[i + 1] == '\0' || str[i + 1] == ' '))
+        if (str[i] == '~' && (i == 0 || str[i - 1] == ' ') && (str[i + 1] == '/'
+                || str[i + 1] == '\0' || str[i + 1] == ' '))
         {
-            char *val = get_env_var(cp_env, "HOME");
-            char *tmp = ft_strjoin(result, val ? val : "");
+            val = get_env_var(cp_env, "HOME");
+            tmp = ft_strjoin(result, val ? val : "");
             free(result);
             result = tmp;
             i++;
@@ -106,13 +123,14 @@ char *ft_var(char *str, char **cp_env)
             if (str[i] == '{')
             {
                 i++;
-                int start = i;
-                while (str[i] && str[i] != '}') i++;
+                start = i;
+                while (str[i] && str[i] != '}')
+                    i++;
                 if (str[i] == '}')
                 {
-                    char *key = ft_substr(str, start, i - start);
-                    char *val = get_env_var(cp_env, key);
-                    char *tmp = ft_strjoin(result, val ? val : "");
+                    key = ft_substr(str, start, i - start);
+                    val = get_env_var(cp_env, key);
+                    tmp = ft_strjoin(result, val ? val : "");
                     free(result);
                     result = tmp;
                     free(key);
@@ -121,12 +139,12 @@ char *ft_var(char *str, char **cp_env)
             }
             else if (ft_isalpha(str[i]) || str[i] == '_')
             {
-                int start = i;
+                start = i;
                 while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
                     i++;
-                char *key = ft_substr(str, start, i - start);
-                char *val = get_env_var(cp_env, key);
-                char *tmp = ft_strjoin(result, val ? val : "");
+                key = ft_substr(str, start, i - start);
+                val = get_env_var(cp_env, key);
+                tmp = ft_strjoin(result, val ? val : "");
                 free(result);
                 result = tmp;
                 free(key);
@@ -134,170 +152,142 @@ char *ft_var(char *str, char **cp_env)
         }
         else
         {
-            char tmp[2] = {str[i], 0};
-            char *tmp_result = ft_strjoin(result, tmp);
+            tmp_char[0] = str[i];
+            tmp_char[1] = '\0';
+            tmp_result = ft_strjoin(result, tmp_char);
             free(result);
             result = tmp_result;
             i++;
         }
     }
-    return result;
+    return (result);
 }
 
-
-
-// void get_variable(char *str)
-// {
-// 	char *v = NULL;
-// 	int i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$')
-// 		{
-// 			int j = ++i;
-// 			while (str[i] && str[i] != '>' && str[i] != '<' && str[i] != '|' && str[i] != ' ')
-//         		i++;
-// 			v = ft_substr(str, j, i - j);
-// 		}
-// 		i++;
-// 	}
-	
-// 	char *var = getenv(v);
-// 	printf ("%s", var);
-// 	return;
-// }
-void	add_ch(t_div **div, char *type, char *input)
+void    add_ch(t_div **div, char *type, char *input)
 {
-	t_div *token = malloc(sizeof(t_div));
-	t_div *tmp;
+    t_div    *token;
+    t_div    *tmp;
 
-	token->args = ft_strdup(input);
-	token->type = ft_strdup(type);
-	token->next = NULL;
-	if (!*div)
-		*div = token;
-	else
-	{
-		tmp = *div;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = token;
-	}
+    token = malloc(sizeof(t_div));
+    token->args = ft_strdup(input);
+    token->type = ft_strdup(type);
+    token->next = NULL;
+    if (!*div)
+        *div = token;
+    else
+    {
+        tmp = *div;
+        while (tmp->next)
+            tmp = tmp->next;
+        tmp->next = token;
+    }
 }
 
-t_div	*ft_div(char *input, char **cp_env)
+t_div    *ft_div(char *input, char **cp_env)
 {
-	int		i;
-	t_div	*div;
+    int        i;
+    t_div    *div;
+    char    *str;
+    int        j;
 
-	i = 0;
-	div = NULL;
-	while (input[i])
-	{
-		while (input[i] == ' ')
-			i++;
-		if (!input[i])
-			exit(1);
-		if (input[i] == '|')
-		{
-			if (check_pip(input))
-				break;
-			else
-			{
-				add_ch(&div, "pip", "|");
-        		i++;
-			}
-		}
-		else if (input[i] == '>')
-		{
-			if (check_redirect(input))
-			{
-				free(div);
-				break;
-			}
-			if (input[i + 1] == '>')
-			{
-				add_ch(&div, "redirect_out", ">>");
-				i += 2;
-			}
-      		else
-      		{
-        		add_ch(&div, "redirect_out", ">");
-				i++;
-      		}
-		}
-    	else if (input[i] == '<')
-		{
-			check_redirect(input);
-			if (input[i + 1] == '<')
-			{
-				add_ch(&div, "redirect_in", "<<");
-				i += 2;
-			}
-      		else
-      		{
-        		add_ch(&div, "redirect_in", "<");
-				i++;
-      		}
-		}
-    	else if (input[i] == '"' || input[i] == '\'')
-    	{
-			char	*str = check_quot(input, i, input[i], cp_env);
-      		if (str)
-			{
-				add_ch(&div, "string", str);
-				free(str);
-				i++;
-			}
-			else
-			{
-				free_div(div);
-				return (NULL);
-			}
-    	}
-		else
-    	{
-      		int j = i;
-      		while (input[i] && input[i] != '>' && input[i] != '<' && input[i] != '|' && input[i] != ' ')
-        		i++;
-      		if (input[i])
-      		{
-        		char  *str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
-				add_ch(&div, "string", str);
-				free(str);
-				i++;
-	  		}
-    	}
-	}
-	return	div;
+    i = 0;
+    div = NULL;
+    while (input[i])
+    {
+        while (input[i] == ' ')
+            i++;
+        if (!input[i])
+            exit(1);
+        if (input[i] == '|')
+        {
+            if (check_pip(input))
+            {
+                return (NULL);
+            }
+            else
+            {
+                add_ch(&div, "pip", "|");
+                i++;
+            }
+        }
+        else if (input[i] == '>' && input[i + 1] != '>')
+        {
+            if (check_redirect(input))
+                return (NULL);
+            add_ch(&div, "redirect_out", ">");
+            i++;
+        }
+        else if (input[i] == '<' && input[i + 1] != '<')
+        {
+            if (check_redirect(input))
+                return (NULL);
+            add_ch(&div, "redirect_in", "<");
+            i++;
+        }
+        else if (input[i] == '>' && input[i + 1] == '>')
+        {
+            if (check_redirect2(input))
+                return (NULL);
+            add_ch(&div, "redirect_out", ">>");
+            i++;
+        }
+        else if (input[i] == '<' && input[i + 1] == '<')
+        {
+            if (check_redirect2(input))
+                return (NULL);
+            add_ch(&div, "redirect_in", "<<");
+            i++;
+        }
+        else if (input[i] == '"' || input[i] == '\'')
+        {
+            str = check_quot(input, &i, input[i], cp_env);
+            if (str)
+            {
+                add_ch(&div, "string", str);
+                free(str);
+            }
+            else
+                return (NULL);
+        }
+        else
+        {
+            j = i;
+            while (input[i] && input[i] != '>' && input[i] != '<'
+                && input[i] != '|' && input[i] != ' ')
+                i++;
+            if (input[i])
+            {
+                str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
+                add_ch(&div, "string", str);
+                free(str);
+                i++;
+            }
+        }
+    }
+    return (div);
 }
 
-int	main(int argc, char **argv, char **env)
+int    main(int argc, char **argv, char **env)
 {
-	char **cp_env = cop_env(env);
-	while (1)
-	{
-		char *l = readline("Minishell>> ");
-		t_div *div;
-		// ft_memset(div, 0, sizeof(t_div));
-		div = ft_div(l, cp_env);
-		if (div != NULL)
-		{
-			t_div *tmp = div;
-			while (tmp)
-			{
-				printf ("%s => %s\n", tmp->args, tmp->type);
-				// get_variable(tmp->args);
-				tmp = tmp->next;
-			}
-		}
-		else
-		{
-			free_div(div);
-		}
-		add_history(l);
-
-		free(l);
-	}
-	return (0);
+    char **cp_env = cop_env(env);
+    while (1)
+    {
+        char *l = readline("Minishell>> ");
+        t_div *div;
+        div = ft_div(l, cp_env);
+        if (div != NULL)
+        {
+            t_div *tmp = div;
+            while (tmp)
+            {
+                printf("%s => %s\n", tmp->args, tmp->type);
+                tmp = tmp->next;
+            }
+        }
+        else
+            free_div(div);
+        add_history(l);
+        free(l);
+    }
+    return (0);
 }
