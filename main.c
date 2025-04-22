@@ -1,11 +1,6 @@
 #include "minishell.h"
 
-typedef struct s_div
-{
-    char            *args;
-    char            *type;
-    struct s_div    *next;
-}                   t_div;
+
 
 int size_env(char **env)
 {
@@ -214,28 +209,28 @@ t_div    *ft_div(char *input, char **cp_env)
         {
             if (check_redirect(input))
                 return (NULL);
-            add_ch(&div, "redirect_out", ">");
+            add_ch(&div, "output", ">");
             i++;
         }
         else if (input[i] == '<' && input[i + 1] != '<')
         {
             if (check_redirect(input))
                 return (NULL);
-            add_ch(&div, "redirect_in", "<");
+            add_ch(&div, "input", "<");
             i++;
         }
         else if (input[i] == '>' && input[i + 1] == '>')
         {
             if (check_redirect2(input))
                 return (NULL);
-            add_ch(&div, "redirect_out", ">>");
+            add_ch(&div, "append", ">>");
             i++;
         }
         else if (input[i] == '<' && input[i + 1] == '<')
         {
             if (check_redirect2(input))
                 return (NULL);
-            add_ch(&div, "redirect_in", "<<");
+            add_ch(&div, "heredoc", "<<");
             i++;
         }
         else if (input[i] == '"' || input[i] == '\'')
@@ -256,7 +251,8 @@ t_div    *ft_div(char *input, char **cp_env)
                 && input[i] != '|' && input[i] != ' ' && input[i] != '"' && input[i] != '\'')
                 i++;
             if (input[i])
-            {i--;
+            {
+                i--;
                 str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
                 add_ch(&div, "string", str);
                 free(str);

@@ -6,7 +6,8 @@
         "format": "c",
         "initializer_list": "c",
         "span": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
