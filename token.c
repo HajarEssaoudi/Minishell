@@ -1,56 +1,69 @@
 #include "minishell.h"
 
-t_tok   *ft_token(t_div *div)
+void	ft_typ(t_div *div)
 {
-    t_div   *cur;
-    t_tok   *token;
-    char    *st = NULL;
-    cur = div;
-    token = malloc (sizeof(t_tok));
-    ft_memset(token, 0, ft_strlen(token));
-    while (cur)
-    {
-        if (cur->type == "string" && (st != "pip" || !st))
-        {
-            token->cmd = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if (st == "string" && cur->type == "string")
-        {
-            token->str = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if ((st == "output" || st == "input" || st == "append" || st == "heredoc") && cur->type == "string")
-        {
-            token->str = ft_strdup(cur->filename);
-            st = cur->type;
-        }
-        else if (cur->type = "output")
-        {
-            token->output = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if (cur->type = "input")
-        {
-            token->input = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if (cur->type = "append")
-        {
-            token->append = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if (cur->type = "heredoc")
-        {
-            token->heredoc = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        else if (cur->type = "pip")
-        {
-            token->pip = ft_strdup(cur->args);
-            st = cur->type;
-        }
-        div = div->next;
-    }
-    return (token);
+	int		st;
+
+	st = 0;
+	while (div)
+	{
+		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && !st)
+		{
+			div->type = "cmd";
+			st = 1;
+		}
+		else if ((st == 1 || st == 2) && !(ft_strncmp(div->type, "string",
+					ft_strlen("string"))) )
+		{
+			div->type = "string";
+			st = 2;
+		}
+		else if (st == 4 && !(ft_strncmp(div->type, "string",
+					ft_strlen("string"))))
+		{
+			div->type = "filename";
+			st = 3;
+		}
+		else if (!(ft_strncmp(div->type, "output", ft_strlen("output")))
+			|| !(ft_strncmp(div->type, "input", ft_strlen("input")))
+			|| !(ft_strncmp(div->type, "append", ft_strlen("append")))
+			|| !(ft_strncmp(div->type, "heredoc", ft_strlen("heredoc"))))
+			st = 4;
+		else if (!(ft_strncmp(div->type, "pip", ft_strlen("pip"))))
+			st = 0;
+		div = div->next;
+	}
+}
+
+
+
+t_tok	*ft_token(t_div *div)
+{
+	t_tok	*tok = malloc (sizeof(t_tok));
+	tok->str = malloc(sizeof(char *) * 2);
+	ft_memset(tok, 0, sizeof(t_tok));
+	while (div)
+	{
+		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
+		{
+			tok->path = div->args;
+			tok->str[0] = div->args;
+		}
+		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))))
+		{
+			tok->path = div->args;
+			tok->str[0] = div->args;
+		}
+		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
+		{
+			tok->path = div->args;
+			tok->str[0] = div->args;
+		}
+		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
+		{
+			tok->path = div->args;
+			tok->str[0] = div->args;
+		}
+		
+	}
 }

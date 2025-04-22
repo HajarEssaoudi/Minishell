@@ -54,6 +54,7 @@ static int	check_last(int i, char *input)
 		printf("zsh: parse error near `\\n'\n");
 		return (1);
 	}
+	return (0);
 }
 static void	syntax_error(const char *token)
 {
@@ -73,10 +74,6 @@ int	check_redirect(char *input)
 			
 			if (check_last(i, input))
 				return (1);
-		}
-		else if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<' && input[i + 1] == '<'))
-		{
-			check_redirect2(input);
 		}
 		i++;
 	}

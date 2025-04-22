@@ -221,6 +221,7 @@ t_div    *ft_div(char *input, char **cp_env)
         }
         else if (input[i] == '>' && input[i + 1] == '>')
         {
+            i++;
             if (check_redirect2(input))
                 return (NULL);
             add_ch(&div, "append", ">>");
@@ -228,6 +229,7 @@ t_div    *ft_div(char *input, char **cp_env)
         }
         else if (input[i] == '<' && input[i + 1] == '<')
         {
+            i++;
             if (check_redirect2(input))
                 return (NULL);
             add_ch(&div, "heredoc", "<<");
@@ -250,13 +252,11 @@ t_div    *ft_div(char *input, char **cp_env)
             while (input[i] && input[i] != '>' && input[i] != '<'
                 && input[i] != '|' && input[i] != ' ' && input[i] != '"' && input[i] != '\'')
                 i++;
-            if (input[i])
+            if (j != i)
             {
-                i--;
                 str = ft_strdup(ft_var(ft_substr(input, j, i - j), cp_env));
                 add_ch(&div, "string", str);
                 free(str);
-                i++;
             }
         }
     }
@@ -268,9 +268,10 @@ int    main(int argc, char **argv, char **env)
     char **cp_env = cop_env(env);
     while (1)
     {
-        char *l = readline("Minishell>> ");
+        char *l = readline("Minishell$> ");
         t_div *div;
         div = ft_div(l, cp_env);
+        ft_typ(div);
         if (div != NULL)
         {
             t_div *tmp = div;

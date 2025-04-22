@@ -43,11 +43,12 @@ static int	check_last(int i, char *input)
 		printf ("zsh: parse error near `<>'\n");
 		return (1);
 	}
-	else if (!input[k])
+	else if (input[k] == '\0')
 	{
 		printf("zsh: parse error near `\\n'\n");
 		return (1);
 	}
+	return (0);
 }
 
 int	check_redirect2(char *input)
@@ -58,7 +59,7 @@ int	check_redirect2(char *input)
 	while (input[i])
 	{
 		i = skip_spaces(input, i);
-		if ((input[i] == '>' && input[i + 1] != '>') || (input[i] == '<' && input[i + 1] != '<'))
+		if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<' && input[i + 1] == '<'))
 		{
 			i++;
 			if (check_last(i, input))

@@ -11,16 +11,16 @@
 
 typedef struct s_tok
 {
-	char			*str;
-	char			*cmd;
+	char			**str;
+	char			*path;
 	char			*heredoc;
 	char			*output;
 	char			*input;
 	char			*append;
 	char			*pip;
-    char            *filename;
+	char			*filename;
 	struct s_tock	*next;
-}   t_tok;
+}					t_tok;
 
 typedef struct s_div
 {
@@ -36,4 +36,5 @@ char				*check_quot(char *input, int *index, char quot,
 						char **cp_env);
 char				*ft_var(char *str, char **cp_env);
 int					check_redirect2(char *input);
+void				ft_typ(t_div *div);
 #endif
