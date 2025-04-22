@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ex2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 21:50:46 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/04/15 17:30:36 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/04/14 10:21:05 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/04/14 10:27:35 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
-
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft/libft.h"
 
-typedef struct utils
+int main()
 {
-	char *input;
-	char *cmd;
-	char *option;
-	char *cmdPath;
-}	t_utils;
-
-
-char	**ft_split(char const *s, char c);
-
-#endif
+	printf("We are in exemple2 Pid = %d\n", getpid());
+	// fork();
+	return (0);
+}
