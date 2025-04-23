@@ -4,6 +4,7 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 {
     t_quot  *vars;
 
+	vars = malloc(sizeof(t_quot));
 	vars->start = *index + 1;
 	vars->i = vars->start;
 	vars->str = NULL;
@@ -26,5 +27,7 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 		printf("minishell: syntax error: unclosed `%c' quote\n", quot);
 		return (NULL);
 	}
-	return (vars->str);
+	char	*result = vars->str;
+	free(vars);
+	return (result);
 }
