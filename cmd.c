@@ -58,34 +58,35 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	tmp = tok;
 	while (tok)
 	{
-        if (!tok->path)
-            tok = tok->next;
-		else if (tok->path[0] != '/')
+        if (tok->path)
 		{
-            char *in = check_in(tok->path, cp_env);
-            char *ex = check_ext(tok->path, cp_env);
-			if (in)
+			if (tok->path[0] != '/')
 			{
-                free(tok->path);
-                tok->path = ft_strdup(in);
-            }
-			else if (ex)
-            {
-                free(tok->path);
-                tok->path = ft_strdup(ex);
-            }
-			else if (!ex && !in)
-			{
-                printf ("zsh: command not found: %s\n", tok->path);
-                return  (NULL);
-            }
+				char *in = check_in(tok->path, cp_env);
+				char *ex = check_ext(tok->path, cp_env);
+				if (in)
+				{
+					free(tok->path);
+					tok->path = ft_strdup(in);
+				}
+				else if (ex)
+				{
+					free(tok->path);
+					tok->path = ft_strdup(ex);
+				}
+				else if (!ex && !in)
+				{
+					printf ("zsh: command not found: %s\n", tok->path);
+					return  (NULL);
+				}
+			}
+			else
+				if (access(tok->path, F_OK) != 0)
+				{
+					printf ("zsh: command not found: %s\n", tok->path);
+					return  (NULL);
+				}
 		}
-		else
-			if (access(tok->path, F_OK) != 0)
-            {
-                printf ("zsh: command not found: %s\n", tok->path);
-                return  (NULL);
-            }
 		tok = tok->next;
 	}
 	return (tmp);
