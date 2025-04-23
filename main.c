@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **env)
 		div = ft_div(l, cp_env); //hna 9semt l'input lkhra lfhmti fih chi haja
 		ft_typ(div); //hna kola haja 3titha type dyalha hta hiya ikhan lfhmti chi haja
 		tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
-        tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
+		tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
 		if (tok != NULL)
 		{
 			tmp = tok;

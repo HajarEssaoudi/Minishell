@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_variable.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-04-23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-04-23 00:11:02 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/04/23 15:28:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 			free(result);
 			return (NULL);
 		}
-		else if (var == "1")
+		else if (ft_strncmp(var, "1", 1) == 0)
 		{
 			(*i)++;
 			free(var);
