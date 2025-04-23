@@ -1,31 +1,30 @@
 #include "minishell.h"
 
-char *check_quot(char *input, int *index, char quot, char **cp_env)
+char	*check_quot(char *input, int *index, char quot, char **cp_env)
 {
-    int start = *index + 1;
-    int i = start;
-    char *str = NULL;
+    t_quot  *vars;
 
-    while (input[i] && input[i] != quot)
-        i++;
-    if (input[i] == quot)
-    {
-        if (quot == '"')
-        {
-            char *sub = ft_substr(input, start, i - start);
-            str = ft_var(sub, cp_env);
-            free(sub);
-        }
-        else
-        {
-            str = ft_substr(input, start, i - start);
-        }
-        *index = i + 1;
-    }
-    else
-    {
-        printf("minishell: syntax error: unclosed `%c' quote\n", quot);
+	vars->start = *index + 1;
+	vars->i = vars->start;
+	vars->str = NULL;
+	while (input[vars->i] && input[vars->i] != quot)
+        vars->i++;
+	if (input[vars->i] == quot)
+	{
+		if (quot == '"')
+		{
+			vars->sub = ft_substr(input, vars->start, vars->i - vars->start);
+			vars->str = ft_var(vars->sub, cp_env);
+			free(vars->sub);
+		}
+		else
+        vars->str = ft_substr(input, vars->start, vars->i - vars->start);
+		*index = vars->i + 1;
+	}
+	else
+	{
+		printf("minishell: syntax error: unclosed `%c' quote\n", quot);
 		return (NULL);
-    }
-    return str;
+	}
+	return (vars->str);
 }

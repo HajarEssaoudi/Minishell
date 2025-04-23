@@ -9,7 +9,8 @@
         "cstdlib": "c",
         "string.h": "c",
         "chrono": "c",
-        "functional": "c"
+        "functional": "c",
+        "variant": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

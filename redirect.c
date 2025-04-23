@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-04-23 03:34:52 by mabdelha          #+#    #+#             */
+/*   Updated: 2025-04-23 03:34:52 by mabdelha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	skip_spaces(const char *input, int i)
@@ -5,6 +17,50 @@ static int	skip_spaces(const char *input, int i)
 	while (input[i] && input[i] == ' ')
 		i++;
 	return (i);
+}
+
+static int	check_out(int *k, char *input)
+{
+	if (input[*k + 1] != '>')
+	{
+		printf("zsh: parse error near `>'\n");
+		return (1);
+	}
+	else if (input[*k] == '|')
+	{
+		printf("zsh: parse error near `|'\n");
+		return (1);
+	}
+	else if (input[*k] == '>' && input[*k + 1] == '>')
+	{
+		printf("zsh: parse error near `>>'\n");
+		return (1);
+	}
+	return (0);
+}
+static int	check_in(char *input, int *k)
+{
+	if (input[*k + 1] != '<' && input[*k + 1] != '>')
+	{
+		printf("zsh: parse error near `<'\n");
+		return (1);
+	}
+	else if (input[*k + 1] == '<' && input[*k + 2] != '<')
+	{
+		printf("zsh: parse error near `<<'\n");
+		return (1);
+	}
+	else if (input[*k + 1] == '<' && input[*k + 2] == '<')
+	{
+		printf("zsh: parse error near `<<<'\n");
+		return (1);
+	}
+	else if (input[*k + 1] == '>')
+	{
+		printf("zsh: parse error near `<>'\n");
+		return (1);
+	}
+	return (0);
 }
 
 static int	check_last(int i, char *input)
@@ -15,50 +71,15 @@ static int	check_last(int i, char *input)
 	while (input[k] == ' ')
 		k++;
 	if (input[k] == '>')
-	{
-		printf ("zsh: parse error near `>'\n");
-		return (1);
-	}
-	else if (input[k] == '|')
-	{
-		printf ("zsh: parse error near `|'\n");
-		return (1);
-	}
-	else if (input[k] == '>' && input[k + 1] == '>')
-	{
-		printf ("zsh: parse error near `>>'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] != '<' && input[k + 1] != '>')
-	{
-		printf ("zsh: parse error near `<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '<' && input[k + 2] != '<')
-	{
-		printf ("zsh: parse error near `<<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '<' && input[k + 2] == '<')
-	{
-		printf ("zsh: parse error near `<<<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '>')
-	{
-		printf ("zsh: parse error near `<>'\n");
-		return (1);
-	}
+		return (check_out(&k, input));
+	else if (input[k] == '<')
+		return (check_in(input, &k));
 	else if (!input[k])
 	{
 		printf("zsh: parse error near `\\n'\n");
 		return (1);
 	}
 	return (0);
-}
-static void	syntax_error(const char *token)
-{
-	printf("zsh: parse error near `%s`\n", token);
 }
 
 int	check_redirect(char *input)
@@ -69,9 +90,9 @@ int	check_redirect(char *input)
 	while (input[i])
 	{
 		i = skip_spaces(input, i);
-		if ((input[i] == '>' && input[i + 1] != '>') || (input[i] == '<' && input[i + 1] != '<'))
+		if ((input[i] == '>' && input[i + 1] != '>') || (input[i] == '<'
+				&& input[i + 1] != '<'))
 		{
-			
 			if (check_last(i, input))
 				return (1);
 		}

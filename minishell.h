@@ -29,6 +29,14 @@ typedef struct s_div
 	struct s_div	*next;
 }					t_div;
 
+typedef struct s_quot
+{
+	int		start;
+	int		i;
+	char	*str;
+	char	*sub;
+}	t_quot;
+
 int					check_redirect(char *input);
 int					check_pip(char *input);
 char				*get_env_var(char **cp_env, char *key);
@@ -40,4 +48,5 @@ void				ft_typ(t_div *div);
 t_tok				*ft_token(t_div *div);
 char				**cop_env(char **env);
 t_div	*ft_div(char *input, char **cp_env);
+t_tok	*check_cmd(t_tok *tok, char **cp_env);
 #endif

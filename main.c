@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-
-
 void	free_div(t_div *div)
 {
 	t_div	*tmp;
@@ -16,8 +14,6 @@ void	free_div(t_div *div)
 		free(tmp);
 	}
 }
-
-
 
 int	main(int argc, char **argv, char **env)
 {
@@ -34,6 +30,7 @@ int	main(int argc, char **argv, char **env)
 		div = ft_div(l, cp_env);
 		ft_typ(div);
 		tok = ft_token(div);
+        tok = check_cmd(tok, cp_env);
 		if (tok != NULL)
 		{
 			tmp = tok;
@@ -43,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 					printf("CMD   : %s\n", tmp->str[0]);
 				if (tmp->str && tmp->str[1])
 					printf("OPT   : %s\n", tmp->str[1]);
-                if (tmp->str && tmp->str[1])
+				if (tmp->str && tmp->str[1])
 					printf("OPT   : %s\n", tmp->str[1]);
 				if (tmp->path)
 					printf("PATH  : %s\n", tmp->path);
@@ -55,6 +52,8 @@ int	main(int argc, char **argv, char **env)
 					printf("APP   : %s\n", tmp->append);
 				if (tmp->heredoc)
 					printf("HERE  : %s\n", tmp->heredoc);
+                if (tmp->filename)
+					printf("FILE  : %s\n", tmp->filename);
 				tmp = tmp->next;
 			}
 		}

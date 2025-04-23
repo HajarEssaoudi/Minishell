@@ -7,7 +7,7 @@ void	ft_typ(t_div *div)
 	st = 0;
 	while (div)
 	{
-		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && !st)
+		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && (!st || st == 3))
 		{
 			div->type = "cmd";
 			st = 1;
@@ -70,6 +70,10 @@ t_tok	*ft_token(t_div *div)
 		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))))
 		{
 			tmp->str = ft_argv(tmp->str, div->args);
+		}
+		if (!(ft_strncmp(div->type, "filename", ft_strlen("filename"))))
+		{
+			tmp->filename = div->args;
 		}
 		if (!(ft_strncmp(div->type, "output", ft_strlen("output"))))
 			tmp->output = div->args;

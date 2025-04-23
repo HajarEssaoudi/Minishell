@@ -140,12 +140,12 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 		{
 			(*i)++;
 			free(var);
-            return (result);
+			return (result);
 		}
 		else
 			result = handle_simple_var(result, var, cp_env, i);
 	}
-    return (result);
+	return (result);
 }
 char	*ft_var(char *str, char **cp_env)
 {
@@ -161,7 +161,7 @@ char	*ft_var(char *str, char **cp_env)
 				|| str[i + 1] == '\0' || str[i + 1] == ' '))
 			result = handle_tilde(result, cp_env, &i);
 		else if (str[i] == '$' && str[i + 1] != '/')
-            result = ft_dollar(str, cp_env, result, &i);
+			result = ft_dollar(str, cp_env, result, &i);
 		else
 			result = handle_normal_char(result, str[i++]);
 	}

@@ -36,17 +36,21 @@ t_div	*ft_operator(char *input, int *i, t_div *div)
 {
 	if (input[*i] == '|' && !(check_pip(input)))
 		add_ch(&div, "pip", "|"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] != '>' && !(check_redirect(input)))
+	else if (input[*i] == '>' && input[*i + 1] != '>'
+		&& !(check_redirect(input)))
 		add_ch(&div, "output", ">"), (*i)++;
-	else if (input[*i] == '<' && input[*i + 1] != '<' && !(check_redirect(input)))
+	else if (input[*i] == '<' && input[*i + 1] != '<'
+		&& !(check_redirect(input)))
 		add_ch(&div, "input", "<"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] == '>' && !(check_redirect2(input)))
+	else if (input[*i] == '>' && input[*i + 1] == '>'
+		&& !(check_redirect2(input)))
 	{
 		(*i)++;
 		add_ch(&div, "append", ">>");
 		(*i)++;
 	}
-	else if (input[*i] == '<' && input[*i + 1] == '<' && !(check_redirect2(input)))
+	else if (input[*i] == '<' && input[*i + 1] == '<'
+		&& !(check_redirect2(input)))
 	{
 		(*i)++;
 		add_ch(&div, "heredoc", "<<");
@@ -59,8 +63,8 @@ t_div	*ft_operator(char *input, int *i, t_div *div)
 
 t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 {
-    char	*str;
-    int		j;
+	char	*str;
+	int		j;
 
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
@@ -73,8 +77,9 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 	else
 	{
 		j = *i;
-		while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
-			&& input[*i] != ' ' && input[*i] != '"' && input[*i] != '\'')
+		while (input[*i] && input[*i] != '>' && input[*i] != '<'
+			&& input[*i] != '|' && input[*i] != ' ' && input[*i] != '"'
+			&& input[*i] != '\'')
 			(*i)++;
 		if (j != *i)
 		{
@@ -83,7 +88,7 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 			free(str);
 		}
 	}
-    return  (div);
+	return (div);
 }
 
 t_div	*ft_div(char *input, char **cp_env)
@@ -101,16 +106,16 @@ t_div	*ft_div(char *input, char **cp_env)
 			exit(1);
 		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
-            div = ft_operator(input, &i, div);
-            if (!div)
-                return (NULL);
-        }
+			div = ft_operator(input, &i, div);
+			if (!div)
+				return (NULL);
+		}
 		else
-        {
-            div = ft_str(input, &i, div, cp_env);
-            if (!div)
-                return (NULL);
-        }
+		{
+			div = ft_str(input, &i, div, cp_env);
+			if (!div)
+				return (NULL);
+		}
 	}
 	return (div);
 }

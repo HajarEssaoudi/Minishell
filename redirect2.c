@@ -7,6 +7,30 @@ static int	skip_spaces(const char *input, int i)
 	return (i);
 }
 
+static int	check_herdoc(char *input, int *k)
+{
+	if (input[*k + 1] != '<' && input[*k + 2] != '<')
+	{
+		printf("zsh: parse error near `<'\n");
+		return (1);
+	}
+	else if (input[*k] == '<' && input[*k + 1] == '<' && input[*k + 2] != '<')
+	{
+		printf("zsh: parse error near `<<'\n");
+		return (1);
+	}
+	else if (input[*k] == '<' && input[*k + 1] == '<' && input[*k + 2] == '<')
+	{
+		printf("zsh: parse error near `<<<'\n");
+		return (1);
+	}
+	else if (input[*k] == '<' && input[*k + 1] == '>')
+	{
+		printf("zsh: parse error near `<>'\n");
+		return (1);
+	}
+	return (0);
+}
 static int	check_last(int i, char *input)
 {
 	int	k;
@@ -15,34 +39,16 @@ static int	check_last(int i, char *input)
 	k = skip_spaces(input, k);
 	if (input[k] == '>' && input[k + 1] != '>')
 	{
-		printf ("zsh: parse error near `>'\n");
+		printf("zsh: parse error near `>'\n");
 		return (1);
 	}
-	 if (input[k] == '>' && input[k + 1] == '>')
+	if (input[k] == '>' && input[k + 1] == '>')
 	{
-		printf ("zsh: parse error near `>>'\n");
+		printf("zsh: parse error near `>>'\n");
 		return (1);
 	}
-	else if (input[k] == '<' && input[k + 1] != '<' && input[k + 2] != '<')
-	{
-		printf ("zsh: parse error near `<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '<' && input[k + 2] != '<')
-	{
-		printf ("zsh: parse error near `<<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '<' && input[k + 2] == '<')
-	{
-		printf ("zsh: parse error near `<<<'\n");
-		return (1);
-	}
-	else if (input[k] == '<' && input[k + 1] == '>')
-	{
-		printf ("zsh: parse error near `<>'\n");
-		return (1);
-	}
+	else if (input[k] == '<')
+		return (check_herdoc(input, &k));
 	else if (input[k] == '\0')
 	{
 		printf("zsh: parse error near `\\n'\n");
@@ -59,7 +65,8 @@ int	check_redirect2(char *input)
 	while (input[i])
 	{
 		i = skip_spaces(input, i);
-		if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<' && input[i + 1] == '<'))
+		if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<'
+				&& input[i + 1] == '<'))
 		{
 			i++;
 			if (check_last(i, input))
