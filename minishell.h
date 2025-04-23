@@ -19,7 +19,7 @@ typedef struct s_tok
 	char			*append;
 	char			*pip;
 	char			*filename;
-	struct s_tock	*next;
+	struct s_tok	*next;
 }					t_tok;
 
 typedef struct s_div
@@ -37,4 +37,7 @@ char				*check_quot(char *input, int *index, char quot,
 char				*ft_var(char *str, char **cp_env);
 int					check_redirect2(char *input);
 void				ft_typ(t_div *div);
+t_tok				*ft_token(t_div *div);
+char				**cop_env(char **env);
+t_div	*ft_div(char *input, char **cp_env);
 #endif

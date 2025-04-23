@@ -35,35 +35,57 @@ void	ft_typ(t_div *div)
 	}
 }
 
+char	**ft_argv(char **argv, char *arg)
+{
+	int j = 0;
+	while (argv && argv[j])
+		j++;
+	char	**argv2 = malloc(sizeof(char *) * (j + 2));
 
+	int i = 0;
+	while (argv && argv[i])
+	{
+		argv2[i] = ft_strdup(argv[i]);
+		i++;
+	}
+	argv2[i] = ft_strdup(arg);
+	argv2[i + 1] = NULL;
+	if (argv)
+		free(argv);
+	return (argv2);
+}
 
 t_tok	*ft_token(t_div *div)
 {
-	t_tok	*tok = malloc (sizeof(t_tok));
-	tok->str = malloc(sizeof(char *) * 2);
+	t_tok	*tok = malloc(sizeof(t_tok));
 	ft_memset(tok, 0, sizeof(t_tok));
+	t_tok	*tmp = tok;
 	while (div)
 	{
-		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
+		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))
 		{
-			tok->path = div->args;
-			tok->str[0] = div->args;
+			tmp->path = div->args;
+			tmp->str = ft_argv(tmp->str, div->args);
 		}
 		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))))
 		{
-			tok->path = div->args;
-			tok->str[0] = div->args;
+			tmp->str = ft_argv(tmp->str, div->args);
 		}
-		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
+		if (!(ft_strncmp(div->type, "output", ft_strlen("output"))))
+			tmp->output = div->args;
+		if (!(ft_strncmp(div->type, "input", ft_strlen("input"))))
+			tmp->input = div->args;
+		if (!(ft_strncmp(div->type, "append", ft_strlen("append"))))
+			tmp->append = div->args;
+		if (!(ft_strncmp(div->type, "heredoc", ft_strlen("heredoc"))))
+			tmp->heredoc = div->args;
+		if (!(ft_strncmp(div->type, "pip", ft_strlen("pip"))))
 		{
-			tok->path = div->args;
-			tok->str[0] = div->args;
+			tmp->next = malloc(sizeof(t_tok));
+			ft_memset(tmp->next, 0, sizeof(t_tok));
+			tmp = tmp->next;
 		}
-		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cdm"))))
-		{
-			tok->path = div->args;
-			tok->str[0] = div->args;
-		}
-		
+		div = div->next;
 	}
+	return (tok);
 }

@@ -13,7 +13,7 @@ static int	check_last(int i, char *input)
 
 	k = ++i;
 	k = skip_spaces(input, k);
-	if (input[k] == '>')
+	if (input[k] == '>' && input[k + 1] != '>')
 	{
 		printf ("zsh: parse error near `>'\n");
 		return (1);
@@ -23,7 +23,7 @@ static int	check_last(int i, char *input)
 		printf ("zsh: parse error near `>>'\n");
 		return (1);
 	}
-	else if (input[k] == '<' && input[k + 1] != '<' && input[k + 1] != '>')
+	else if (input[k] == '<' && input[k + 1] != '<' && input[k + 2] != '<')
 	{
 		printf ("zsh: parse error near `<'\n");
 		return (1);

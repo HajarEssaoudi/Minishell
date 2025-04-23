@@ -7,7 +7,9 @@
         "initializer_list": "c",
         "span": "c",
         "cstdlib": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "chrono": "c",
+        "functional": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
