@@ -16,7 +16,7 @@ char	*get_env_var(char **cp_env, char *var)
 {
 	int		i;
 	size_t	len;
-
+	//hi hadi kanjibo biha valeur dial variable
 	i = 0;
 	len = ft_strlen(var);
 	while (cp_env[i])
@@ -32,7 +32,7 @@ static char	*handle_tilde(char *result, char **cp_env, int *i)
 {
 	char	*val;
 	char	*tmp;
-
+	//hna kantchikiw ~ jrbi fterminal 3adi 4atfehmi
 	val = get_env_var(cp_env, "HOME");
 	if (val)
 		tmp = ft_strjoin(result, val);
@@ -49,7 +49,7 @@ static char	*handle_braces_var(char *result, char *str, char **cp_env, int *i)
 	char	*var;
 	char	*val;
 	char	*tmp;
-
+	//hawli tfehmi rah ana nsit
 	(*i)++;
 	start = *i;
 	while (str[*i] && str[*i] != '}')
@@ -57,7 +57,7 @@ static char	*handle_braces_var(char *result, char *str, char **cp_env, int *i)
 	if (str[*i] == '}')
 	{
 		var = ft_substr(str, start, *i - start);
-		val = get_env_var(cp_env, var);
+		val = get_env_var(cp_env, var);// hachak nensa hiya ana n9al aammmmm
 		if (val)
 			tmp = ft_strjoin(result, val);
 		else
@@ -102,7 +102,7 @@ char	*cv_var(char *str, int *i)
 {
 	int		j;
 	char	*var;
-
+	//iwa ya zin hna fin kan3riw lvariable w kanheydo liha hwayjha wili wili koni thechmi
 	while (str[*i] && (str[*i] == '~' || str[*i] == '=' || str[*i] == '^'))
 		(*i)++;
 	if (str[*i] && !(ft_isdigit(str[*i])))
@@ -111,7 +111,7 @@ char	*cv_var(char *str, int *i)
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
 			(*i)++;
 		var = ft_substr(str, j, *i - j);
-		return (var);
+		return (var); //b4it n9olek ze3ma kanakhdo 4ir smiya ta3 variable matalan $USER nakhdo 4ir USER hit hiya li f env w koni thechmi chwiya
 	}
 	else if (str[*i] && ft_isdigit(str[*i]))
 	{
@@ -124,7 +124,7 @@ char	*cv_var(char *str, int *i)
 char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 {
 	char	*var;
-
+	//hna kanchofo variable west {} wla 4ir 3adi
 	(*i)++;
 	if (str[*i] == '{')
 		result = handle_braces_var(result, str, cp_env, i);
@@ -143,7 +143,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 			return (result);
 		}
 		else
-			result = handle_simple_var(result, var, cp_env, i);
+			result = handle_simple_var(result, var, cp_env, i); //hadi ma fiha ma ytchreh
 	}
 	return (result);
 }
@@ -159,9 +159,9 @@ char	*ft_var(char *str, char **cp_env)
 	{
 		if (str[i] == '~' && (i == 0 || str[i - 1] == ' ') && (str[i + 1] == '/'
 				|| str[i + 1] == '\0' || str[i + 1] == ' '))
-			result = handle_tilde(result, cp_env, &i);
+			result = handle_tilde(result, cp_env, &i); //had tild 4ir trjemtha bache ndir lek chi smiya zwina bhalek adahk nti hsen mnha
 		else if (str[i] == '$' && str[i + 1] != '/')
-			result = ft_dollar(str, cp_env, result, &i);
+			result = ft_dollar(str, cp_env, result, &i); //hadi smitha dollar hitach mostalah wahd li m9ad smit bih lfo9aniya
 		else
 			result = handle_normal_char(result, str[i++]);
 	}

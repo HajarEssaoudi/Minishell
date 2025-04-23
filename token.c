@@ -60,6 +60,7 @@ t_tok	*ft_token(t_div *div)
 	t_tok	*tok = malloc(sizeof(t_tok));
 	ft_memset(tok, 0, sizeof(t_tok));
 	t_tok	*tmp = tok;
+	//hi ty9tini ma 3arfche 3arfek hagrani wlkn machi mochkil met3i 3inik wlh la chreht
 	while (div)
 	{
 		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))

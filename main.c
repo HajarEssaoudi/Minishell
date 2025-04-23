@@ -19,18 +19,18 @@ int	main(int argc, char **argv, char **env)
 {
 	char	**cp_env;
 	char	*l;
-	t_div	*div;
-	t_tok	*tok;
-	t_tok	*tmp;
+	t_div	*div; //hadi fiha l'input m9esem bin string rederiction
+	t_tok	*tok; //hna fih dakchi m9ad w smih khrya
+	t_tok	*tmp; //hadi 4ir bache noranti dakchi li 3ndi bache ndebagu
 
-	cp_env = cop_env(env);
+	cp_env = cop_env(env); //hna copite env
 	while (1)
 	{
 		l = readline("Minishell$> ");
-		div = ft_div(l, cp_env);
-		ft_typ(div);
-		tok = ft_token(div);
-        tok = check_cmd(tok, cp_env);
+		div = ft_div(l, cp_env); //hna 9semt l'input lkhra lfhmti fih chi haja
+		ft_typ(div); //hna kola haja 3titha type dyalha hta hiya ikhan lfhmti chi haja
+		tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
+        tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
 		if (tok != NULL)
 		{
 			tmp = tok;

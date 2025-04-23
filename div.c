@@ -65,7 +65,7 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 {
 	char	*str;
 	int		j;
-
+	//hi labas ftrti mohim hna kantchikiw bin "" et '' et li ma dakhlche fihom y3ni matalan hello et "hello" fhemti
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		str = check_quot(input, i, input[*i], cp_env);
@@ -83,7 +83,7 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 			(*i)++;
 		if (j != *i)
 		{
-			str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env));
+			str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env)); //yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
 			add_ch(&div, "string", str);
 			free(str);
 		}
@@ -94,7 +94,7 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 t_div	*ft_div(char *input, char **cp_env)
 {
 	int		i;
-	t_div	*div;
+	t_div	*div;// ha nti zin ana 39lti 3liya ylah dizi teht
 
 	i = 0;
 	div = NULL;
@@ -106,13 +106,13 @@ t_div	*ft_div(char *input, char **cp_env)
 			exit(1);
 		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
-			div = ft_operator(input, &i, div);
+			div = ft_operator(input, &i, div);// iwa ya lfasia hna kanchofo dakchi dyal hok hik hihihi z3ema itijahat tfo ma kaynche imoge
 			if (!div)
 				return (NULL);
 		}
 		else
 		{
-			div = ft_str(input, &i, div, cp_env);
+			div = ft_str(input, &i, div, cp_env); //saliti mn li lfo9 b3da bache tchofo hadi ha ha haaaaaaaa
 			if (!div)
 				return (NULL);
 		}

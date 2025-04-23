@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char    *check_ext(char *input, char **cp_env)
+char	*check_ext(char *input, char **cp_env)
 {
 	int		i;
 	int		j;
@@ -24,7 +24,6 @@ char    *check_ext(char *input, char **cp_env)
 		cmd = ft_strjoin(cmd, input);
 		if (access(cmd, F_OK) == 0)
 		{
-            // free(path);
 			free(path_split);
 			return (cmd);
 		}
@@ -36,7 +35,8 @@ char    *check_ext(char *input, char **cp_env)
 }
 char	*check_in(char *input, char **cp_env)
 {
-	char	*cmd[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
+	char	*cmd[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
+			NULL};
 	int		i;
 
 	i = 0;
@@ -50,30 +50,43 @@ char	*check_in(char *input, char **cp_env)
 	}
 	return (NULL);
 }
-char    *replace_path(char *path, char *cmd)
-{
-    free (cmd);
-    cmd = ft_strdup(path);
-    return (cmd);
-}
 
 t_tok	*check_cmd(t_tok *tok, char **cp_env)
 {
-    t_tok   *tmp = tok;
-    while (tok)
-    {
-        if (tok->path[0] != '/')
-        {
-            char    *in = check_in(tok->path, cp_env);
-            char    *ex = check_ext(tok->path, cp_env);
-            if (in)
-                tok->path = replace_path(in, tok->path);
-            else if (ex)
-                tok->path = replace_path(ex, tok->path);
-            else if (!in && !ex)
-                return (NULL);
-        }
-        tok = tok->next;
-    }
-    return (tmp);
+	t_tok	*tmp;
+    //asln asln kon knti katb4ini kon fhemtiha
+	tmp = tok;
+	while (tok)
+	{
+        if (!tok->path)
+            tok = tok->next;
+		else if (tok->path[0] != '/')
+		{
+            char *in = check_in(tok->path, cp_env);
+            char *ex = check_ext(tok->path, cp_env);
+			if (in)
+			{
+                free(tok->path);
+                tok->path = ft_strdup(in);
+            }
+			else if (ex)
+            {
+                free(tok->path);
+                tok->path = ft_strdup(ex);
+            }
+			else if (!ex && !in)
+			{
+                printf ("zsh: command not found: %s\n", tok->path);
+                return  (NULL);
+            }
+		}
+		else
+			if (access(tok->path, F_OK) != 0)
+            {
+                printf ("zsh: command not found: %s\n", tok->path);
+                return  (NULL);
+            }
+		tok = tok->next;
+	}
+	return (tmp);
 }

@@ -8,6 +8,7 @@ int	check_pip(char *input)
 
 	i = 0;
 	len = ft_strlen(input);
+    //hadi w quot w redirect w redirect2 wakha tkon smitek hajar 4atfhmihom hihihi
 	if (len == 0 || (len == 1 && input[0] == '|'))
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
