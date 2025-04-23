@@ -5,6 +5,7 @@
 # include <ctype.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+ #include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>

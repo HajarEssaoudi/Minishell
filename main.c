@@ -22,6 +22,9 @@ int	main(int argc, char **argv, char **env)
 	t_div	*div; //hadi fiha l'input m9esem bin string rederiction
 	t_tok	*tok; //hna fih dakchi m9ad w smih khrya
 	t_tok	*tmp; //hadi 4ir bache noranti dakchi li 3ndi bache ndebagu
+	pid_t	pid;
+	int		status;
+	char	*args[3];
 
 	cp_env = cop_env(env); //hna copite env
 	while (1)
@@ -34,27 +37,26 @@ int	main(int argc, char **argv, char **env)
 		if (tok != NULL)
 		{
 			tmp = tok;
-			while (tmp)
+			pid = fork();
+			if (pid == 0)
 			{
-				if (tmp->str && tmp->str[0])
-					printf("CMD   : %s\n", tmp->str[0]);
-				if (tmp->str && tmp->str[1])
-					printf("OPT   : %s\n", tmp->str[1]);
-				if (tmp->str && tmp->str[1])
-					printf("OPT   : %s\n", tmp->str[1]);
-				if (tmp->path)
-					printf("PATH  : %s\n", tmp->path);
-				if (tmp->output)
-					printf("OUT   : %s\n", tmp->output);
-				if (tmp->input)
-					printf("IN    : %s\n", tmp->input);
-				if (tmp->append)
-					printf("APP   : %s\n", tmp->append);
-				if (tmp->heredoc)
-					printf("HERE  : %s\n", tmp->heredoc);
-                if (tmp->filename)
-					printf("FILE  : %s\n", tmp->filename);
-				tmp = tmp->next;
+				args[0] = tmp->str[0];
+				args[1] = tmp->str[1];
+				args[2] = NULL;
+				if (execve(tmp->path, args, env) == -1)
+				{
+					perror("minishell failed");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else if (pid > 0)
+			{
+				waitpid(pid, &status, 0);
+			}
+			else
+			{
+				perror("fork failed");
+				return (1);
 			}
 		}
 		add_history(l);
