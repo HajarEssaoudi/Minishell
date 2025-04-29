@@ -1,12 +1,12 @@
 NAME = minishell
 CC = cc
-CFLAGS = 
+CFLAGS = -g
 # -Werror -Wextra -Wall
 
 LIBFT = lib/libft.a
 
 SRCS = copie_env.c get_variable.c pip.c redirect.c \
-cmd.c div.c main.c quot.c redirect2.c token.c \
+cmd.c div.c main.c quot.c redirect2.c token.c execute_cmd.c \
 
 OBJS = $(SRCS:.c=.o)
 

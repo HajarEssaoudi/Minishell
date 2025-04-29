@@ -5,10 +5,10 @@
 # include <ctype.h>
 # include <readline/history.h>
 # include <readline/readline.h>
- #include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/wait.h>
 
 typedef struct s_tok
 {
@@ -32,11 +32,11 @@ typedef struct s_div
 
 typedef struct s_quot
 {
-	int		start;
-	int		i;
-	char	*str;
-	char	*sub;
-}	t_quot;
+	int				start;
+	int				i;
+	char			*str;
+	char			*sub;
+}					t_quot;
 
 int					check_redirect(char *input);
 int					check_pip(char *input);
@@ -48,6 +48,9 @@ int					check_redirect2(char *input);
 void				ft_typ(t_div *div);
 t_tok				*ft_token(t_div *div);
 char				**cop_env(char **env);
-t_div	*ft_div(char *input, char **cp_env);
-t_tok	*check_cmd(t_tok *tok, char **cp_env);
+t_div				*ft_div(char *input, char **cp_env);
+t_tok				*check_cmd(t_tok *tok, char **cp_env);
+
+//execution
+void	execute_cmd(t_tok *tok, char **env);
 #endif

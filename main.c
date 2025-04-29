@@ -17,14 +17,13 @@ void	free_div(t_div *div)
 
 int	main(int argc, char **argv, char **env)
 {
-	char	**cp_env;
 	char	*l;
 	t_div	*div; //hadi fiha l'input m9esem bin string rederiction
 	t_tok	*tok; //hna fih dakchi m9ad w smih khrya
 	t_tok	*tmp; //hadi 4ir bache noranti dakchi li 3ndi bache ndebagu
 	pid_t	pid;
 	int		status;
-	char	*args[3];
+	char	**cp_env;
 
 	cp_env = cop_env(env); //hna copite env
 	while (1)
@@ -40,14 +39,7 @@ int	main(int argc, char **argv, char **env)
 			pid = fork();
 			if (pid == 0)
 			{
-				args[0] = tmp->str[0];
-				args[1] = tmp->str[1];
-				args[2] = NULL;
-				if (execve(tmp->path, args, env) == -1)
-				{
-					perror("minishell failed");
-					exit(EXIT_FAILURE);
-				}
+				execute_cmd(tmp, env);
 			}
 			else if (pid > 0)
 			{
