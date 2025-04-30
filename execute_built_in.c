@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copie_env.c                                        :+:      :+:    :+:   */
+/*   execute_built_in.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 00:10:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/04/29 16:26:19 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/04/30 14:43:43 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	size_env(char **env)
+void	execute_cd(t_tok *tok)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
+	if (chdir(tok->str[1]) != 0)
+	{
+		perror("cd");
+	}
 }
 
-char	**copy_env(char **env)
+int	execute_pwd(t_tok *tok)
 {
-	int		size;
-	char	**cp_env;
-	int		i;
-	int		j;
+	char *buffer;
+	size_t size = PATH_MAX;
 
-	size = size_env(env) + 1;
-	cp_env = malloc(sizeof(char *) * size);
-	i = 0;
-	j = 0;
-	while (env[i])
-	{
-		cp_env[j++] = ft_strdup(env[i++]);
-	}
-	cp_env[j] = NULL;
-	return (cp_env);
+	buffer = malloc(size);
+	if (!buffer)
+		return (1);
+	if (getcwd(buffer, size) != NULL)
+		printf("%s\n", buffer);
+	else
+		perror("getcwd");
+	free(buffer);
+	return (0);
 }

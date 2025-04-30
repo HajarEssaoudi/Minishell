@@ -1,10 +1,16 @@
-#include "lib/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/04/29 16:36:15 by hes-saou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 char	*check_ext(char *input, char **cp_env)
 {
@@ -33,7 +39,7 @@ char	*check_ext(char *input, char **cp_env)
 	free(path_split);
 	return (NULL);
 }
-char	*check_in(char *input, char **cp_env)
+char	*is_built_in(char *input, char **cp_env)
 {
 	char	*cmd[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
 			NULL};
@@ -58,11 +64,11 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	tmp = tok;
 	while (tok)
 	{
-        if (tok->path)
+		if (tok->path)
 		{
 			if (tok->path[0] != '/')
 			{
-				char *in = check_in(tok->path, cp_env);
+				char *in = is_built_in(tok->path, cp_env);
 				char *ex = check_ext(tok->path, cp_env);
 				if (in)
 				{
@@ -76,14 +82,14 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
-					printf ("zsh: command not found: %s\n", tok->path);
+					printf ("Minishell: command not found: %s\n", tok->path);
 					return  (NULL);
 				}
 			}
 			else
 				if (access(tok->path, F_OK) != 0)
 				{
-					printf ("zsh: command not found: %s\n", tok->path);
+					printf ("Minishell: command not found: %s\n", tok->path);
 					return  (NULL);
 				}
 		}

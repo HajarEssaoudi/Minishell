@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-04-23 03:34:52 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-04-23 03:34:52 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/04/23 03:34:52 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/04/29 16:34:26 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ static int	check_out(int *k, char *input)
 {
 	if (input[*k + 1] != '>')
 	{
-		printf("zsh: parse error near `>'\n");
+		printf("Minishell: parse error near `>'\n");
 		return (1);
 	}
 	else if (input[*k] == '|')
 	{
-		printf("zsh: parse error near `|'\n");
+		printf("Minishell: parse error near `|'\n");
 		return (1);
 	}
 	else if (input[*k] == '>' && input[*k + 1] == '>')
 	{
-		printf("zsh: parse error near `>>'\n");
+		printf("Minishell: parse error near `>>'\n");
 		return (1);
 	}
 	return (0);
@@ -42,22 +42,22 @@ static int	check_in(char *input, int *k)
 {
 	if (input[*k + 1] != '<' && input[*k + 1] != '>')
 	{
-		printf("zsh: parse error near `<'\n");
+		printf("Minishell: parse error near `<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '<' && input[*k + 2] != '<')
 	{
-		printf("zsh: parse error near `<<'\n");
+		printf("Minishell: parse error near `<<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '<' && input[*k + 2] == '<')
 	{
-		printf("zsh: parse error near `<<<'\n");
+		printf("Minishell: parse error near `<<<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '>')
 	{
-		printf("zsh: parse error near `<>'\n");
+		printf("Minishell: parse error near `<>'\n");
 		return (1);
 	}
 	return (0);
@@ -76,7 +76,7 @@ static int	check_last(int i, char *input)
 		return (check_in(input, &k));
 	else if (!input[k])
 	{
-		printf("zsh: parse error near `\\n'\n");
+		printf("Minishell: parse error near `\\n'\n");
 		return (1);
 	}
 	return (0);

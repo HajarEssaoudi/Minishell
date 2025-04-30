@@ -9,6 +9,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
+#include <limits.h>
 
 typedef struct s_tok
 {
@@ -45,12 +46,15 @@ char				*check_quot(char *input, int *index, char quot,
 						char **cp_env);
 char				*ft_var(char *str, char **cp_env);
 int					check_redirect2(char *input);
-void				ft_typ(t_div *div);
+void				ft_type(t_div *div);
 t_tok				*ft_token(t_div *div);
-char				**cop_env(char **env);
+char				**copy_env(char **env);
 t_div				*ft_div(char *input, char **cp_env);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
+char				*is_built_in(char *input, char **cp_env);
 
-//execution
-void	execute_cmd(t_tok *tok, char **env);
+// execution
+void				execute_cmd(t_tok *tok, char **env);
+void				execute_cd(t_tok *tok);
+int					execute_pwd(t_tok *tok);
 #endif
