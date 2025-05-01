@@ -21,6 +21,9 @@ typedef struct s_tok
 	char			*append;
 	char			*pip;
 	char			*filename;
+	char			**env;
+	char			*pwd;
+	char			*old_pwd;
 	struct s_tok	*next;
 }					t_tok;
 
@@ -54,7 +57,10 @@ t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
 
 // execution
+char				*get_path(t_tok *tok);
 void				execute_cmd(t_tok *tok, char **env);
 void				execute_cd(t_tok *tok);
-int					execute_pwd(t_tok *tok);
+void					execute_pwd(t_tok *tok);
+void				execute_echo(t_tok *tok);
+void				execute_env(t_tok *tok);
 #endif

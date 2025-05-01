@@ -33,12 +33,15 @@ int	main(int argc, char **argv, char **env)
 		ft_type(div); //hna kola haja 3titha type dyalha hta hiya ikhan lfhmti chi haja
 		tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
 		tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
+		tok->env = cp_env;
 		if (tok != NULL)
 		{
 			tmp = tok;
 			pid = fork();
 			if (pid == 0)
+			{
 				execute_cmd(tmp, env);
+			}
 			else if (pid > 0)
 				waitpid(pid, &status, 0);
 			else
@@ -48,8 +51,8 @@ int	main(int argc, char **argv, char **env)
 			}
 		}
 		add_history(l);
-		free(l);
 	}
+	free(l);
 	free_div(div);
 	return (0);
 }
