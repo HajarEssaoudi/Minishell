@@ -6,17 +6,18 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/01 19:08:15 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:00:09 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_path(t_tok *tok)
+char 	*get_path(t_tok *tok)
 {
-	char *buffer;
-	size_t size = PATH_MAX;
+	char	*buffer;
+	size_t	size;
 
+	size = PATH_MAX;
 	buffer = malloc(size);
 	if (!buffer)
 		exit(1);
@@ -26,23 +27,59 @@ char	*get_path(t_tok *tok)
 		free(buffer);
 		return (NULL);
 	}
-	tok->pwd = buffer;
-	return (buffer);
+	tok->pwd = ft_strdup(buffer);
+	free(buffer);
+	return (tok->pwd);
+}
+
+char	*get_home_path(t_tok *tok)
+{
+	char	*home;
+	int		i;
+	int		j;
+
+	i = 0;
+	home = NULL;
+	while (tok->env[i])
+	{
+		if (ft_strncmp(tok->env[i], "HOME=", 5) == 0)
+		{
+			home = ft_strdup(&(tok->env[i][5]));
+			if (!home)
+			{
+				perror("malloc");
+				return (NULL);
+			}
+			return (home);
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 void	execute_cd(t_tok *tok)
 {
-	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~", ft_strlen(tok->str[1])) == 0)
+	char	*home_path;
+
+	tok->old_pwd = get_path(tok);
+	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
+			ft_strlen(tok->str[1])) == 0)
 	{
-		if (chdir("/home/hes-saou") != 0)
-		{
+		home_path = get_home_path(tok);
+		if (!home_path)
+			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		if (chdir(home_path) != 0)
 			perror("cd");
+	}
+	else
+	{
+		if (access(tok->str[1], F_OK) == 0)
+		{
+			if (chdir(tok->str[1]) != 0)
+				perror("cd");
 		}
 	}
-	else if (chdir(tok->str[1]) != 0)
-	{
-		perror("cd");
-	}
+	// change_env_paths(tok);
 }
 
 void	execute_pwd(t_tok *tok)
@@ -61,13 +98,12 @@ void	execute_echo(t_tok *tok)
 
 void	execute_env(t_tok *tok)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while(tok->env)
+	while (tok->env)
 	{
-		ft_putstr_fd(tok->env[i], 1);
-		printf("\n");
+		printf("%s\n", tok->env[i]);
 		i++;
 	}
 }

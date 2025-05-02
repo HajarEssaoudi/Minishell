@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/01 11:31:18 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:56:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,22 @@ void	execute_simple_cmd(t_tok *tok, char **env)
 
 void	execute_cmd(t_tok *tok, char **env)
 {
-	if(is_built_in(tok->str[0], env))
-		execute_built_in(tok);
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if(is_built_in(tok->str[0], env))
+			execute_built_in(tok);
 	else
 		execute_simple_cmd(tok, env);
+	}
+	else if (pid > 0)
+		waitpid(pid, &status, 0);
+	else
+	{
+		perror("fork failed");
+		return ;
+	}
 }

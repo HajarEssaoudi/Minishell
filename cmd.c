@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/01 11:10:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:54:39 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	*is_built_in(char *input, char **cp_env)
 t_tok	*check_cmd(t_tok *tok, char **cp_env)
 {
 	t_tok	*tmp;
-    //asln asln kon knti katb4ini kon fhemtiha
 	tmp = tok;
 	while (tok)
 	{
@@ -83,13 +82,15 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				else if (!ex && !in)
 				{
 					printf ("Minishell: command not found: %s\n", tok->path);
+					//ft_clear and exit
 					return  (NULL);
 				}
 			}
 			else
 				if (access(tok->path, F_OK) != 0)
 				{
-					printf ("Minishell: command not found: %s\n", tok->path);
+					printf ("Minishell: command not found: %s\n", tok->path); // wach l error anktbouha b printf wla write fd = 2?
+					//ft_clear and exit
 					return  (NULL);
 				}
 		}
