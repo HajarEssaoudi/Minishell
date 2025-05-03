@@ -70,7 +70,12 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 	{
 		str = check_quot(input, i, input[*i], cp_env);
 		if (str)
-			add_ch(&div, "string", str), free(str);
+		{
+			if (str[0] == '-')
+				add_ch(&div, "option", str), free(str);
+			else
+				add_ch(&div, "string", str), free(str);
+		}
 		else
 			return (NULL);
 	}
@@ -84,7 +89,15 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 		if (j != *i)
 		{
 			str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env)); //yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
-			add_ch(&div, "string", str);
+			if (str)
+			{
+				if (str[0] == '-')
+					add_ch(&div, "option", str);
+				else
+					add_ch(&div, "string", str);
+			}
+			else
+				return (NULL);
 			free(str);
 		}
 	}

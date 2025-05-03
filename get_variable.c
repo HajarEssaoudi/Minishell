@@ -103,8 +103,6 @@ char	*cv_var(char *str, int *i)
 	int		j;
 	char	*var;
 	//iwa ya zin hna fin kan3riw lvariable w kanheydo liha hwayjha wili wili koni thechmi
-	while (str[*i] && (str[*i] == '~' || str[*i] == '=' || str[*i] == '^'))
-		(*i)++;
 	if (str[*i] && !(ft_isdigit(str[*i])))
 	{
 		j = *i;
@@ -157,10 +155,8 @@ char	*ft_var(char *str, char **cp_env)
 	result[0] = '\0';
 	while (str[i])
 	{
-		if (str[i] == '~' && (i == 0 || str[i - 1] == ' ') && (str[i + 1] == '/'
-				|| str[i + 1] == '\0' || str[i + 1] == ' '))
-			result = handle_tilde(result, cp_env, &i); //had tild 4ir trjemtha bache ndir lek chi smiya zwina bhalek adahk nti hsen mnha
-		else if (str[i] == '$' && str[i + 1] != '/')
+		
+		if (str[i] == '$' && ft_isalpha(str[i + 1]))
 			result = ft_dollar(str, cp_env, result, &i); //hadi smitha dollar hitach mostalah wahd li m9ad smit bih lfo9aniya
 		else
 			result = handle_normal_char(result, str[i++]);

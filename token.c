@@ -19,28 +19,34 @@ void	ft_type(t_div *div)
 	st = 0;
 	while (div)
 	{
-		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && (!st || st == 3))
+		if ((!(ft_strncmp(div->type, "string", ft_strlen("string"))) || !(ft_strncmp(div->type, "option", ft_strlen("option")))) && (!st || st == 4))
 		{
 			div->type = "cmd";
 			st = 1;
 		}
-		else if ((st == 1 || st == 2) && !(ft_strncmp(div->type, "string",
+		else if ((st == 1 || st == 2) && !(ft_strncmp(div->type, "option",
+					ft_strlen("option"))) )
+		{
+			div->type = "option";
+			st = 2;
+		}
+		else if ((st == 1 || st == 2 || st == 3) && !(ft_strncmp(div->type, "string",
 					ft_strlen("string"))) )
 		{
 			div->type = "string";
-			st = 2;
+			st = 3;
 		}
-		else if (st == 4 && !(ft_strncmp(div->type, "string",
+		else if (st == 5 && !(ft_strncmp(div->type, "string",
 					ft_strlen("string"))))
 		{
 			div->type = "filename";
-			st = 3;
+			st = 4;
 		}
 		else if (!(ft_strncmp(div->type, "output", ft_strlen("output")))
 			|| !(ft_strncmp(div->type, "input", ft_strlen("input")))
 			|| !(ft_strncmp(div->type, "append", ft_strlen("append")))
 			|| !(ft_strncmp(div->type, "heredoc", ft_strlen("heredoc"))))
-			st = 4;
+			st = 5;
 		else if (!(ft_strncmp(div->type, "pip", ft_strlen("pip"))))
 			st = 0;
 		div = div->next;
@@ -78,7 +84,11 @@ t_tok	*ft_token(t_div *div)
 		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))
 		{
 			tmp->path = div->args;
-			tmp->str = ft_argv(tmp->str, div->args);
+			tmp->opt = ft_argv(tmp->opt, div->args);
+		}
+		if (!(ft_strncmp(div->type, "option", ft_strlen("option"))))
+		{
+			tmp->opt = ft_argv(tmp->opt, div->args);
 		}
 		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))))
 		{

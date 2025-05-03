@@ -67,12 +67,16 @@ int	main(int argc, char **argv, char **env)
 			tmp = tok;
 			while (tmp)
 			{
-				if (tmp->str && tmp->str[0])
-					printf("CMD   : %s\n", tmp->str[0]);
+				if (tmp->opt && tmp->opt[0])
+					printf("CMD   : %s\n", tmp->opt[0]);
+				if (tmp->opt && tmp->opt[1])
+					printf("OPT   : %s\n", tmp->opt[1]);
+				if (tmp->opt && tmp->opt[2])
+					printf("OPT   : %s\n", tmp->opt[2]);
 				if (tmp->str && tmp->str[1])
-					printf("OPT   : %s\n", tmp->str[1]);
-				if (tmp->str && tmp->str[1])
-					printf("OPT   : %s\n", tmp->str[1]);
+					printf("STR   : %s\n", tmp->str[1]);
+				if (tmp->str && tmp->str[2])
+					printf("STR   : %s\n", tmp->str[2]);
 				if (tmp->path)
 					printf("PATH  : %s\n", tmp->path);
 				if (tmp->output)
