@@ -65,7 +65,28 @@ int	main(int argc, char **argv, char **env)
 		{
 			tok->env = cp_env;
 			tmp = tok;
-			execute_cmd(tmp, env);
+			while (tmp)
+			{
+				if (tmp->str && tmp->str[0])
+					printf("CMD   : %s\n", tmp->str[0]);
+				if (tmp->str && tmp->str[1])
+					printf("OPT   : %s\n", tmp->str[1]);
+				if (tmp->str && tmp->str[1])
+					printf("OPT   : %s\n", tmp->str[1]);
+				if (tmp->path)
+					printf("PATH  : %s\n", tmp->path);
+				if (tmp->output)
+					printf("OUT   : %s\n", tmp->output);
+				if (tmp->input)
+					printf("IN    : %s\n", tmp->input);
+				if (tmp->append)
+					printf("APP   : %s\n", tmp->append);
+				if (tmp->heredoc)
+					printf("HERE  : %s\n", tmp->heredoc);
+                if (tmp->filename)
+					printf("FILE  : %s\n", tmp->filename);
+				tmp = tmp->next;
+			}
 		}
 		add_history(l);
 	}

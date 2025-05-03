@@ -28,11 +28,11 @@ int	check_pip(char *input)
 				printf("minishell: syntax error near unexpected token `|'\n");
 				return (1);
 			}
-			if (i == len - 1)
-			{
-				printf("minishell: syntax error near unexpected token `|'\n");
-				return (1);
-			}
+			// if (i == len - 1)
+			// {
+			// 	printf("minishell: syntax error near unexpected token `|'\n");
+			// 	return (1);
+			// }
 			j = i - 1;
 			while (j >= 0 && input[j] == ' ')
 				j--;

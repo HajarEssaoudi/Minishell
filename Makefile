@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g
+CFLAGS = 
 # -Werror -Wextra -Wall
 
 LIBFT = lib/libft.a

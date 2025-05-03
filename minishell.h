@@ -10,6 +10,7 @@
 # include <string.h>
 # include <sys/wait.h>
 #include <limits.h>
+# include <fcntl.h>
 
 typedef struct s_tok
 {
