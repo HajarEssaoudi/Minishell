@@ -6,11 +6,12 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/02 19:00:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:47:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <linux/limits.h>
 
 char 	*get_path(t_tok *tok)
 {
@@ -62,6 +63,7 @@ void	execute_cd(t_tok *tok)
 	char	*home_path;
 
 	tok->old_pwd = get_path(tok);
+	printf("cd ===> %s\n", tok->str[1]);
 	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
 			ft_strlen(tok->str[1])) == 0)
 	{
@@ -73,10 +75,10 @@ void	execute_cd(t_tok *tok)
 	}
 	else
 	{
-		if (access(tok->str[1], F_OK) == 0)
+		printf("hi\n");
+		if (chdir(tok->str[1]) == -1)
 		{
-			if (chdir(tok->str[1]) != 0)
-				perror("cd");
+			perror("cd");
 		}
 	}
 	// change_env_paths(tok);
@@ -91,9 +93,28 @@ void	execute_pwd(t_tok *tok)
 	}
 }
 
+void print_strings(char **str, int i)
+{
+	while(str[i])
+	{
+		printf("%s", str[i]);
+		i++;
+		if(str[i])
+			printf(" ");
+	}
+}
+
 void	execute_echo(t_tok *tok)
 {
-	ft_putstr_fd(tok->str[1], 1);
+	if (ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
+	{
+		print_strings(tok->str, 2);
+	}
+	else
+	{
+		print_strings(tok->str, 1);
+		printf("\n");
+	}
 }
 
 void	execute_env(t_tok *tok)
@@ -106,4 +127,11 @@ void	execute_env(t_tok *tok)
 		printf("%s\n", tok->env[i]);
 		i++;
 	}
+}
+
+void	execute_exit(t_tok *tok)
+{
+	//ft_cleaar
+	printf("exit\n");
+	exit(0);
 }

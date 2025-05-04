@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/02 15:54:39 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:44:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ char	*check_ext(char *input, char **cp_env)
 }
 char	*is_built_in(char *input, char **cp_env)
 {
-	char	*cmd[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit",
+	char	*cmd[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit",
 			NULL};
 	int		i;
 
 	i = 0;
 	while (cmd[i])
 	{
-		if (ft_strncmp(input, cmd[i], ft_strlen(cmd[i])) == 0)
+		if (ft_strncmp(input, cmd[i], ft_strlen(input)) == 0)
 		{
 			return (cmd[i]);
 		}
@@ -65,6 +65,8 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	{
 		if (tok->path)
 		{
+			if (access(tok->path, F_OK) == 0)
+				break;
 			if (tok->path[0] != '/')
 			{
 				char *in = is_built_in(tok->path, cp_env);
@@ -81,18 +83,20 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
-					printf ("Minishell: command not found: %s\n", tok->path);
+					printf ("%s:command not found\n", tok->path);
 					//ft_clear and exit
 					return  (NULL);
 				}
 			}
 			else
+			{
 				if (access(tok->path, F_OK) != 0)
 				{
 					printf ("Minishell: command not found: %s\n", tok->path); // wach l error anktbouha b printf wla write fd = 2?
 					//ft_clear and exit
 					return  (NULL);
 				}
+			}
 		}
 		tok = tok->next;
 	}

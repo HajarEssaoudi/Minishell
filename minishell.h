@@ -63,4 +63,5 @@ void				execute_cd(t_tok *tok);
 void					execute_pwd(t_tok *tok);
 void				execute_echo(t_tok *tok);
 void				execute_env(t_tok *tok);
+void	execute_exit(t_tok *tok);
 #endif

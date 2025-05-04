@@ -52,9 +52,12 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		l = readline("Minishell$> ");
+		if (l[0] == '\0')
+			continue;
 		if (!l)
 		{
 			//ft_clear function that clears everything and exists
+			printf("exit\n");
 			exit(1);
 		}
 		div = ft_div(l, cp_env); //hna 9semt l'input
@@ -65,7 +68,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			tok->env = cp_env;
 			tmp = tok;
-			execute_cmd(tmp, env);
+			execute_cmd(tmp, tok->env);
 		}
 		add_history(l);
 	}
