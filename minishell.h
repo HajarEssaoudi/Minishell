@@ -55,7 +55,7 @@ char				**copy_env(char **env);
 t_div				*ft_div(char *input, char **cp_env);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
-
+// parsing : jarti lmesmoma labas ??
 // execution
 char				*get_path(t_tok *tok);
 void				execute_cmd(t_tok *tok, char **env);

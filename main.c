@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		
 		
-		div = ft_div(l, cp_env); //hna 9semt l'input
+		div = ft_div(l, cp_env);
 		if (div)
 		{
 			ft_type(div); //hna kola haja 3titha type dyalha

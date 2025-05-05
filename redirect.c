@@ -23,41 +23,42 @@ static int	check_out(int *k, char *input)
 {
 	if (input[*k + 1] != '>')
 	{
-		printf("Minishell: parse error near `>'\n");
+		printf("Minishell: syntax error near unexpected token `>'\n");
 		return (1);
 	}
 	else if (input[*k] == '|')
 	{
-		printf("Minishell: parse error near `|'\n");
+		printf("Minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	else if (input[*k] == '>' && input[*k + 1] == '>')
 	{
-		printf("Minishell: parse error near `>>'\n");
+		printf("Minishell: syntax error near unexpected token `>>'\n");
 		return (1);
 	}
 	return (0);
 }
+
 static int	check_in(char *input, int *k)
 {
 	if (input[*k + 1] != '<' && input[*k + 1] != '>')
 	{
-		printf("Minishell: parse error near `<'\n");
+		printf("Minishell: syntax error near unexpected token `<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '<' && input[*k + 2] != '<')
 	{
-		printf("Minishell: parse error near `<<'\n");
+		printf("Minishell: syntax error near unexpected token `<<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '<' && input[*k + 2] == '<')
 	{
-		printf("Minishell: parse error near `<<<'\n");
+		printf("Minishell: syntax error near unexpected token `<<<'\n");
 		return (1);
 	}
 	else if (input[*k + 1] == '>')
 	{
-		printf("Minishell: parse error near `<>'\n");
+		printf("Minishell: syntax error near unexpected token `<>'\n");
 		return (1);
 	}
 	return (0);
@@ -76,7 +77,7 @@ static int	check_last(int i, char *input)
 		return (check_in(input, &k));
 	else if (!input[k])
 	{
-		printf("Minishell: parse error near `\\n'\n");
+		printf("Minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);

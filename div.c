@@ -84,20 +84,31 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 			//yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
 			if (str)
 			{
-				char *s = ft_strjoin(str, ft_var(ft_substr(input, j, *i - j), cp_env, input[*i]));
+				char	*sub = ft_substr(input, j, *i - j);
+				char	*var = ft_var(sub, cp_env, input[*i]);
+				char *s = ft_strjoin(str, var);
 				free(str);
+				free (sub);
+				free(var);
 				str = s;
+				// free(s);
 			}
 			else
 			{
-				
-				str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env, input[*i]));
+				char	*sub = ft_substr(input, j, *i - j);
+				char	*var = ft_var(sub, cp_env, input[*i]);
+				str = ft_strdup(var);
 				if (input[*i] == '"')
 				{
-					char *s = ft_strjoin(str, check_quot(input, i, input[*i], cp_env));
+					char	*quot = check_quot(input, i, input[*i], cp_env);
+					char *s = ft_strjoin(str, quot);
 					free(str);
 					str = s;
+					free (quot);
+					free(s);
 				}
+				free (sub);
+				free(var);
 			}
 			if (str)
 			{

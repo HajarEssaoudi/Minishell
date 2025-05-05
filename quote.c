@@ -24,10 +24,11 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 	}
 	else
 	{
-		printf("minishell: syntax error: unclosed `%c' quote\n", quot);
+		printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
 		return (NULL);
 	}
 	char	*result = vars->str;
 	free(vars);
 	return (result);
 }
+
