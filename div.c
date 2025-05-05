@@ -101,11 +101,16 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 				if (input[*i] == '"')
 				{
 					char	*quot = check_quot(input, i, input[*i], cp_env);
-					char *s = ft_strjoin(str, quot);
-					free(str);
-					str = s;
-					free (quot);
-					free(s);
+					if (quot)
+					{
+						char *s = ft_strjoin(str, quot);
+						free(str);
+						str = s;
+						free (quot);
+					}
+					else
+						return (NULL);
+					// free(s);
 				}
 				free (sub);
 				free(var);
