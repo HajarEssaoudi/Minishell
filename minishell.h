@@ -3,13 +3,13 @@
 
 # include "lib/libft.h"
 # include <ctype.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
-#include <limits.h>
 
 typedef struct s_tok
 {
@@ -47,7 +47,7 @@ int					check_pip(char *input);
 char				*get_env_var(char **cp_env, char *key);
 char				*check_quot(char *input, int *index, char quot,
 						char **cp_env);
-char				*ft_var(char *str, char **cp_env);
+char				*ft_var(char *str, char **cp_env, char input);
 int					check_redirect2(char *input);
 void				ft_type(t_div *div);
 t_tok				*ft_token(t_div *div);
@@ -60,8 +60,8 @@ char				*is_built_in(char *input, char **cp_env);
 char				*get_path(t_tok *tok);
 void				execute_cmd(t_tok *tok, char **env);
 void				execute_cd(t_tok *tok);
-void					execute_pwd(t_tok *tok);
+void				execute_pwd(t_tok *tok);
 void				execute_echo(t_tok *tok);
 void				execute_env(t_tok *tok);
-void	execute_exit(t_tok *tok);
+void				execute_exit(t_tok *tok);
 #endif

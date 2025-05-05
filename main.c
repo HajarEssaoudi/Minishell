@@ -60,15 +60,21 @@ int	main(int argc, char **argv, char **env)
 			printf("exit\n");
 			exit(1);
 		}
+		
+		
 		div = ft_div(l, cp_env); //hna 9semt l'input
-		ft_type(div); //hna kola haja 3titha type dyalha
-		tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
-		tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
-		if (tok != NULL)
+		if (div)
 		{
-			tok->env = cp_env;
-			tmp = tok;
-			execute_cmd(tmp, tok->env);
+			ft_type(div); //hna kola haja 3titha type dyalha
+			tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
+			tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
+			t_tok *tmp = tok;
+			if (tok != NULL)
+			{
+				tok->env = cp_env;
+				tmp = tok;
+				execute_cmd(tmp, tok->env);
+			}
 		}
 		add_history(l);
 	}

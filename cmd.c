@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/04 15:44:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/05 02:14:02 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	{
 		if (tok->path)
 		{
-			if (access(tok->path, F_OK) == 0)
-				break;
+			//if (access(tok->path, F_OK) == 0)
+				//break;
 			if (tok->path[0] != '/')
 			{
 				char *in = is_built_in(tok->path, cp_env);

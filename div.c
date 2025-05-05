@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-04-23 02:22:57 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-04-23 02:22:57 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/05/05 02:22:30 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,15 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 {
 	char	*str;
 	int		j;
+
+	str = NULL;
 	//hi labas ftrti mohim hna kantchikiw bin "" et '' et li ma dakhlche fihom y3ni matalan hello et "hello" fhemti
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		str = check_quot(input, i, input[*i], cp_env);
-		if (str)
-			add_ch(&div, "string", str), free(str);
-		else
+		if (!str)
 			return (NULL);
 	}
-	else
-	{
 		j = *i;
 		while (input[*i] && input[*i] != '>' && input[*i] != '<'
 			&& input[*i] != '|' && input[*i] != ' ' && input[*i] != '"'
@@ -83,11 +81,41 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 			(*i)++;
 		if (j != *i)
 		{
-			str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env)); //yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
+			//yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
+			if (str)
+			{
+				char *s = ft_strjoin(str, ft_var(ft_substr(input, j, *i - j), cp_env, input[*i]));
+				free(str);
+				str = s;
+			}
+			else
+			{
+				
+				str = ft_strdup(ft_var(ft_substr(input, j, *i - j), cp_env, input[*i]));
+				if (input[*i] == '"')
+				{
+					char *s = ft_strjoin(str, check_quot(input, i, input[*i], cp_env));
+					free(str);
+					str = s;
+				}
+			}
+			if (str)
+			{
+				add_ch(&div, "string", str);
+				free(str);
+			}
+			else
+			{
+				if (div)
+					free(div);
+				return (NULL);
+			}
+		}
+		else if (j == *i && str)
+		{
 			add_ch(&div, "string", str);
 			free(str);
 		}
-	}
 	return (div);
 }
 
@@ -102,7 +130,7 @@ t_div	*ft_div(char *input, char **cp_env)
 	{
 		while (input[i] == ' ')
 			i++;
-		if (!input[i])
+		if (!input[i] && ft_strlen(input) == 0)
 			exit(1);
 		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{

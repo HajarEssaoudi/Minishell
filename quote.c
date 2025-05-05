@@ -15,7 +15,7 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 		if (quot == '"')
 		{
 			vars->sub = ft_substr(input, vars->start, vars->i - vars->start);
-			vars->str = ft_var(vars->sub, cp_env);
+			vars->str = ft_var(vars->sub, cp_env, quot);
 			free(vars->sub);
 		}
 		else
