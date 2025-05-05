@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/04 15:52:45 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:57:41 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	execute_simple_cmd(t_tok *tok, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		// printf("Path: %s\n", tok->path);
+		// for (int i = 0; tok->str[i]; ++i)
+		// 	printf("Arg[%d]: %s\n", i, tok->str[i]);
 		if (execve(tok->path, tok->str, env) == -1)
 		{
 			perror("minishell failed");
