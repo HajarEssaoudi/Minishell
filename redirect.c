@@ -83,7 +83,7 @@ static int	check_last(int i, char *input)
 	return (0);
 }
 
-int	check_redirect(char *input)
+int	check_redirect1(char *input)
 {
 	int	i;
 

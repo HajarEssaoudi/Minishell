@@ -36,11 +36,9 @@ t_div	*ft_operator(char *input, int *i, t_div *div)
 {
 	if (input[*i] == '|' && !(check_pip(input)))
 		add_ch(&div, "pip", "|"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] != '>'
-		&& !(check_redirect(input)))
+	else if (input[*i] == '>' && input[*i + 1] != '>' && !(check_redirect(input)))
 		add_ch(&div, "output", ">"), (*i)++;
-	else if (input[*i] == '<' && input[*i + 1] != '<'
-		&& !(check_redirect(input)))
+	else if (input[*i] == '<' && input[*i + 1] != '<' && !(check_redirect1(input)))
 		add_ch(&div, "input", "<"), (*i)++;
 	else if (input[*i] == '>' && input[*i + 1] == '>'
 		&& !(check_redirect2(input)))
@@ -61,11 +59,11 @@ t_div	*ft_operator(char *input, int *i, t_div *div)
 	return (div);
 }
 
-t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
+t_div	*get_str(char *input, int *i, t_div *div, char **cp_env)
 {
 	char	*str;
-	int		j;
 
+<<<<<<< HEAD
 	str = NULL;
 	//hi labas ftrti mohim hna kantchikiw bin "" et '' et li ma dakhlche fihom y3ni matalan hello et "hello" fhemti
 	if (input[*i] == '"' || input[*i] == '\'')
@@ -132,13 +130,20 @@ t_div	*ft_str(char *input, int *i, t_div *div, char **cp_env)
 			add_ch(&div, "string", str);
 			free(str);
 		}
+=======
+	str = ft_str(input, i, cp_env);
+	if (!str)
+		return (NULL);
+	add_ch(&div, "string", str);
+	free(str);
+>>>>>>> c77e070 (gadit norminnette)
 	return (div);
 }
 
 t_div	*ft_div(char *input, char **cp_env)
 {
 	int		i;
-	t_div	*div;// ha nti zin ana 39lti 3liya ylah dizi teht
+	t_div	*div;
 
 	i = 0;
 	div = NULL;
@@ -150,13 +155,13 @@ t_div	*ft_div(char *input, char **cp_env)
 			exit(1);
 		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
-			div = ft_operator(input, &i, div);// iwa ya lfasia hna kanchofo dakchi dyal hok hik hihihi z3ema itijahat tfo ma kaynche imoge
+			div = ft_operator(input, &i, div);
 			if (!div)
 				return (NULL);
 		}
 		else
 		{
-			div = ft_str(input, &i, div, cp_env); //saliti mn li lfo9 b3da bache tchofo hadi ha ha haaaaaaaa
+			div = get_str(input, &i, div, cp_env);
 			if (!div)
 				return (NULL);
 		}
