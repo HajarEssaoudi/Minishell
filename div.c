@@ -36,26 +36,42 @@ t_div	*ft_operator(char *input, int *i, t_div *div)
 {
 	if (input[*i] == '|' && !(check_pip(input)))
 		add_ch(&div, "pip", "|"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] != '>' && !(check_redirect(input)))
-		add_ch(&div, "output", ">"), (*i)++;
-	else if (input[*i] == '<' && input[*i + 1] != '<' && !(check_redirect1(input)))
-		add_ch(&div, "input", "<"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] == '>'
-		&& !(check_redirect2(input)))
+	else if (input[*i] == '>' && input[*i + 1] != '>')
 	{
-		(*i)++;
-		add_ch(&div, "append", ">>");
-		(*i)++;
+		if (!check_redirect(input))
+			add_ch(&div, "output", ">"), (*i)++;
+		else
+			return (NULL);
 	}
-	else if (input[*i] == '<' && input[*i + 1] == '<'
-		&& !(check_redirect2(input)))
+	else if (input[*i] == '<' && input[*i + 1] != '<')
 	{
-		(*i)++;
-		add_ch(&div, "heredoc", "<<");
-		(*i)++;
+		if (!check_redirect(input))
+			add_ch(&div, "input", "<"), (*i)++;
+		else
+			return (NULL);
 	}
-	else
-		return (NULL);
+	else if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		if (!check_redirect2(input))
+		{
+			(*i)++;
+			add_ch(&div, "append", ">>");
+			(*i)++;
+		}
+		else
+			return (NULL);
+	}
+	else if (input[*i] == '<' && input[*i + 1] == '<')
+	{
+		if (!check_redirect2(input))
+		{
+			(*i)++;
+			add_ch(&div, "heredoc", "<<");
+			(*i)++;
+		}
+		else
+			return (NULL);
+	}
 	return (div);
 }
 
@@ -63,80 +79,11 @@ t_div	*get_str(char *input, int *i, t_div *div, char **cp_env)
 {
 	char	*str;
 
-<<<<<<< HEAD
-	str = NULL;
-	//hi labas ftrti mohim hna kantchikiw bin "" et '' et li ma dakhlche fihom y3ni matalan hello et "hello" fhemti
-	if (input[*i] == '"' || input[*i] == '\'')
-	{
-		str = check_quot(input, i, input[*i], cp_env);
-		if (!str)
-			return (NULL);
-	}
-		j = *i;
-		while (input[*i] && input[*i] != '>' && input[*i] != '<'
-			&& input[*i] != '|' && input[*i] != ' ' && input[*i] != '"'
-			&& input[*i] != '\'')
-			(*i)++;
-		if (j != *i)
-		{
-			//yaaaahhh 9awlbtek ma 9ltche lek kantchikiw hta variables yak ma 4at3awdi tchofo strdup hihihi
-			if (str)
-			{
-				char	*sub = ft_substr(input, j, *i - j);
-				char	*var = ft_var(sub, cp_env, input[*i]);
-				char *s = ft_strjoin(str, var);
-				free(str);
-				free (sub);
-				free(var);
-				str = s;
-				// free(s);
-			}
-			else
-			{
-				char	*sub = ft_substr(input, j, *i - j);
-				char	*var = ft_var(sub, cp_env, input[*i]);
-				str = ft_strdup(var);
-				if (input[*i] == '"')
-				{
-					char	*quot = check_quot(input, i, input[*i], cp_env);
-					if (quot)
-					{
-						char *s = ft_strjoin(str, quot);
-						free(str);
-						str = s;
-						free (quot);
-					}
-					else
-						return (NULL);
-					// free(s);
-				}
-				free (sub);
-				free(var);
-			}
-			if (str)
-			{
-				add_ch(&div, "string", str);
-				free(str);
-			}
-			else
-			{
-				if (div)
-					free(div);
-				return (NULL);
-			}
-		}
-		else if (j == *i && str)
-		{
-			add_ch(&div, "string", str);
-			free(str);
-		}
-=======
 	str = ft_str(input, i, cp_env);
 	if (!str)
 		return (NULL);
 	add_ch(&div, "string", str);
 	free(str);
->>>>>>> c77e070 (gadit norminnette)
 	return (div);
 }
 
