@@ -36,12 +36,12 @@ void	execute_bash_file(char *filename)
 int	main(int argc, char **argv, char **env)
 {
 	char	*l;
-	t_div	*div; //hadi fiha l'input m9esem bin string rederiction
-	t_tok	*tok; //hna fih dakchi m9ad
+	t_div	*div;
+	t_tok	*tok;
 	t_tok	*tmp;
 	char	**cp_env;
 
-	cp_env = copy_env(env); //hna copite env
+	cp_env = copy_env(env);
 	if (argc > 1)
 	{
 		if (file_exists(argv[1]))
@@ -56,7 +56,6 @@ int	main(int argc, char **argv, char **env)
 			continue;
 		if (!l)
 		{
-			//ft_clear function that clears everything and exists
 			printf("exit\n");
 			exit(1);
 		}
@@ -65,9 +64,9 @@ int	main(int argc, char **argv, char **env)
 		div = ft_div(l, cp_env);
 		if (div)
 		{
-			ft_type(div); //hna kola haja 3titha type dyalha
-			tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
-			tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
+			ft_type(div);
+			tok = ft_token(div);
+			tok = check_cmd(tok, cp_env);
 			t_tok *tmp = tok;
 			if (tok != NULL)
 			{

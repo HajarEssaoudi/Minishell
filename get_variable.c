@@ -111,7 +111,7 @@ char	*cv_var(char *str, int *i)
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
 			(*i)++;
 		var = ft_substr(str, j, *i - j);
-		return (var); //b4it n9olek ze3ma kanakhdo 4ir smiya ta3 variable matalan $USER nakhdo 4ir USER hit hiya li f env w koni thechmi chwiya
+		return (var);
 	}
 	else if (str[*i] && ft_isdigit(str[*i]))
 	{
@@ -124,7 +124,6 @@ char	*cv_var(char *str, int *i)
 char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 {
 	char	*var;
-	//hna kanchofo variable west {} wla 4ir 3adi
 	(*i)++;
 	if (str[*i] == '{')
 		result = handle_braces_var(result, str, cp_env, i);
@@ -143,7 +142,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 			return (result);
 		}
 		else
-			result = handle_simple_var(result, var, cp_env, i); //hadi ma fiha ma ytchreh
+			result = handle_simple_var(result, var, cp_env, i);
 	}
 	return (result);
 }
@@ -162,10 +161,10 @@ char	*ft_var(char *str, char **cp_env, char input)
             (str[i + 1] == '/' || str[i + 1] == '\0' || str[i + 1] == ' ') && (input != '"' && input != '\''))
 		{
 			printf ("%c\n", input);
-			result = handle_tilde(result, cp_env, &i); //had tild 4ir trjemtha bache ndir lek chi smiya zwina bhalek adahk nti hsen mnha
+			result = handle_tilde(result, cp_env, &i);
 		}
 		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-			result = ft_dollar(str, cp_env, result, &i); //hadi smitha dollar hitach mostalah wahd li m9ad smit bih lfo9aniya
+			result = ft_dollar(str, cp_env, result, &i);
 		else
 			result = handle_normal_char(result, str[i++]);
 	}

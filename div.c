@@ -34,44 +34,44 @@ void	add_ch(t_div **div, char *type, char *input)
 
 t_div	*ft_operator(char *input, int *i, t_div *div)
 {
-	if (input[*i] == '|' && !(check_pip(input)))
-		add_ch(&div, "pip", "|"), (*i)++;
-	else if (input[*i] == '>' && input[*i + 1] != '>')
-	{
-		if (!check_redirect(input))
-			add_ch(&div, "output", ">"), (*i)++;
-		else
-			return (NULL);
-	}
-	else if (input[*i] == '<' && input[*i + 1] != '<')
-	{
-		if (!check_redirect(input))
-			add_ch(&div, "input", "<"), (*i)++;
-		else
-			return (NULL);
-	}
-	else if (input[*i] == '>' && input[*i + 1] == '>')
-	{
-		if (!check_redirect2(input))
-		{
-			(*i)++;
-			add_ch(&div, "append", ">>");
-			(*i)++;
-		}
-		else
-			return (NULL);
-	}
-	else if (input[*i] == '<' && input[*i + 1] == '<')
-	{
-		if (!check_redirect2(input))
-		{
-			(*i)++;
-			add_ch(&div, "heredoc", "<<");
-			(*i)++;
-		}
-		else
-			return (NULL);
-	}
+	// if (input[*i] == '|' && !(check_pip(input)))
+	// 	add_ch(&div, "pip", "|"), (*i)++;
+	// else if (input[*i] == '>' && input[*i + 1] != '>')
+	// {
+	// 	if (!check_redirect(input))
+	// 		add_ch(&div, "output", ">"), (*i)++;
+	// 	else
+	// 		return (NULL);
+	// }
+	// else if (input[*i] == '<' && input[*i + 1] != '<')
+	// {
+	// 	if (!check_redirect(input))
+	// 		add_ch(&div, "input", "<"), (*i)++;
+	// 	else
+	// 		return (NULL);
+	// }
+	// else if (input[*i] == '>' && input[*i + 1] == '>')
+	// {
+	// 	if (!check_redirect2(input))
+	// 	{
+	// 		(*i)++;
+	// 		add_ch(&div, "append", ">>");
+	// 		(*i)++;
+	// 	}
+	// 	else
+	// 		return (NULL);
+	// }
+	// else if (input[*i] == '<' && input[*i + 1] == '<')
+	// {
+	// 	if (!check_redirect2(input))
+	// 	{
+	// 		(*i)++;
+	// 		add_ch(&div, "heredoc", "<<");
+	// 		(*i)++;
+	// 	}
+	// 	else
+	// 		return (NULL);
+	// }
 	return (div);
 }
 
@@ -106,7 +106,7 @@ t_div	*ft_div(char *input, char **cp_env)
 			if (!div)
 				return (NULL);
 		}
-		else
+		else if (input[i])
 		{
 			div = get_str(input, &i, div, cp_env);
 			if (!div)
