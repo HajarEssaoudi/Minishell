@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include <linux/limits.h>
 
-char 	*get_path(t_tok *tok)
+char	*get_path(t_tok *tok)
 {
 	char	*buffer;
 	size_t	size;
@@ -93,33 +93,43 @@ void	execute_pwd(t_tok *tok)
 	}
 }
 
-void print_strings(char **str, int i)
+void	print_strings(char **str, int i)
 {
-	while(str[i])
+	while (str[i])
 	{
 		printf("%s", str[i]);
 		i++;
-		if(str[i])
+		if (str[i])
 			printf(" ");
 	}
 }
 
 void	execute_echo(t_tok *tok)
 {
-	if (ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
+	int	i;
+
+	i = 1;
+	while (tok->str[i])
+		i++;
+	if (i > 1)
 	{
-		print_strings(tok->str, 2);
+		if (ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
+		{
+			print_strings(tok->str, 2);
+		}
+		else
+		{
+			print_strings(tok->str, 1);
+			printf("\n");
+		}
 	}
 	else
-	{
-		print_strings(tok->str, 1);
 		printf("\n");
-	}
 }
 
 void	execute_env(t_tok *tok)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tok->env)
@@ -131,7 +141,7 @@ void	execute_env(t_tok *tok)
 
 void	execute_exit(t_tok *tok)
 {
-	//ft_cleaar
+	// ft_cleaar
 	printf("exit\n");
 	exit(0);
 }

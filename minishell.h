@@ -14,6 +14,7 @@
 typedef struct s_tok
 {
 	char			**str;
+	char			*execute;
 	char			*path;
 	char			*heredoc;
 	char			*output;

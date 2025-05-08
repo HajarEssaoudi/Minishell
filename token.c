@@ -19,7 +19,12 @@ void	ft_type(t_div *div)
 	st = 0;
 	while (div)
 	{
-		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && (!st || st == 3))
+		if (!(ft_strncmp(div->args, "./", ft_strlen("./"))) && (!st || st == 3))
+		{
+			div->type = "execute";
+			st = 5;
+		}
+		else if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && (!st || st == 3))
 		{
 			div->type = "cmd";
 			st = 1;
@@ -72,9 +77,12 @@ t_tok	*ft_token(t_div *div)
 	t_tok	*tok = malloc(sizeof(t_tok));
 	ft_memset(tok, 0, sizeof(t_tok));
 	t_tok	*tmp = tok;
-	//hi ty9tini ma 3arfche 3arfek hagrani wlkn machi mochkil met3i 3inik wlh la chreht
 	while (div)
 	{
+		if (!(ft_strncmp(div->type, "execute", ft_strlen("execute"))))
+		{
+			tmp->execute = div->args
+		}
 		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))
 		{
 			tmp->path = div->args;
