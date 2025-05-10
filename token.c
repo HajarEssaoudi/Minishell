@@ -81,7 +81,7 @@ t_tok	*ft_token(t_div *div)
 	{
 		if (!(ft_strncmp(div->type, "execute", ft_strlen("execute"))))
 		{
-			tmp->execute = div->args
+			tmp->execute = div->args;
 		}
 		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))
 		{

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <linux/limits.h>
+#include <limits.h>
 
 char	*get_path(t_tok *tok)
 {

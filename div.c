@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-void	add_ch(t_div **div, char *type, char *input)
+void add_ch(t_div **div, char *type, char *input)
 {
-	t_div	*token;
-	t_div	*tmp;
+	t_div *token;
+	t_div *tmp;
 
 	token = malloc(sizeof(t_div));
 	token->args = ft_strdup(input);
@@ -32,86 +32,9 @@ void	add_ch(t_div **div, char *type, char *input)
 	}
 }
 
-t_div	*handle_pip(char *input, int *i, t_div *div)
+t_div *get_str(char *input, int *i, t_div *div, char **cp_env)
 {
-	if (!check_pip(input))
-	{
-		add_ch(&div, "pip", "|");
-		(*i)++;
-	}
-	else
-		return (NULL);
-	return	(div);
-}
-
-t_div	*handle_redirect_output(char *input, int *i, t_div *div)
-{
-	if (!check_redirect1(input))
-	{
-		add_ch(&div, "output", ">");
-		(*i)++;
-	}
-	else
-		return (NULL);
-	return (div);
-}
-
-t_div	*handle_redirect_input(char *input, int *i, t_div *div)
-{
-	if (!check_redirect1(input))
-	{
-		add_ch(&div, "input", "<");
-		(*i)++;
-	}
-		else
-			return (NULL);
-	return (div);
-}
-
-t_div	*handle_redirect_append(char *input, int *i, t_div *div)
-{
-	if (!check_redirect2(input))
-	{
-		add_ch(&div, "append", ">>");
-		(*i)++;
-	}
-		else
-			return (NULL);
-	return (div);
-}
-
-t_div	*handle_redirect_heredoc(char *input, int *i, t_div *div)
-{
-	if (!check_redirect2(input))
-	{
-		add_ch(&div, "heredoc", "<<");
-		(*i)++;
-	}
-		else
-			return (NULL);
-	return (div);
-}
-
-t_div	*ft_operator(char *input, int *i, t_div *div)
-{
-	if (input[*i] == '|')
-		div = handle_pip(input, i, div);
-	else if (input[*i] == '>' && input[*i + 1] != '>')
-		div = handle_redirect_output(input, i, div);
-	else if (input[*i] == '<' && input[*i + 1] != '<')
-		div = handle_redirect_input(input, i, div);
-	else if (input[*i] == '>' && input[*i + 1] == '>')
-		div = handle_redirect_append(input, i, div);
-	else if (input[*i] == '<' && input[*i + 1] == '<')
-		div = handle_redirect_heredoc(input, i, div);
-	else if (!div)
-		return (NULL);
-	return (div);
-}
-
-t_div	*get_str(char *input, int *i, t_div *div, char **cp_env)
-{
-	char	*str;
+	char *str;
 
 	str = ft_str(input, i, cp_env);
 	if (!str)
@@ -124,10 +47,10 @@ t_div	*get_str(char *input, int *i, t_div *div, char **cp_env)
 	return (div);
 }
 
-t_div	*ft_div(char *input, char **cp_env)
+t_div *ft_div(char *input, char **cp_env)
 {
-	int		i;
-	t_div	*div;
+	int i;
+	t_div *div;
 
 	i = 0;
 	div = NULL;

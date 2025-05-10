@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-void	free_div(t_div *div)
-{
-	t_div	*tmp;
+// void	free_div(t_div *div)
+// {
+// 	t_div	*tmp;
 
-	tmp = div;
-	while (div)
-	{
-		tmp = div;
-		div = div->next;
-		free(tmp->args);
-		free(tmp->type);
-		free(tmp);
-	}
-}
+// 	tmp = div;
+// 	while (div)
+// 	{
+// 		tmp = div;
+// 		div = div->next;
+// 		free(tmp->args);
+// 		free(tmp->type);
+// 		free(tmp);
+// 	}
+// }
 
 int	file_exists(char *filename)
 {
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 	char	*l;
 	t_div	*div;
 	t_tok	*tok;
-	t_tok	*tmp;
 	char	**cp_env;
 
 	cp_env = copy_env(env);
@@ -70,11 +69,19 @@ int	main(int argc, char **argv, char **env)
 			t_tok *tmp = tok;
 			if (tok != NULL)
 			{
-				tok->env = cp_env;
-				tmp = tok;
-				execute_cmd(tmp, tok->env);
+				if (tok->output && tok->filename)
+					ft_out(tok, cp_env);
+				else
+				{
+					tok->env = cp_env;
+					tmp = tok;
+					execute_cmd(tmp, tok->env);
+				}
 			}
+			// free_div(div);
 		}
+		/* else
+			free_div(div); */
 		add_history(l);
 	}
 	free(l);

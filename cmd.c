@@ -83,7 +83,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
-					printf ("%s:command not found\n", tok->path);
+					printf ("bash: %s:command not found\n", tok->path);
 					//ft_clear and exit
 					return  (NULL);
 				}
@@ -92,7 +92,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 			{
 				if (access(tok->path, F_OK) != 0)
 				{
-					printf ("Minishell: command not found: %s\n", tok->path); // wach l error anktbouha b printf wla write fd = 2?
+					printf ("Minishell: command not found: %s\n", tok->path);
 					//ft_clear and exit
 					return  (NULL);
 				}

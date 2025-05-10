@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int	check_after_befor_pip(int *i, char *input, int len)
+int check_after_befor_pip(int *i, char *input, int len)
 {
-	int	j;
+	int j;
 
 	j = 0;
 	if (*i == 0 || *i == len - 1 || len == 0 || (len == 1 && input[0] == '|'))
@@ -41,10 +41,10 @@ int	check_after_befor_pip(int *i, char *input, int len)
 	return (0);
 }
 
-int	check_pip(char *input)
+int check_pip(char *input)
 {
-	int	i;
-	int	len;
+	int i;
+	int len;
 
 	i = 0;
 	len = ft_strlen(input);
@@ -63,4 +63,16 @@ int	check_pip(char *input)
 		i++;
 	}
 	return (0);
+}
+
+t_div *handle_pip(char *input, int *i, t_div *div)
+{
+	if (!check_pip(input))
+	{
+		add_ch(&div, "pip", "|");
+		(*i)++;
+	}
+	else
+		return (NULL);
+	return (div);
 }
