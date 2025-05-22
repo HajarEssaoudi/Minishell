@@ -74,7 +74,6 @@ t_div *ft_operator(char *input, int *i, t_div *div)
         div = handle_redirect_heredoc(input, i, div);
     else if (!div)
     {
-        free_div(div);
         return (NULL);
     }
     return (div);

@@ -1,15 +1,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "lib/libft.h"
-# include <ctype.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/wait.h>
+#include "lib/libft.h"
+#include <ctype.h>
+#include <limits.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
 
 typedef struct s_tok
 {

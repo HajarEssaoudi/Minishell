@@ -27,3 +27,4 @@ void    free_div(t_div *div)
     }
     
 }
+

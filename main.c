@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 			t_tok *tmp = tok;
 			if (tok != NULL)
 			{
+				// printf ("%s\n", tok->execute);
 				if (tok->output && tok->filename)
 					ft_out(tok, cp_env);
 				else
@@ -80,8 +81,8 @@ int	main(int argc, char **argv, char **env)
 			}
 			// free_div(div);
 		}
-		/* else
-			free_div(div); */
+		else
+			free_div(div);
 		add_history(l);
 	}
 	free(l);

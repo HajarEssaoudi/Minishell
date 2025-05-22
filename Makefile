@@ -16,7 +16,7 @@ do : all clean
 all : $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline -lncurses
 
 $(LIBFT):
 	make -C lib

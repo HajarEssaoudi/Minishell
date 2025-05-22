@@ -83,8 +83,9 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
-					printf ("bash: %s:command not found\n", tok->path);
+					printf ("Minishell: %s:command not found\n", tok->path);
 					//ft_clear and exit
+					free(tok->path);
 					return  (NULL);
 				}
 			}
@@ -94,8 +95,18 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				{
 					printf ("Minishell: command not found: %s\n", tok->path);
 					//ft_clear and exit
+					free(tok->path);
 					return  (NULL);
 				}
+			}
+		}
+		else if (tok->execute)
+		{
+			if (access(tok->execute, F_OK) != 0)
+			{
+				printf("Minishell: %s: No such file or directory\n", tok->execute);
+				free(tok->execute);
+				return (NULL);
 			}
 		}
 		tok = tok->next;
