@@ -22,14 +22,19 @@ void add_ch(t_div **div, char *type, char *input)
 	token->type = ft_strdup(type);
 	token->next = NULL;
 	if (!*div)
+	{
 		*div = token;
+		// free_div(token);
+	}
 	else
 	{
 		tmp = *div;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = token;
+		// free_div(token);
 	}
+	// free_div(token);
 }
 
 t_div *get_str(char *input, int *i, t_div *div, char **cp_env)
@@ -64,13 +69,19 @@ t_div *ft_div(char *input, char **cp_env)
 		{
 			div = ft_operator(input, &i, div);
 			if (!div)
+			{
+				free_div(div);
 				return (NULL);
+			}
 		}
 		else if (input[i])
 		{
 			div = get_str(input, &i, div, cp_env);
 			if (!div)
+			{
+				free_div(div);
 				return (NULL);
+			}
 		}
 	}
 	return (div);

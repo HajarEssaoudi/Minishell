@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 			if (tok != NULL)
 			{
 				// printf ("%s\n", tok->execute);
-				if (tok->output && tok->filename)
+				if (tok->output)
 					ft_out(tok, cp_env);
 				else
 				{

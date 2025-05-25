@@ -19,19 +19,26 @@ void	ft_out(t_tok *tok, char **cp_env)
 	int		fd;
 	int		fd1;
 
-	if (tok->output && tok->filename)
+	int i = 0;
+	while (tok->output[i])
 	{
-		fd = open(tok->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		fd1 = dup(1);
-		dup2(fd, 1);
-		close(fd);
-		if (tok->path && tok->str)
+		printf ("%s\n", tok->output[i + 1]);
+		if (tok->output[i])
 		{
-			tok->env = cp_env;
-			tmp = tok;
-			execute_cmd(tmp, tok->env);
+			fd = open(tok->output[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+			fd1 = dup(1);
+			dup2(fd, 1);
+			close(fd);
+			if (tok->path && tok->str)
+			{
+				tok->env = cp_env;
+				tmp = tok;
+				execute_cmd(tmp, tok->env);
+			}
+			dup2(fd1, 1);
+			close(fd1);
 		}
-		dup2(fd1, 1);
-		close(fd1);
+		i += 2;
 	}
+	
 }

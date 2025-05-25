@@ -72,11 +72,32 @@ char	**ft_argv(char **argv, char *arg)
 	return (argv2);
 }
 
+char	**ft_red(char **argv, char *arg)
+{
+	int j = 0;
+	while (argv && argv[j])
+		j++;
+	char	**argv2 = malloc(sizeof(char *) * (j + 2));
+
+	int i = 0;
+	while (argv && argv[i])
+	{
+		argv2[i] = ft_strdup(argv[i]);
+		i++;
+	}
+	argv2[i] = ft_strdup(arg);
+	argv2[i + 1] = NULL;
+	if (argv)
+		free(argv);
+	return (argv2);
+}
+
 t_tok	*ft_token(t_div *div)
 {
 	t_tok	*tok = malloc(sizeof(t_tok));
 	ft_memset(tok, 0, sizeof(t_tok));
 	t_tok	*tmp = tok;
+	char *type = div->type;
 	while (div)
 	{
 		if (!(ft_strncmp(div->type, "execute", ft_strlen("execute"))))
@@ -94,23 +115,33 @@ t_tok	*ft_token(t_div *div)
 		}
 		if (!(ft_strncmp(div->type, "filename", ft_strlen("filename"))))
 		{
-			tmp->filename = div->args;
+			printf ("%s\n", type);
+			if (type == "output")
+				tmp->output = ft_red(tmp->output, div->args);
+			else if (type == "input")
+				tmp->input = ft_red(tmp->input, div->args);
+			else if (type == "append")
+				tmp->append = ft_red(tmp->append, div->args);
+			else if (type == "heredoc")
+				tmp->heredoc = ft_red(tmp->heredoc, div->args);
 		}
 		if (!(ft_strncmp(div->type, "output", ft_strlen("output"))))
-			tmp->output = div->args;
+			tmp->output = ft_red(tmp->output, div->args);
 		if (!(ft_strncmp(div->type, "input", ft_strlen("input"))))
-			tmp->input = div->args;
+			tmp->input = ft_red(tmp->input, div->args);
 		if (!(ft_strncmp(div->type, "append", ft_strlen("append"))))
-			tmp->append = div->args;
+			tmp->append = ft_red(tmp->append, div->args);
 		if (!(ft_strncmp(div->type, "heredoc", ft_strlen("heredoc"))))
-			tmp->heredoc = div->args;
+			tmp->heredoc = ft_red(tmp->heredoc, div->args);
 		if (!(ft_strncmp(div->type, "pip", ft_strlen("pip"))))
 		{
 			tmp->next = malloc(sizeof(t_tok));
 			ft_memset(tmp->next, 0, sizeof(t_tok));
 			tmp = tmp->next;
 		}
+		type = div->type;
 		div = div->next;
 	}
+	free_div(div);
 	return (tok);
 }

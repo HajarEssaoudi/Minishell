@@ -16,12 +16,12 @@ typedef struct s_tok
 	char			**str;
 	char			*execute;
 	char			*path;
-	char			*heredoc;
-	char			*output;
-	char			*input;
-	char			*append;
+	char			**heredoc;
+	char			**output;
+	char			**input;
+	char			**append;
 	char			*pip;
-	char			*filename;
+	// char			*filename;
 	char			**env;
 	char			*pwd;
 	char			*old_pwd;
@@ -62,6 +62,7 @@ void				free_div(t_div *div);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
 void				ft_out(t_tok *tok, char **cp_env);
+void    free_tok(t_tok *tok);
 
 // execution
 char				*get_path(t_tok *tok);
