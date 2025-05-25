@@ -21,11 +21,11 @@ void	ft_out(t_tok *tok, char **cp_env)
 
 	int i = 0;
 	while (tok->output[i])
+		i++;
+	i--;
+	while (i > 0)
 	{
-		printf ("%s\n", tok->output[i + 1]);
-		if (tok->output[i])
-		{
-			fd = open(tok->output[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+			fd = open(tok->output[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
 			fd1 = dup(1);
 			dup2(fd, 1);
 			close(fd);
@@ -37,8 +37,7 @@ void	ft_out(t_tok *tok, char **cp_env)
 			}
 			dup2(fd1, 1);
 			close(fd1);
-		}
-		i += 2;
+		i -= 2;
 	}
 	
 }

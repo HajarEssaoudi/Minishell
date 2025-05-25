@@ -115,14 +115,13 @@ t_tok	*ft_token(t_div *div)
 		}
 		if (!(ft_strncmp(div->type, "filename", ft_strlen("filename"))))
 		{
-			printf ("%s\n", type);
-			if (type == "output")
+			if (!(ft_strncmp(type, "output", ft_strlen("output"))))
 				tmp->output = ft_red(tmp->output, div->args);
-			else if (type == "input")
+			else if (!(ft_strncmp(type, "input", ft_strlen("input"))))
 				tmp->input = ft_red(tmp->input, div->args);
-			else if (type == "append")
+			else if (!(ft_strncmp(type, "append", ft_strlen("append"))))
 				tmp->append = ft_red(tmp->append, div->args);
-			else if (type == "heredoc")
+			else if (!(ft_strncmp(type, "heredoc", ft_strlen("heredoc"))))
 				tmp->heredoc = ft_red(tmp->heredoc, div->args);
 		}
 		if (!(ft_strncmp(div->type, "output", ft_strlen("output"))))
