@@ -33,11 +33,13 @@ void	execute_bash_file(char *filename)
 		perror("execve failed");
 }
 
-void	ft_hand(int sig, int i)
+void	ft_hand(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	i = 1;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 int	main(int argc, char **argv, char **env)
 {
@@ -54,15 +56,9 @@ int	main(int argc, char **argv, char **env)
 		else
 			exit(1);
 	}
+	signal(SIGINT, ft_hand);
 	while (1)
 	{
-		int i = 0;
-		signal(SIGINT, ft_hand);
-		if (i)
-		{
-			i = 0;
-			continue;
-		}
 		l = readline("Minishell$> ");
 		if (l[0] == '\0')
 			continue;

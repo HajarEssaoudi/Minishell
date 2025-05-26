@@ -25,7 +25,7 @@ void	ft_out(t_tok *tok, char **cp_env)
 	i--;
 	while (i > 0)
 	{
-			fd = open(tok->output[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
+			fd = open(tok->output[i], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			fd1 = dup(1);
 			dup2(fd, 1);
 			close(fd);
