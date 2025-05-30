@@ -1,2 +1,4 @@
+a
+s
 
 Minishell$> 

@@ -64,6 +64,7 @@ t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
 void				ft_out(t_tok *tok, char **cp_env);
 void    free_tok(t_tok *tok);
+void	ft_hand(int sig);
 
 // execution
 char				*get_path(t_tok *tok);
