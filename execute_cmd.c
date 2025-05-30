@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+int global = 0;
 void	execute_built_in(t_tok *tok)
 {
 	if (ft_strncmp("cd", tok->str[0], ft_strlen(tok->str[0])) == 0)
@@ -36,7 +37,8 @@ void	 execute_simple_cmd(t_tok *tok, char **env, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		global = 3;
+		signal(SIGINT, ft_hand);
 		if (tok->output)
 		{
 			fd1 = dup(1);
@@ -55,7 +57,10 @@ void	 execute_simple_cmd(t_tok *tok, char **env, int fd)
 		}
 	}
 	else if (pid > 0)
+	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
+	}
 	else
 	{
 		perror("fork failed");

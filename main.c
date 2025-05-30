@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+extern int global;
 // void	free_div(t_div *div)
 // {
 // 	t_div	*tmp;
@@ -36,10 +37,15 @@ void	execute_bash_file(char *filename)
 void	ft_hand(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (!global)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else
+		write (1, "\n", 1);
 }
 int	main(int argc, char **argv, char **env)
 {
