@@ -77,3 +77,13 @@ void    free_tok(t_tok *tok)
     }
 }
 
+void	free_str(char **str)
+{
+	int i = 0;
+    while (str[i])
+    {
+        free(str[i]);
+        i++;
+    }
+    free(str);
+}

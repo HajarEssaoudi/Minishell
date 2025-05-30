@@ -30,13 +30,13 @@ char	*check_ext(char *input, char **cp_env)
 		cmd = ft_strjoin(cmd, input);
 		if (access(cmd, F_OK) == 0)
 		{
-			free(path_split);
+			free_str(path_split);
 			return (cmd);
 		}
 		free(cmd);
 		i++;
 	}
-	free(path_split);
+	free_str(path_split);
 	return (NULL);
 }
 char	*is_built_in(char *input, char **cp_env)
@@ -75,11 +75,13 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				{
 					free(tok->path);
 					tok->path = ft_strdup(in);
+					// free(in);
 				}
 				else if (ex)
 				{
 					free(tok->path);
 					tok->path = ft_strdup(ex);
+					free(ex);
 				}
 				else if (!ex && !in)
 				{

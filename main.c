@@ -37,7 +37,7 @@ void	execute_bash_file(char *filename)
 void	ft_hand(int sig)
 {
 	(void)sig;
-	if (!global)
+	if (global == 3)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -45,7 +45,9 @@ void	ft_hand(int sig)
 		rl_redisplay();
 	}
 	else
+	{
 		write (1, "\n", 1);
+	}
 }
 int	main(int argc, char **argv, char **env)
 {
@@ -65,6 +67,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, ft_hand);
 	while (1)
 	{
+		global = 3;
 		l = readline("Minishell$> ");
 		if (l[0] == '\0')
 			continue;
