@@ -26,19 +26,32 @@ void	execute_built_in(t_tok *tok)
 		execute_exit(tok);
 }
 
-void	 execute_simple_cmd(t_tok *tok, char **env)
+void	 execute_simple_cmd(t_tok *tok, char **env, int fd)
 {
 	char	**args;
 	pid_t	pid;
 	int		status;
+	int fd1;
 
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		if (tok->output)
+		{
+			fd1 = dup(1);
+			dup2(fd, 1);
+			close(fd);
+		}
 		if (execve(tok->path, tok->str, env) == -1)
 		{
 			perror("minishell failed");
 			exit(EXIT_FAILURE);
+		}
+		if (tok->output)
+		{
+			dup2(fd1, 1);
+			close(fd1);
 		}
 	}
 	else if (pid > 0)
@@ -74,12 +87,12 @@ void	 execute_executable(t_tok *tok, char **env)
 	}
 }
 
-void	execute_cmd(t_tok *tok, char **env)
+void	execute_cmd(t_tok *tok, char **env, int fd)
 {
 	if (tok->execute)
 		execute_executable(tok, env);
 	else if(is_built_in(tok->str[0], env))
 		execute_built_in(tok);
 	else
-		execute_simple_cmd(tok, env);
+		execute_simple_cmd(tok, env, fd);
 }

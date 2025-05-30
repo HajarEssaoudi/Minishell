@@ -68,7 +68,7 @@ void	ft_hand(int sig);
 
 // execution
 char				*get_path(t_tok *tok);
-void				execute_cmd(t_tok *tok, char **env);
+void				execute_cmd(t_tok *tok, char **env, int fd);
 void				execute_cd(t_tok *tok);
 void				execute_pwd(t_tok *tok);
 void				execute_echo(t_tok *tok);

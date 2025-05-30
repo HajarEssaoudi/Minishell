@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **env)
 				{
 					tok->env = cp_env;
 					tmp = tok;
-					execute_cmd(tmp, tok->env);
+					execute_cmd(tmp, tok->env, 0);
 				}
 			}
 			// free_div(div);
