@@ -30,7 +30,7 @@ char	**copy_env(char **env)
 	int		j;
 
 	size = size_env(env) + 1;
-	cp_env = malloc(sizeof(char *) * size);
+	cp_env = malloc(sizeof(char *) * (size + 1));
 	i = 0;
 	j = 0;
 	while (env[i])

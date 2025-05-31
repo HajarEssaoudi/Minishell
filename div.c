@@ -17,7 +17,7 @@ void add_ch(t_div **div, char *type, char *input)
 	t_div *token;
 	t_div *tmp;
 
-	token = malloc(sizeof(t_div));
+	token = malloc(sizeof(t_div) + 1);
 	token->args = ft_strdup(input);
 	token->type = ft_strdup(type);
 	token->next = NULL;
@@ -64,8 +64,10 @@ t_div *ft_div(char *input, char **cp_env)
 		while (input[i] == ' ')
 			i++;
 		if (!input[i] && ft_strlen(input) == 0)
-			exit(1);
-		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+			return NULL;
+		else if (!input[i] && div)
+			return div;
+		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
 			div = ft_operator(input, &i, div);
 			if (!div)

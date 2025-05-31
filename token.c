@@ -88,7 +88,7 @@ char	**ft_red(char **argv, char *arg)
 	argv2[i] = ft_strdup(arg);
 	argv2[i + 1] = NULL;
 	if (argv)
-		free(argv);
+		free_str(argv);
 	return (argv2);
 }
 
@@ -102,11 +102,11 @@ t_tok	*ft_token(t_div *div)
 	{
 		if (!(ft_strncmp(div->type, "execute", ft_strlen("execute"))))
 		{
-			tmp->execute = div->args;
+			tmp->execute = ft_strdup(div->args);
 		}
 		if (!(ft_strncmp(div->type, "cmd", ft_strlen("cmd"))))
 		{
-			tmp->path = div->args;
+			tmp->path = ft_strdup(div->args);
 			tmp->str = ft_argv(tmp->str, div->args);
 		}
 		if (!(ft_strncmp(div->type, "string", ft_strlen("string"))))
@@ -134,6 +134,7 @@ t_tok	*ft_token(t_div *div)
 			tmp->heredoc = ft_red(tmp->heredoc, div->args);
 		if (!(ft_strncmp(div->type, "pip", ft_strlen("pip"))))
 		{
+
 			tmp->next = malloc(sizeof(t_tok));
 			ft_memset(tmp->next, 0, sizeof(t_tok));
 			tmp = tmp->next;

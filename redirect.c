@@ -97,7 +97,8 @@ int	check_redirect1(char *input)
 			if (check_last(i, input))
 				return (1);
 		}
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (0);
 }

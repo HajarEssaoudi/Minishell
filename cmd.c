@@ -26,8 +26,9 @@ char	*check_ext(char *input, char **cp_env)
 	path_split = ft_split(path, ':');
 	while (path_split[i])
 	{
-		cmd = ft_strjoin(path_split[i], "/");
-		cmd = ft_strjoin(cmd, input);
+		path = ft_strjoin(path_split[i], "/");
+		cmd = ft_strjoin(path, input);
+		free(path);
 		if (access(cmd, F_OK) == 0)
 		{
 			free_str(path_split);

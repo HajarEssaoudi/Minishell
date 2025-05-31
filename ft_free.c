@@ -35,16 +35,16 @@ void    free_tok(t_tok *tok)
         cur = tok->next;
         if (tok->append)
             free(tok->append);
-        if (tok->env)
-        {
-            int i = 0;
-            while (tok->env[i])
-            {
-                free(tok->env[i]);
-                i++;
-            }
-            free(tok->env);
-        }
+        // if (tok->env)
+        // {
+        //     int i = 0;
+        //     while (tok->env[i])
+        //     {
+        //         free(tok->env[i]);
+        //         i++;
+        //     }
+        //     free(tok->env);
+        // }
         if (tok->str)
         {
             int i = 0;
@@ -63,16 +63,16 @@ void    free_tok(t_tok *tok)
             free(tok->heredoc);
         if (tok->input)
             free(tok->input);
-        if (tok->old_pwd)
-            free(tok->old_pwd);
+        // if (tok->old_pwd)
+        //     free(tok->old_pwd);
         if (tok->output)
             free(tok->output);
         if (tok->path)
             free(tok->path);
         if (tok->pip)
             free(tok->pip);
-        if (tok->pwd)
-            free(tok->pwd);
+        // if (tok->pwd)
+        //     free(tok->pwd);
         tok = cur;
     }
 }
