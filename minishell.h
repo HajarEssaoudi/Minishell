@@ -44,6 +44,12 @@ typedef struct s_quot
 	char			*sub;
 }					t_quot;
 
+typedef struct s_shell
+{
+	char *old_path;
+	char *current_path;
+}			t_shell;
+
 t_div				*handle_pip(char *input, int *i, t_div *div);
 t_div				*ft_operator(char *input, int *i, t_div *div);
 void				add_ch(t_div **div, char *type, char *input);
@@ -70,8 +76,8 @@ void	free_str(char **str);
 // execution
 char				*get_path(t_tok *tok);
 void				execute_cmd(t_tok *tok, char **env, int fd);
-void				execute_cd(t_tok *tok);
-void				execute_pwd(t_tok *tok);
+void				execute_cd(t_tok *tok, t_shell *shell);
+void				execute_pwd(t_tok *tok, t_shell *shell);
 void				execute_echo(t_tok *tok);
 void				execute_env(t_tok *tok);
 void				execute_exit(t_tok *tok);

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/31 17:49:30 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:28:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ char	*get_home_path(t_tok *tok)
 	return (NULL);
 }
 
-void	execute_cd(t_tok *tok)
+void	execute_cd(t_tok *tok, t_shell *shell)
 {
 	char	*home_path;
 
-	tok->old_pwd = get_path(tok);
+	shell->old_path = get_path(tok);
 	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
 			ft_strlen(tok->str[1])) == 0)
 	{
@@ -83,14 +83,12 @@ void	execute_cd(t_tok *tok)
 	// change_env_paths(tok);
 }
 
-void	execute_pwd(t_tok *tok)
+void	execute_pwd(t_tok *tok, t_shell *shell)
 {
-	tok->pwd = get_path(tok);
-	printf("the old path => %s\n", tok->old_pwd);
-	if (get_path(tok))
-	{
-		printf("the new path => %s\n", tok->pwd);
-	}
+	// shell->old_path;
+	printf("the old path => %s\n", shell->old_path);
+	shell->current_path = get_path(tok);
+	printf("the new path => %s\n", shell->current_path);
 }
 
 void	print_strings(char **str, int i)

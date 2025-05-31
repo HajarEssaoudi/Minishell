@@ -60,18 +60,18 @@ void	print_tok(t_tok *tok)
 void	ft_hand(int sig)
 {
 	(void)sig;
-	// if (global == 3)
-	// {
-	// 	write(1, "\n", 1);
-	// 	rl_on_new_line();
-	// 	rl_replace_line("", 0);
-	// 	rl_redisplay();
-	// }
-	// else
-	// {
-	// 	write (1, "\n", 1);
-	// }
-	exit(0);
+	if (global == 3)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else
+	{
+		write (1, "\n", 1);
+	}
+	// exit(0);
 }
 int	main(int argc, char **argv, char **env)
 {
@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **env)
 		if (l[0] == '\0')
 		{
 			free(l);
-			continue ;
+			break;
 		}
 		if (!l)
 		{

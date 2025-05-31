@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/22 17:12:28 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:23:21 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int global = 0;
 
-void	execute_built_in(t_tok *tok)
+void	execute_built_in(t_tok *tok, t_shell *shell)
 {
 	if (ft_strncmp("cd", tok->str[0], ft_strlen(tok->str[0])) == 0)
-		execute_cd(tok);
+		execute_cd(tok, shell);
 	else if (ft_strncmp("pwd", tok->str[0], ft_strlen(tok->str[0])) == 0)
-		execute_pwd(tok);
+		execute_pwd(tok, shell);
 	else if (ft_strncmp("echo", tok->str[0], ft_strlen(tok->str[0])) == 0)
 		execute_echo(tok);
 	else if (ft_strncmp("env", tok->str[0], ft_strlen(tok->str[0])) == 0)
@@ -95,10 +95,11 @@ void	 execute_executable(t_tok *tok, char **env)
 
 void	execute_cmd(t_tok *tok, char **env, int fd)
 {
+	t_shell *shell = malloc(sizeof(t_shell));
 	if (tok->execute)
 		execute_executable(tok, env);
 	else if(is_built_in(tok->str[0], env))
-		execute_built_in(tok);
+		execute_built_in(tok, shell);
 	else
 		execute_simple_cmd(tok, env, fd);
 }
