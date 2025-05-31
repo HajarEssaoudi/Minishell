@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/04 15:47:20 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:49:30 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 char	*get_path(t_tok *tok)
 {
 	char	*buffer;
+	char	*cwd;
 	size_t	size;
 
 	size = PATH_MAX;
@@ -28,9 +29,9 @@ char	*get_path(t_tok *tok)
 		free(buffer);
 		return (NULL);
 	}
-	tok->pwd = ft_strdup(buffer);
+	cwd = ft_strdup(buffer);
 	free(buffer);
-	return (tok->pwd);
+	return (cwd);
 }
 
 char	*get_home_path(t_tok *tok)
@@ -63,7 +64,6 @@ void	execute_cd(t_tok *tok)
 	char	*home_path;
 
 	tok->old_pwd = get_path(tok);
-	printf("cd ===> %s\n", tok->str[1]);
 	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
 			ft_strlen(tok->str[1])) == 0)
 	{
@@ -75,7 +75,6 @@ void	execute_cd(t_tok *tok)
 	}
 	else
 	{
-		printf("hi\n");
 		if (chdir(tok->str[1]) == -1)
 		{
 			perror("cd");
@@ -86,6 +85,7 @@ void	execute_cd(t_tok *tok)
 
 void	execute_pwd(t_tok *tok)
 {
+	tok->pwd = get_path(tok);
 	printf("the old path => %s\n", tok->old_pwd);
 	if (get_path(tok))
 	{
