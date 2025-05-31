@@ -155,18 +155,19 @@ int	main(int argc, char **argv, char **env)
 			}
 			
 		}
-		int j = 0;
-		while (div)
-		{
-			printf ("type %d : %s\n", j, div->type);
-			j++;
-			div = div->next;
-		}
+		// int j = 0;
+		// while (div)
+		// {
+		// 	printf ("type %d : %s\n", j, div->type);
+		// 	j++;
+		// 	div = div->next;
+		// }
 		free_div(div);
-		add_history(l);
+		// add_history(l);
+		free(l);
+		free_str(cp_env);
+		exit(1);
 	}
-	free(l);
-	free_str(cp_env);
 	// free_div(div);
 	return (0);
 }

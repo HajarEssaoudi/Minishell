@@ -60,13 +60,13 @@ void    free_tok(t_tok *tok)
         // if (tok->filename)
         //     free(tok->filename);
         if (tok->heredoc)
-            free(tok->heredoc);
+            free_str(tok->heredoc);
         if (tok->input)
-            free(tok->input);
+            free_str(tok->input);
         // if (tok->old_pwd)
         //     free(tok->old_pwd);
         if (tok->output)
-            free(tok->output);
+            free_str(tok->output);
         if (tok->path)
             free(tok->path);
         if (tok->pip)
