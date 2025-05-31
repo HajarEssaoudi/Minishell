@@ -13,7 +13,7 @@
 
 #include "minishell.h"
 
-void	ft_out(t_tok *tok, char **cp_env)
+void	ft_out(t_tok *tok, char **cp_env, t_shell *shell)
 {
 	t_tok	*tmp;
 	int		fd;
@@ -36,7 +36,7 @@ void	ft_out(t_tok *tok, char **cp_env)
 	{
 		tok->env = cp_env;
 		tmp = tok;
-		execute_cmd(tmp, tok->env, fd);
+		execute_cmd(tmp, tok->env, fd, shell);
 	}
 	
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/31 23:23:21 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:55:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ void	 execute_executable(t_tok *tok, char **env)
 	}
 }
 
-void	execute_cmd(t_tok *tok, char **env, int fd)
+void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
 {
-	t_shell *shell = malloc(sizeof(t_shell));
 	if (tok->execute)
 		execute_executable(tok, env);
 	else if(is_built_in(tok->str[0], env))

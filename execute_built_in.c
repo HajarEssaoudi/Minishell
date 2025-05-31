@@ -6,14 +6,14 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/31 23:28:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/01 00:01:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-char	*get_path(t_tok *tok)
+char	*get_path()
 {
 	char	*buffer;
 	char	*cwd;
@@ -63,7 +63,7 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 {
 	char	*home_path;
 
-	shell->old_path = get_path(tok);
+	shell->old_path = get_path();
 	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
 			ft_strlen(tok->str[1])) == 0)
 	{
@@ -85,9 +85,8 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 
 void	execute_pwd(t_tok *tok, t_shell *shell)
 {
-	// shell->old_path;
 	printf("the old path => %s\n", shell->old_path);
-	shell->current_path = get_path(tok);
+	shell->current_path = get_path();
 	printf("the new path => %s\n", shell->current_path);
 }
 

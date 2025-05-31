@@ -68,14 +68,14 @@ t_div				*ft_div(char *input, char **cp_env);
 void				free_div(t_div *div);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
-void				ft_out(t_tok *tok, char **cp_env);
+void				ft_out(t_tok *tok, char **cp_env, t_shell *shell);
 void    free_tok(t_tok *tok);
 void	ft_hand(int sig);
 void	free_str(char **str);
 
 // execution
-char				*get_path(t_tok *tok);
-void				execute_cmd(t_tok *tok, char **env, int fd);
+char				*get_path();
+void				execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell);
 void				execute_cd(t_tok *tok, t_shell *shell);
 void				execute_pwd(t_tok *tok, t_shell *shell);
 void				execute_echo(t_tok *tok);

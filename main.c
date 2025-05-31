@@ -83,18 +83,20 @@ int	main(int argc, char **argv, char **env)
 
 	cp_env = copy_env(env);
 	signal(SIGINT, ft_hand);
+	t_shell *shell = malloc(sizeof(t_shell));
+	if(!shell)
+	{
+		//ft_clear
+		exit(1);
+	}
 	while (1)
 	{
 		global = 3;
 		l = readline("Minishell$> ");
 		if (l[0] == '\0')
-		{
-			free(l);
-			break;
-		}
+			continue;
 		if (!l)
 		{
-			free_str(cp_env);
 			printf("exit\n");
 			exit(1);
 		}
@@ -109,12 +111,13 @@ int	main(int argc, char **argv, char **env)
 			{
 				// printf ("%s\n", tok->execute);
 				if (tok->output)
-					ft_out(tok, cp_env);
+					ft_out(tok, cp_env, shell);
 				else
 				{
+					
 					tok->env = cp_env;
 					tmp = tok;
-					execute_cmd(tmp, tok->env, 0);
+					execute_cmd(tmp, tok->env, 0, shell);
 				}
 			}
 			// free_div(div);
