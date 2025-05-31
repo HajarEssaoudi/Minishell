@@ -17,7 +17,7 @@ void add_ch(t_div **div, char *type, char *input)
 	t_div *token;
 	t_div *tmp;
 
-	token = malloc(sizeof(t_div) + 1);
+	token = malloc(sizeof(t_div));
 	token->args = ft_strdup(input);
 	token->type = ft_strdup(type);
 	token->next = NULL;

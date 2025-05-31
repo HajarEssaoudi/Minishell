@@ -82,17 +82,18 @@ void	execute_bash_file(char *filename)
 void	ft_hand(int sig)
 {
 	(void)sig;
-	if (global == 3)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else
-	{
-		write (1, "\n", 1);
-	}
+	// if (global == 3)
+	// {
+	// 	write(1, "\n", 1);
+	// 	rl_on_new_line();
+	// 	rl_replace_line("", 0);
+	// 	rl_redisplay();
+	// }
+	// else
+	// {
+	// 	write (1, "\n", 1);
+	// }
+	exit(0);
 }
 int	main(int argc, char **argv, char **env)
 {
@@ -109,7 +110,7 @@ int	main(int argc, char **argv, char **env)
 	// 	else
 	// 		exit(1);
 	// }
-	// signal(SIGINT, ft_hand);
+	signal(SIGINT, ft_hand);
 	while (1)
 	{
 		global = 3;
@@ -121,6 +122,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (!l)
 		{
+			free_str(cp_env);
 			printf("exit\n");
 			exit(1);
 		}
@@ -149,15 +151,22 @@ int	main(int argc, char **argv, char **env)
 			if (tok)
 			{
 				print_tok(tok);
-				// free_tok(tok);
+				free_tok(tok);
 			}
 			
 		}
-		else
-			free_div(div);
+		int j = 0;
+		while (div)
+		{
+			printf ("type %d : %s\n", j, div->type);
+			j++;
+			div = div->next;
+		}
+		free_div(div);
 		add_history(l);
 	}
 	free(l);
-	free_div(div);
+	free_str(cp_env);
+	// free_div(div);
 	return (0);
 }

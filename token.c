@@ -21,24 +21,32 @@ void	ft_type(t_div *div)
 	{
 		if (!(ft_strncmp(div->args, "./", ft_strlen("./"))) && (!st || st == 3))
 		{
-			div->type = "execute";
+			if (div->type)
+				free(div->type);
+			div->type = ft_strdup("execute");
 			st = 5;
 		}
 		else if (!(ft_strncmp(div->type, "string", ft_strlen("string"))) && (!st || st == 3))
 		{
-			div->type = "cmd";
+			if (div->type)
+				free(div->type);
+			div->type = ft_strdup("cmd");
 			st = 1;
 		}
 		else if ((st == 1 || st == 2) && !(ft_strncmp(div->type, "string",
 					ft_strlen("string"))) )
 		{
-			div->type = "string";
+			if (div->type)
+				free(div->type);
+			div->type = ft_strdup("string");
 			st = 2;
 		}
 		else if (st == 4 && !(ft_strncmp(div->type, "string",
 					ft_strlen("string"))))
 		{
-			div->type = "filename";
+			if (div->type)
+				free(div->type);
+			div->type = ft_strdup("filename");
 			st = 3;
 		}
 		else if (!(ft_strncmp(div->type, "output", ft_strlen("output")))
@@ -142,6 +150,6 @@ t_tok	*ft_token(t_div *div)
 		type = div->type;
 		div = div->next;
 	}
-	free_div(div);
+	// free_div(div);
 	return (tok);
 }
