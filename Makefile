@@ -1,13 +1,13 @@
 NAME = minishell
-CC = cc -g
-CFLAGS = 
+CC = cc
+CFLAGS = -g3
 # -Werror -Wextra -Wall
 
 LIBFT = lib/libft.a
 
-SRCS = copie_env.c get_variable.c pip.c redirect.c \
-cmd.c div.c main.c quot.c redirect2.c token.c execute_cmd.c\
-execute_built_in.c \
+SRCS = 	pip.c copie_env.c handle_operator.c main.c quote.c \
+		ft_free.c handl_word.c redirect2.c ft_dollar.c ft_token.c \
+		ft_utils.c lexer.c redirect.c get_variable.c ft_get_type.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -16,7 +16,7 @@ do : all clean
 all : $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline -lncurses
 
 $(LIBFT):
 	make -C lib

@@ -1,44 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copie_env.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 09:48:51 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 09:48:51 by mabdelha         ###   ########.fr       */
+/*   Created: 2025-05-31 10:20:36 by mabdelha          #+#    #+#             */
+/*   Updated: 2025-05-31 10:20:36 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	size_env(char **env)
+void	free_str(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (env[i])
+	while (str[i])
+	{
+		free(str[i]);
 		i++;
-	return (i);
+	}
+	free(str);
 }
 
-char	**copy_env(char **env)
+void	free_lexer(t_lexer *lexer)
 {
-	char	**cp_env;
-	int		i;
+	t_lexer	*tmp;
 
-	i = 0;
-	cp_env = malloc(sizeof(char *) * (size_env(env) + 1));
-	if (!cp_env)
+	while (lexer)
 	{
-		free(cp_env);
-		return (NULL);
+		tmp = lexer->next;
+		if (lexer->args)
+			free(lexer->args);
+		if (lexer->type)
+			free(lexer->type);
+		free(lexer);
+		lexer = tmp;
 	}
-	while (env[i])
-	{
-		cp_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	cp_env[i] = NULL;
-	return (cp_env);
 }

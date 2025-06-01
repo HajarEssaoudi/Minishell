@@ -1,100 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-05-31 09:47:27 by mabdelha          #+#    #+#             */
+/*   Updated: 2025-05-31 09:47:27 by mabdelha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	free_div(t_div *div)
+void	print_str_array(char **arr)
 {
-	t_div	*tmp;
+	int	i;
 
-	tmp = div;
-	while (div)
+	if (!arr)
 	{
-		tmp = div;
-		div = div->next;
-		free(tmp->args);
-		free(tmp->type);
-		free(tmp);
+		printf("(null)\n");
+		return ;
+	}
+	i = 0;
+	while (arr[i])
+	{
+		printf("  [%d]: %s\n", i, arr[i]);
+		i++;
 	}
 }
 
-int	file_exists(char *filename)
+void	print_tok(t_tok *tok)
 {
-	if(access(filename, F_OK) == 0)
-		return (1);
-	else
+	int	index;
+
+	index = 0;
+	while (tok)
 	{
-		ft_putstr_fd("Minishell: No such file or directory\n", 2);
-		return (0);
+		printf("Token #%d:\n", index);
+		printf(" execute: %s\n", tok->execute ? tok->execute : "(null)");
+		printf(" path: %s\n", tok->path ? tok->path : "(null)");
+		print_str_array(tok->str);
+		printf(" heredoc:\n");
+		print_str_array(tok->heredoc);
+		printf(" output:\n");
+		print_str_array(tok->output);
+		printf(" input:\n");
+		print_str_array(tok->input);
+		printf(" append:\n");
+		print_str_array(tok->append);
+		printf(" pip: %s\n", tok->pip ? tok->pip : "(null)");
+		printf("------------------------\n");
+		tok = tok->next;
+		index++;
 	}
 }
 
-void	execute_bash_file(char *filename)
+t_tok	*get_tok(char *prompt, char **env)
 {
-	char *args[] = {"/bin/bash", filename, NULL};
-	if (execve("/bin/bash", args, NULL) == -1)
-		perror("execve failed");
+	t_tok	*tok;
+	t_lexer	*lexer;
+
+	tok = NULL;
+	lexer = ft_lexer(prompt, env);
+	if (lexer)
+	{
+		ft_type(lexer);
+		tok = ft_token(lexer);
+	}
+	free_lexer(lexer);
+	return (tok);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*l;
-	t_div	*div; //hadi fiha l'input m9esem bin string rederiction
-	t_tok	*tok; //hna fih dakchi m9ad
-	t_tok	*tmp;
+	char	*prompt;
 	char	**cp_env;
+	t_tok	*tok;
 
-	cp_env = copy_env(env); //hna copite env
-	if (argc > 1)
-	{
-		if (file_exists(argv[1]))
-			execute_bash_file(argv[1]);
-		else
-			exit(1);
-	}
+	cp_env = copy_env(env);
 	while (1)
 	{
-		l = readline("Minishell$> ");
-		if (!l)
+		prompt = readline("Minishell$> ");
+		if (!prompt[0])
+			continue ;
+		if (!prompt)
 		{
-			//ft_clear function that clears everything and exists
+			free_str(cp_env);
+			printf("exit\n");
 			exit(1);
 		}
-		div = ft_div(l, cp_env); //hna 9semt l'input
-		ft_type(div); //hna kola haja 3titha type dyalha
-		tok = ft_token(div); //hna ana w ma fehemtche ache dert fih 
-		tok = check_cmd(tok, cp_env); //hna tcheket wach cmd kayna mohim il ma return null rah khdam safi nti atakhdi hada
-		if (tok != NULL)
-		{
-			tok->env = cp_env;
-			tmp = tok;
-			while (tmp)
-			{
-				if (tmp->opt && tmp->opt[0])
-					printf("CMD   : %s\n", tmp->opt[0]);
-				if (tmp->opt && tmp->opt[1])
-					printf("OPT   : %s\n", tmp->opt[1]);
-				if (tmp->opt && tmp->opt[2])
-					printf("OPT   : %s\n", tmp->opt[2]);
-				if (tmp->str && tmp->str[1])
-					printf("STR   : %s\n", tmp->str[1]);
-				if (tmp->str && tmp->str[2])
-					printf("STR   : %s\n", tmp->str[2]);
-				if (tmp->path)
-					printf("PATH  : %s\n", tmp->path);
-				if (tmp->output)
-					printf("OUT   : %s\n", tmp->output);
-				if (tmp->input)
-					printf("IN    : %s\n", tmp->input);
-				if (tmp->append)
-					printf("APP   : %s\n", tmp->append);
-				if (tmp->heredoc)
-					printf("HERE  : %s\n", tmp->heredoc);
-                if (tmp->filename)
-					printf("FILE  : %s\n", tmp->filename);
-				tmp = tmp->next;
-			}
-		}
-		add_history(l);
+		tok = get_tok(prompt, cp_env);
+		print_tok(tok);
 	}
-	free(l);
-	free_div(div);
+	free_str(cp_env);
 	return (0);
 }
