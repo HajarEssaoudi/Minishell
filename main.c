@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "Minishell-parsing/minishell.h"
 
 void	ft_clear(t_utils *utils)
 {
