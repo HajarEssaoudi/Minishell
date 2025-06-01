@@ -96,6 +96,7 @@ int	main(int argc, char **argv, char **env)
 		if (!l)
 		{
 			printf("exit\n");
+			// ft_clear
 			exit(1);
 		}
 		if (l[0] == '\0')
@@ -123,19 +124,7 @@ int	main(int argc, char **argv, char **env)
 				}
 			}
 			// free_div(div);
-			// if (tok)
-			// {
-			// 	print_tok(tok);
-			// 	free_tok(tok);
-			// }
 		}
-		// int j = 0;
-		// while (div)
-		// {
-		// 	printf ("type %d : %s\n", j, div->type);
-		// 	j++;
-		// 	div = div->next;
-		// }
 		// free_div(div);
 		add_history(l);
 		// free(l);

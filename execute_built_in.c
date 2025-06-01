@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/01 15:30:52 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:36:49 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_path()
 		exit(1);
 	if (getcwd(buffer, size) == NULL)
 	{
-		perror("getcwd");
+		// perror("getcwd");
 		free(buffer);
 		return (NULL);
 	}
@@ -64,6 +64,11 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	char	*home_path;
 
 	shell->old_path = get_path();
+	if (shell->old_path == NULL)
+	{
+		// change pwd and oldpwd
+	}
+	//to be checked later
 	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
 			ft_strlen(tok->str[1])) == 0)
 	{
@@ -80,7 +85,12 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 			perror("cd");
 		}
 	}
-	// change_env_paths(tok);
+	shell->current_path = get_path();
+	if (shell->current_path == NULL)
+	{
+		//check error
+	}
+	// change_env_paths(shell);
 }
 
 void	execute_pwd(t_tok *tok, t_shell *shell)
@@ -138,7 +148,36 @@ void	execute_env(t_tok *tok, t_shell *shell)
 
 void	execute_exit(t_tok *tok)
 {
-	// ft_cleaar
-	printf("exit\n");
-	exit(0);
+	unsigned int exit_status;
+
+	if (!tok->str[1])
+	{
+		// ft_clear
+		printf("exit\n");
+		exit(0);
+	}
+	if (tok->str[1])
+	{
+		if (!ft_strdigit(tok->str[1]))
+		{
+			// ft_clear
+			printf("exit\n");
+			exit(2);
+		}
+		else
+		{
+			if (!tok->str[2])
+			{
+				exit_status = (unsigned int)ft_atoi(tok->str[1]);
+				// ft_clear
+				printf("exit\n");
+				exit(exit_status);
+			}
+			else
+			{
+				printf("exit\n");
+				ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+			}
+		}
+	}
 }
