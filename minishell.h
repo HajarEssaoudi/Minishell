@@ -79,7 +79,7 @@ void				execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell);
 void				execute_cd(t_tok *tok, t_shell *shell);
 void				execute_pwd(t_tok *tok, t_shell *shell);
 void				execute_echo(t_tok *tok);
-void				execute_env(t_tok *tok);
+void				execute_env(t_tok *tok, t_shell *shell);
 void				execute_exit(t_tok *tok);
 void				execute_executable(t_tok *tok, char **env);
 #endif

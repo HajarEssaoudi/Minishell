@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/01 00:01:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:30:52 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,8 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 
 void	execute_pwd(t_tok *tok, t_shell *shell)
 {
-	printf("the old path => %s\n", shell->old_path);
 	shell->current_path = get_path();
-	printf("the new path => %s\n", shell->current_path);
+	printf("%s\n", shell->current_path);
 }
 
 void	print_strings(char **str, int i)
@@ -124,11 +123,12 @@ void	execute_echo(t_tok *tok)
 		printf("\n");
 }
 
-void	execute_env(t_tok *tok)
+void	execute_env(t_tok *tok, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
+	// printf("%s\n", shell->old_path);
 	while (tok->env)
 	{
 		printf("%s\n", tok->env[i]);

@@ -93,12 +93,15 @@ int	main(int argc, char **argv, char **env)
 	{
 		global = 3;
 		l = readline("Minishell$> ");
-		if (l[0] == '\0')
-			continue;
 		if (!l)
 		{
 			printf("exit\n");
 			exit(1);
+		}
+		if (l[0] == '\0')
+		{
+			free(l);
+			continue;
 		}
 		div = ft_div(l, cp_env);
 		if (div)
@@ -114,7 +117,6 @@ int	main(int argc, char **argv, char **env)
 					ft_out(tok, cp_env, shell);
 				else
 				{
-					
 					tok->env = cp_env;
 					tmp = tok;
 					execute_cmd(tmp, tok->env, 0, shell);
