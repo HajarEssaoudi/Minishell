@@ -55,22 +55,6 @@ void	print_tok(t_tok *tok)
 	}
 }
 
-t_tok	*get_tok(char *prompt, char **env)
-{
-	t_tok	*tok;
-	t_lexer	*lexer;
-
-	tok = NULL;
-	lexer = ft_lexer(prompt, env);
-	if (lexer)
-	{
-		ft_type(lexer);
-		tok = ft_token(lexer);
-	}
-	free_lexer(lexer);
-	return (tok);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char	*prompt;

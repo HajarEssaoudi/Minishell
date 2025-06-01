@@ -74,7 +74,8 @@ t_lexer				*ft_lexer(char *input, char **env);
 char				*ft_dollar(char *str, char **cp_env, char *result, int *i);
 char				*get_env_var(char **cp_env, char *var);
 void				ft_type(t_lexer *lexer);
-t_tok				*ft_token(t_lexer *lexer);
+t_tok				*get_tok(char *prompt, char **env);
 char				*ft_special_caract(char *result, char *var);
 char				**ft_argv(char **argv, char *arg);
+char				**ft_red(char **argv, char *arg);
 #endif

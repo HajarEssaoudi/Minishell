@@ -10,85 +10,75 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell-parsing/minishell.h"
+#include "parsing/minishell.h"
 
-void	ft_clear(t_utils *utils)
+
+void	print_str_array(char **arr)
 {
-	if (utils->input)
-		free(utils->input);
-	if (utils)
-		free(utils);
-	exit(0);
+	int	i;
+
+	if (!arr)
+	{
+		printf("(null)\n");
+		return ;
+	}
+	i = 0;
+	while (arr[i])
+	{
+		printf("  [%d]: %s\n", i, arr[i]);
+		i++;
+	}
+}
+
+void	print_tok(t_tok *tok)
+{
+	int	index;
+
+	index = 0;
+	while (tok)
+	{
+		printf("Token #%d:\n", index);
+		printf(" execute: %s\n", tok->execute ? tok->execute : "(null)");
+		printf(" path: %s\n", tok->path ? tok->path : "(null)");
+		print_str_array(tok->str);
+		printf(" heredoc:\n");
+		print_str_array(tok->heredoc);
+		printf(" output:\n");
+		print_str_array(tok->output);
+		printf(" input:\n");
+		print_str_array(tok->input);
+		printf(" append:\n");
+		print_str_array(tok->append);
+		printf(" pip: %s\n", tok->pip ? tok->pip : "(null)");
+		printf("------------------------\n");
+		tok = tok->next;
+		index++;
+	}
 }
 
 
 
-int	execute_simple_command(t_utils *utils)
+int	main(int argc, char **argv, char **env)
 {
-	char	*path1;
-	char	*path2;
-	char	**cmd;
-	char	*cmdOption;
-	char	*argv[3];
-	char	*envp[] = {NULL};
+	char	*prompt;
+	char	**cp_env;
+	t_tok	*tok;
 
-	cmd = ft_split(utils->input, ' ');
-	if (!cmd || !cmd[0])
-		return (1);
-	path1 = ft_strjoin("/bin/", cmd[0]);
-	path2 = ft_strjoin("/usr/bin/", cmd[0]);
-	if (access(path1, X_OK) == 0)
-		utils->cmdPath = path1;
-	else if (access(path2, X_OK) == 0)
-		utils->cmdPath = path2;
-	if (!utils->cmdPath)
-		return (1);
-	cmdOption = ft_strchr(utils->input, '-');
-	utils->option = cmdOption;
-	// printf("Helooooooo = %s\n", utils->cmdPath);
-	argv[0] = utils->cmdPath;
-	argv[1] = utils->option;
-	argv[2] = NULL;
-
-	execve(utils->cmdPath, argv, envp);
-	perror("execve failed");
-	free(path1);
-	free(path2);
-	ft_clear(utils);
-	return (1);
-}
-
-int	main(int ac, char **av, char **env)
-{
-	t_utils	*utils;
-	pid_t	pid;
-	int status;
-
-	utils = malloc(sizeof(t_utils));
+	cp_env = copy_env(env);
 	while (1)
 	{
-		utils->input = readline("Minishell$> ");
-		if (!utils->input)
-			return (1);
-		add_history(utils->input);
-		pid = fork();
-		if (pid == 0)
+		prompt = readline("Minishell$> ");
+		if (!prompt[0])
+			continue ;
+		if (!prompt)
 		{
-			if (execute_simple_command(utils) == -1)
-			{
-				perror("minishell failed");
-				exit(EXIT_FAILURE);
-			}
+			free_str(cp_env);
+			printf("exit\n");
+			exit(1);
 		}
-		else if (pid > 0)
-		{
-			waitpid(pid, &status, 0);
-		}
-		else
-		{
-			perror("fork failed");
-			return (1);
-		}
+		tok = get_tok(prompt, cp_env);
+		print_tok(tok);
 	}
-	ft_clear(utils);
+	free_str(cp_env);
+	return (0);
 }
