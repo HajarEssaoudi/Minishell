@@ -6,31 +6,22 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/01 17:36:49 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/01 18:30:40 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <limits.h>
 
 char	*get_path()
 {
-	char	*buffer;
 	char	*cwd;
-	size_t	size;
 
-	size = PATH_MAX;
-	buffer = malloc(size);
-	if (!buffer)
-		exit(1);
-	if (getcwd(buffer, size) == NULL)
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
 	{
 		// perror("getcwd");
-		free(buffer);
 		return (NULL);
 	}
-	cwd = ft_strdup(buffer);
-	free(buffer);
 	return (cwd);
 }
 
@@ -88,7 +79,7 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
 	{
-		//check error
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 	}
 	// change_env_paths(shell);
 }
@@ -112,14 +103,10 @@ void	print_strings(char **str, int i)
 
 void	execute_echo(t_tok *tok)
 {
-	int	i;
 
-	i = 1;
-	while (tok->str[i])
-		i++;
-	if (i > 1)
+	if (tok->str[1])
 	{
-		if (ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
+		if (tok->str[2] && ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
 		{
 			print_strings(tok->str, 2);
 		}
@@ -156,7 +143,7 @@ void	execute_exit(t_tok *tok)
 		printf("exit\n");
 		exit(0);
 	}
-	if (tok->str[1])
+	else
 	{
 		if (!ft_strdigit(tok->str[1]))
 		{
