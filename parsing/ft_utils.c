@@ -51,26 +51,3 @@ char	*ft_special_caract(char *result, char *var)
 	free(result);
 	return (tmp);
 }
-
-char	**ft_argv(char **argv, char *arg)
-{
-	int		j;
-	char	**argv2;
-	int		i;
-
-	j = 0;
-	while (argv && argv[j])
-		j++;
-	argv2 = malloc(sizeof(char *) * (j + 2));
-	i = 0;
-	while (argv && argv[i])
-	{
-		argv2[i] = ft_strdup(argv[i]);
-		i++;
-	}
-	argv2[i] = ft_strdup(arg);
-	argv2[i + 1] = NULL;
-	if (argv)
-		free(argv);
-	return (argv2);
-}

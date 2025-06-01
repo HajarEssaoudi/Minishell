@@ -7,7 +7,7 @@ LIBFT = lib/libft.a
 
 SRCS = 	pip.c copie_env.c handle_operator.c main.c quote.c \
 		ft_free.c handl_word.c redirect2.c ft_dollar.c ft_token.c \
-		ft_utils.c lexer.c redirect.c get_variable.c ft_get_type.c \
+		ft_utils.c lexer.c redirect.c get_variable.c ft_get_type.c general_tok.c \
 
 OBJS = $(SRCS:.c=.o)
 
