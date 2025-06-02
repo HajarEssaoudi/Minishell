@@ -1,16 +1,16 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "lib/libft.h"
-#include <ctype.h>
-#include <limits.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <signal.h>
+# include "lib/libft.h"
+# include <ctype.h>
+# include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
 
 typedef struct s_tok
 {
@@ -44,11 +44,20 @@ typedef struct s_quot
 	char			*sub;
 }					t_quot;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct s_shell
 {
-	char *old_path;
-	char *current_path;
-}			t_shell;
+	char			*old_path;
+	char			*current_path;
+	unsigned char	exit_status;
+	struct s_env	env;
+}					t_shell;
 
 t_div				*handle_pip(char *input, int *i, t_div *div);
 t_div				*ft_operator(char *input, int *i, t_div *div);
@@ -69,17 +78,25 @@ void				free_div(t_div *div);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
 char				*is_built_in(char *input, char **cp_env);
 void				ft_out(t_tok *tok, char **cp_env, t_shell *shell);
-void    free_tok(t_tok *tok);
-void	ft_hand(int sig);
-void	free_str(char **str);
+void				free_tok(t_tok *tok);
+void				ft_hand(int sig);
+void				free_str(char **str);
 
 // execution
-char				*get_path();
+
+/*handle env*/
+t_env				*create_list_env(char **arr_env);
+t_env				*init_lst_env(t_env *env, char **arr_env);
+
+char				*get_path(void);
+
+void				execute_executable(t_tok *tok, char **env);
 void				execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell);
+
+/*execute built-in*/
 void				execute_cd(t_tok *tok, t_shell *shell);
 void				execute_pwd(t_tok *tok, t_shell *shell);
 void				execute_echo(t_tok *tok);
 void				execute_env(t_tok *tok, t_shell *shell);
-void				execute_exit(t_tok *tok);
-void				execute_executable(t_tok *tok, char **env);
+void				execute_exit(t_tok *tok, t_shell *shell);
 #endif

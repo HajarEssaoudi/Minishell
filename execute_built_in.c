@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 10:30:54 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:30:23 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,76 +133,42 @@ void	execute_env(t_tok *tok, t_shell *shell)
 	}
 }
 
-// void	execute_exit(t_tok *tok)
-// {
-// 	unsigned int exit_status;
-
-// 	if (!tok->str[1])
-// 	{
-// 		// ft_clear
-// 		printf("exit\n");
-// 		exit(0);
-// 	}
-// 	else
-// 	{
-// 		if (!ft_str_num(tok->str[1]))
-// 		{
-// 			// ft_clear
-// 			printf("exit\n");
-// 			exit(2);
-// 		}
-// 		else
-// 		{
-// 			if (!tok->str[2])
-// 			{
-// 				exit_status = (unsigned char)ft_atoi(tok->str[1]);
-// 				printf("%d\n", exit_status);
-// 				// ft_clear
-// 				printf("exit\n");
-// 				exit(exit_status);
-// 			}
-// 			else
-// 			{
-// 				printf("exit\n");
-// 				ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
-// 			}
-// 		}
-// 	}
-// }
-
-void	execute_exit(t_tok *tok)
+void	execute_exit(t_tok *tok, t_shell *shell)
 {
-	unsigned char exit_status;
-
+	shell->exit_status = 0;
 	if (tok->str[1])
 	{
-		if (ft_atoi(tok->str[1]) > LONG_MAX)
+		if (ft_atoi(tok->str[1]) >= LONG_MAX)
 		{
+			shell->exit_status = 2;
 			printf("exit\n");
 			//ft_clear
 			printf("Minishell: exit: %s: numeric argument required\n", tok->str[1]);
-			exit(2);
+			exit(shell->exit_status);
 		}
 		if (!ft_str_num(tok->str[1]))
 		{
+			shell->exit_status = 2;
 			printf("exit\n");
 			//ft_clear
 			printf("Minishell: exit: %s: numeric argument required\n", tok->str[1]);
-			exit(2);
+			exit(shell->exit_status);
 		}
-		else
+		else if (ft_str_num(tok->str[1]))
 		{
 			if (tok->str[2])
 			{
 				printf("exit\n");
+				shell->exit_status = 1;
+
 				ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 			}
 			else if (!tok->str[2])
 			{
-				exit_status = (unsigned char)ft_atoi(tok->str[1]);
-				printf("exit with %d\n", exit_status);
+				shell->exit_status = (unsigned char)ft_atoi(tok->str[1]);
+				printf("exit\n");
 				//ft_clear
-				exit(exit_status);
+				exit(shell->exit_status);
 			}
 		}
 	}
@@ -210,6 +176,6 @@ void	execute_exit(t_tok *tok)
 	{
 		// ft_clear
 		printf("exit\n");
-		exit(0);
+		exit(shell->exit_status);
 	}
 }

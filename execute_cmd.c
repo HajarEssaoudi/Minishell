@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/01 15:32:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:43:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_built_in(t_tok *tok, t_shell *shell)
 	else if (ft_strncmp("env", tok->str[0], ft_strlen("env")) == 0)
 		execute_env(tok, shell);
 	else if (ft_strncmp("exit", tok->str[0], ft_strlen("exit")) == 0)
-		execute_exit(tok);
+		execute_exit(tok, shell);
 }
 
 void	 execute_simple_cmd(t_tok *tok, char **env, int fd)

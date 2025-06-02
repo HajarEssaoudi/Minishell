@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **env)
 		//ft_clear
 		exit(1);
 	}
+	// create_list_env(cp_env);
 	while (1)
 	{
 		global = 3;

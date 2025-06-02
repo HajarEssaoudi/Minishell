@@ -6,13 +6,14 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:55 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 10:27:27 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:20:09 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <fcntl.h>
+# include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -25,7 +26,7 @@ typedef struct s_list
 }					t_list;
 
 size_t				ft_strlen(const char *str);
-long				ft_atoi(const char *nptr);
+long long			ft_atoi(const char *nptr);
 void				ft_bzero(void *a, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memset(void *a, int b, size_t n);
