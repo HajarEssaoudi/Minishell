@@ -89,49 +89,50 @@ int	main(int argc, char **argv, char **env)
 		//ft_clear
 		exit(1);
 	}
-	create_list_env(cp_env);
-	// while (1)
-	// {
-	// 	global = 3;
-	// 	l = readline("Minishell$> ");
-	// 	if (!l)
-	// 	{
-	// 		printf("exit\n");
-	// 		// ft_clear
-	// 		exit(1);
-	// 	}
-	// 	if (l[0] == '\0')
-	// 	{
-	// 		free(l);
-	// 		continue;
-	// 	}
-	// 	div = ft_div(l, cp_env);
-	// 	if (div)
-	// 	{
-	// 		ft_type(div);
-	// 		tok = ft_token(div);
-	// 		tok = check_cmd(tok, cp_env);
-	// 		tmp = tok;
-	// 		if (tok != NULL)
-	// 		{
-	// 			// printf ("%s\n", tok->execute);
-	// 			if (tok->output)
-	// 				ft_out(tok, cp_env, shell);
-	// 			else
-	// 			{
-	// 				tok->env = cp_env;
-	// 				tmp = tok;
-	// 				execute_cmd(tmp, tok->env, 0, shell);
-	// 			}
-	// 		}
-	// 		// free_div(div);
-	// 	}
-	// 	// free_div(div);
-	// 	add_history(l);
-	// 	// free(l);
-	// 	// free_str(cp_env);
-	// 	// exit(1);
-	// }
-	// free_div(div);
+	shell->env = create_list_env(cp_env);
+	while (1)
+	{
+		global = 3;
+		l = readline("Minishell$> ");
+		if (!l)
+		{
+			printf("exit\n");
+			// ft_clear
+			exit(1);
+		}
+		if (l[0] == '\0')
+		{
+			free(l);
+			continue;
+		}
+		cp_env = update_env_arr(shell->env, cp_env);
+		div = ft_div(l, cp_env);
+		if (div)
+		{
+			ft_type(div);
+			tok = ft_token(div);
+			tok = check_cmd(tok, cp_env);
+			tmp = tok;
+			if (tok != NULL)
+			{
+				// printf ("%s\n", tok->execute);
+				if (tok->output)
+					ft_out(tok, cp_env, shell);
+				else
+				{
+					tok->env = cp_env;
+					tmp = tok;
+					execute_cmd(tmp, tok->env, 0, shell);
+				}
+			}
+			// free_div(div);
+		}
+		// free_div(div);
+		add_history(l);
+		// free(l);
+		// free_str(cp_env);
+		// exit(1);
+	}
+	free_div(div);
 	return (0);
 }

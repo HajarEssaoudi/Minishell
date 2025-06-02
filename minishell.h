@@ -56,7 +56,7 @@ typedef struct s_shell
 	char			*old_path;
 	char			*current_path;
 	unsigned char	exit_status;
-	struct s_env	env;
+	struct s_env	*env;
 }					t_shell;
 
 t_div				*handle_pip(char *input, int *i, t_div *div);
@@ -86,7 +86,8 @@ void				free_str(char **str);
 
 /*handle env*/
 t_env				*create_list_env(char **arr_env);
-t_env				*init_lst_env(t_env *env, char **arr_env);
+t_env				*init_node_env(char *str_env);
+char				**update_env_arr(t_env *lst_env, char **arr_env);
 
 char				*get_path(void);
 

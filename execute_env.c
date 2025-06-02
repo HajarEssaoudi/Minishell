@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:19:31 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 15:16:14 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:24:24 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env *init_node_env(char *str_env)
 	equal = ft_strchr(str_env, '=');
 	if (equal)
 	{
-		node_env->key = ft_substr(str_env, 0, (equal - str_env + 1));
+		node_env->key = ft_substr(str_env, 0, (equal - str_env));
 		node_env->value = ft_strdup(equal + 1);
 	}
 	else
@@ -34,6 +34,20 @@ t_env *init_node_env(char *str_env)
 		return (NULL);
 	}
 	return (node_env);
+}
+
+void print_list(t_env *env)
+{
+	int i;
+	t_env *tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		printf("key == %s\n", tmp->key);
+		tmp = tmp->next;
+	}
 }
 
 t_env *create_list_env(char **arr_env)
@@ -61,4 +75,26 @@ t_env *create_list_env(char **arr_env)
 		i++;
 	}
 	return (head);
+}
+
+int	ft_lst_size(t_env *lst)
+{
+	t_env	*tmp;
+	int		count;
+
+	tmp = lst;
+	count = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		count++;
+	}
+	return (count);
+}
+
+char	**update_env_arr(t_env *lst_env, char **arr_env)
+{
+	// free(arr_env);
+	printf("%d\n", ft_lst_size(lst_env));
+	return (arr_env);
 }
