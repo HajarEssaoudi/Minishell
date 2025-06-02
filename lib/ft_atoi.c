@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:18:44 by hes-saou          #+#    #+#             */
-/*   Updated: 2024/11/11 19:53:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:26:48 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
 	char	*ptr;
 	int		i;
 	int		sign;
-	int		result;
+	long	result;
 
 	i = 0;
 	sign = 1;
