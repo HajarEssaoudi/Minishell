@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:56:55 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:09:33 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:29:44 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char				*ft_strchr(const char *s, int c);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ft_strcmp(const char *s1, const char *s2);
 char				*ft_strrchr(const char *s, int c);
 int					ft_tolower(int c);
 int					ft_toupper(int c);

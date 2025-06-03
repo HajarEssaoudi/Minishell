@@ -1,2 +1,0 @@
-klask
-ajkask

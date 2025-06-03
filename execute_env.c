@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:19:31 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:16:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:09:07 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ t_env *init_node_env(char *str_env)
 		return (NULL);
 	}
 	return (node_env);
-}
-
-void print_list(t_env *env)
-{
-	int i;
-	t_env *tmp;
-
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		printf("key == %s\n", tmp->key);
-		tmp = tmp->next;
-	}
 }
 
 t_env *create_list_env(char **arr_env)
@@ -99,9 +85,20 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	i = 0;
 	free_str(arr_env);
 	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
+	if (!arr_env)
+	{
+		ft_putstr_fd("allocation failed\n", 2);
+		//ft_clear and exit
+	}
 	while (lst_env)
 	{
 		arr_env[i] = ft_strjoin_env(lst_env->key, lst_env->value, '=');
+		// printf("%s\n", arr_env[i]);
+		if (!arr_env[i])
+		{
+			ft_putstr_fd("allocation failed\n", 2);
+			//ft_clear and exit
+		}
 		i++;
 		lst_env = lst_env->next;
 	}

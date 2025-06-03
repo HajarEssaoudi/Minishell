@@ -105,7 +105,6 @@ int	main(int argc, char **argv, char **env)
 			free(l);
 			continue;
 		}
-		cp_env = update_env_arr(shell->env, cp_env);
 		div = ft_div(l, cp_env);
 		if (div)
 		{
@@ -115,15 +114,15 @@ int	main(int argc, char **argv, char **env)
 			tmp = tok;
 			if (tok != NULL)
 			{
-				// printf ("%s\n", tok->execute);
 				if (tok->output)
 					ft_out(tok, cp_env, shell);
 				else
 				{
 					tok->env = cp_env;
 					tmp = tok;
-					execute_cmd(tmp, tok->env, 0, shell);
+					execute_cmd(tmp, cp_env, 0, shell);
 				}
+				cp_env = update_env_arr(shell->env, cp_env);
 			}
 			// free_div(div);
 		}

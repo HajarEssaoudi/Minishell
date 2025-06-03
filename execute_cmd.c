@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 10:43:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:51:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int global = 0;
 
-void	execute_built_in(t_tok *tok, t_shell *shell)
+void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 {
-	if (ft_strncmp("cd", tok->str[0], ft_strlen("cd")) == 0)
+	if (ft_strcmp("cd", tok->str[0]) == 0)
 		execute_cd(tok, shell);
-	else if (ft_strncmp("pwd", tok->str[0], ft_strlen("pwd")) == 0)
+	else if (ft_strcmp("pwd", tok->str[0]) == 0)
 		execute_pwd(tok, shell);
-	else if (ft_strncmp("echo", tok->str[0], ft_strlen("echo")) == 0)
+	else if (ft_strcmp("echo", tok->str[0]) == 0)
 		execute_echo(tok);
-	else if (ft_strncmp("env", tok->str[0], ft_strlen("env")) == 0)
-		execute_env(tok, shell);
-	else if (ft_strncmp("exit", tok->str[0], ft_strlen("exit")) == 0)
+	else if (ft_strcmp("env", tok->str[0]) == 0)
+		execute_env(tok, shell, env);
+	else if (ft_strcmp("exit", tok->str[0]) == 0)
 		execute_exit(tok, shell);
 }
 
@@ -98,7 +98,7 @@ void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
 	if (tok->execute)
 		execute_executable(tok, env);
 	else if(is_built_in(tok->str[0], env))
-		execute_built_in(tok, shell);
+		execute_built_in(tok, shell, env);
 	else
 		execute_simple_cmd(tok, env, fd);
 }

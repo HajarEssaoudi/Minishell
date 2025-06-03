@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 14:30:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:28:26 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,48 @@ char	*get_home_path(t_tok *tok)
 	return (NULL);
 }
 
+void print_list(t_env *env)
+{
+	int i;
+	t_env *tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		printf("key == %s value == %s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+}
+
+void	change_env_paths(t_shell *shell)
+{
+	t_env *tmp;
+
+	tmp = shell->env;
+	while(tmp)
+	{
+		if (ft_strcmp(tmp->key , "OLDPWD") == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(shell->old_path);
+			break;
+		}
+		tmp = tmp->next;
+	}
+	tmp = shell->env;
+	while(tmp)
+	{
+		if (ft_strcmp(tmp->key , "PWD") == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(shell->current_path);
+			break;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	execute_cd(t_tok *tok, t_shell *shell)
 {
 	char	*home_path;
@@ -81,7 +123,8 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	{
 		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 	}
-	// change_env_paths(shell);
+	change_env_paths(shell);
+	// print_list(shell->env);
 }
 
 void	execute_pwd(t_tok *tok, t_shell *shell)
@@ -120,15 +163,14 @@ void	execute_echo(t_tok *tok)
 		printf("\n");
 }
 
-void	execute_env(t_tok *tok, t_shell *shell)
+void	execute_env(t_tok *tok, t_shell *shell, char **env)
 {
 	int	i;
 
 	i = 0;
-	// printf("%s\n", shell->old_path);
-	while (tok->env[i])
+	while (env[i])
 	{
-		printf("%s\n", tok->env[i]);
+		printf("%s\n", env[i]);
 		i++;
 	}
 }
