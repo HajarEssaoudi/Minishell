@@ -97,13 +97,15 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	int	i;
 
 	i = 0;
+	free_str(arr_env);
 	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
 	while (lst_env)
 	{
-		arr_env[i] = ft_strdup(lst_env->key);
+		// arr_env[i] = ft_strdup(lst_env->key);
+		arr_env[i] = ft_strjoin(lst_env->key, "=");
+		arr_env[i] = ft_strjoin(arr_env[i], lst_env->value);
 		i++;
-		arr_env[i] = ft_strdup(lst_env->value);
-		i++;
+		lst_env = lst_env->next;
 	}
 	arr_env[i] = NULL;
 	return (arr_env);
