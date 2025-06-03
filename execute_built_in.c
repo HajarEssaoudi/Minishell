@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 15:28:26 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:53:07 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_home_path(t_tok *tok)
 	home = NULL;
 	while (tok->env[i])
 	{
-		if (ft_strncmp(tok->env[i], "HOME=", 5) == 0)
+		if (ft_strcmp(tok->env[i], "HOME=") == 0)
 		{
 			home = ft_strdup(&(tok->env[i][5]));
 			if (!home)
@@ -50,19 +50,19 @@ char	*get_home_path(t_tok *tok)
 	return (NULL);
 }
 
-void print_list(t_env *env)
-{
-	int i;
-	t_env *tmp;
+// void print_list(t_env *env)
+// {
+// 	int i;
+// 	t_env *tmp;
 
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		printf("key == %s value == %s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
-}
+// 	i = 0;
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		printf("key == %s value == %s\n", tmp->key, tmp->value);
+// 		tmp = tmp->next;
+// 	}
+// }
 
 void	change_env_paths(t_shell *shell)
 {
@@ -92,6 +92,33 @@ void	change_env_paths(t_shell *shell)
 	}
 }
 
+void	execute_unset(t_tok *tok, t_shell *shell)
+{
+	t_env	*tmp;
+	int		i;
+
+	i = 1;
+	if (!tok->str[i])
+		return;
+	while (tok->str[i])
+	{
+		tmp = shell->env;
+		while(tmp)
+		{
+			if (ft_strcmp(tmp->key , tok->str[i]) == 0)
+			{
+				free(tmp->value);
+				free(tmp->key);
+				tmp->value = NULL;
+				tmp->key = NULL;
+				break;
+			}
+			tmp = tmp->next;
+		}
+	i++;
+	}
+}
+
 void	execute_cd(t_tok *tok, t_shell *shell)
 {
 	char	*home_path;
@@ -102,8 +129,7 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 		// change pwd and oldpwd
 	}
 	//to be checked later
-	if (tok->str[1] == NULL || ft_strncmp(tok->str[1], "~",
-			ft_strlen(tok->str[1])) == 0)
+	if (tok->str[1] == NULL || ft_strcmp(tok->str[1], "~") == 0)
 	{
 		home_path = get_home_path(tok);
 		if (!home_path)
@@ -114,23 +140,28 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	else
 	{
 		if (chdir(tok->str[1]) == -1)
-		{
 			perror("cd");
-		}
 	}
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
-	{
 		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
-	}
 	change_env_paths(shell);
-	// print_list(shell->env);
 }
 
 void	execute_pwd(t_tok *tok, t_shell *shell)
 {
-	shell->current_path = get_path();
-	printf("%s\n", shell->current_path);
+	t_env	*tmp;
+
+	tmp = shell->env;
+	while(tmp)
+	{
+		if (ft_strcmp(tmp->key , "PWD") == 0)
+		{
+			printf("%s\n", tmp->value);
+			break;
+		}
+		tmp = tmp->next;
+	}
 }
 
 void	print_strings(char **str, int i)
@@ -149,7 +180,7 @@ void	execute_echo(t_tok *tok)
 
 	if (tok->str[1])
 	{
-		if (tok->str[2] && ft_strncmp(tok->str[1], "-n", ft_strlen(tok->str[1])) == 0)
+		if (tok->str[2] && ft_strcmp(tok->str[1], "-n") == 0)
 		{
 			print_strings(tok->str, 2);
 		}

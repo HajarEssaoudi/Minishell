@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:19:31 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 15:09:07 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:10:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,11 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	}
 	while (lst_env)
 	{
+		if (!lst_env->key || !lst_env->value)
+		{
+			lst_env = lst_env->next;
+		}
 		arr_env[i] = ft_strjoin_env(lst_env->key, lst_env->value, '=');
-		// printf("%s\n", arr_env[i]);
 		if (!arr_env[i])
 		{
 			ft_putstr_fd("allocation failed\n", 2);

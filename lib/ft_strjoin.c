@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:54:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:09:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:05:54 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,11 @@ char	*ft_strjoin_env(char const *s1, char const *s2, char sep)
 
 	i = 0;
 	j = 0;
-	while (s1[i])
-		i++;
-	while (s2[j])
-		j++;
-	p = (char *)malloc(i + j + 1 + 1);
+	if (!s1 || !s2)
+		return (NULL);
+	p = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1 + 1);
 	if (!p)
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (s1[i])
 	{
 		p[i] = s1[i];
