@@ -90,6 +90,7 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	}
 	shell->env = create_list_env(cp_env);
+	int i = 0;
 	while (1)
 	{
 		global = 3;
@@ -132,6 +133,6 @@ int	main(int argc, char **argv, char **env)
 		// free_str(cp_env);
 		// exit(1);
 	}
-	free_div(div);
+	// free_div(div);
 	return (0);
 }

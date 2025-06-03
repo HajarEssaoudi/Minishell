@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 17:25:52 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 18:03:38 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 22:33:18 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		}
 		i++;
 	}
-	return (s1[i] - s2[i]);
+	return (0);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

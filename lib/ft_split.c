@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 23:06:34 by hes-saou          #+#    #+#             */
-/*   Updated: 2024/11/11 16:11:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:53:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	countword(char const *s, char c)
 
 	i = 0;
 	count = 0;
+	if (!s)
+		return (-1);
 	while (s[i])
 	{
 		if (s[i] != c && (i == 0 || s[i - 1] == c))
@@ -54,7 +56,7 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	split = (char **)malloc((countword(s, c) + 1) * sizeof(char *));
-	if (!split)
+	if (!split || !split[0])
 		return (NULL);
 	while (*s)
 	{
