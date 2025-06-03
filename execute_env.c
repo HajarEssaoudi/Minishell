@@ -94,7 +94,17 @@ int	ft_lst_size(t_env *lst)
 
 char	**update_env_arr(t_env *lst_env, char **arr_env)
 {
-	// free(arr_env);
-	printf("%d\n", ft_lst_size(lst_env));
+	int	i;
+
+	i = 0;
+	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
+	while (lst_env)
+	{
+		arr_env[i] = ft_strdup(lst_env->key);
+		i++;
+		arr_env[i] = ft_strdup(lst_env->value);
+		i++;
+	}
+	arr_env[i] = NULL;
 	return (arr_env);
 }
