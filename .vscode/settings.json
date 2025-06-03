@@ -2,6 +2,8 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "sstream": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "fcntl.h": "c",
+        "stdlib.h": "c"
     }
 }

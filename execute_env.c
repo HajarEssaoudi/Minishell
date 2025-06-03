@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:19:31 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/02 17:24:24 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:16:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
 	while (lst_env)
 	{
-		// arr_env[i] = ft_strdup(lst_env->key);
-		arr_env[i] = ft_strjoin(lst_env->key, "=");
-		arr_env[i] = ft_strjoin(arr_env[i], lst_env->value);
+		arr_env[i] = ft_strjoin_env(lst_env->key, lst_env->value, '=');
 		i++;
 		lst_env = lst_env->next;
 	}
