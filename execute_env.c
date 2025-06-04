@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:19:31 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 17:10:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:09:56 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	ft_lst_size(t_env *lst)
 	t_env	*tmp;
 	int		count;
 
+	if (!lst)
+		return (-1);
 	tmp = lst;
 	count = 0;
 	while (tmp)
@@ -92,10 +94,6 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	}
 	while (lst_env)
 	{
-		if (!lst_env->key || !lst_env->value)
-		{
-			lst_env = lst_env->next;
-		}
 		arr_env[i] = ft_strjoin_env(lst_env->key, lst_env->value, '=');
 		if (!arr_env[i])
 		{
@@ -107,4 +105,19 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	}
 	arr_env[i] = NULL;
 	return (arr_env);
+}
+
+void	ft_lstadd_back_env(t_env **lst, t_env *new)
+{
+	t_env	*last;
+
+	if (!(*lst))
+		*lst = new;
+	else
+	{
+		last = *lst;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
 }

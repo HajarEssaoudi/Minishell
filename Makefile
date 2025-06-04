@@ -6,7 +6,7 @@ CFLAGS = -g3
 LIBFT = lib/libft.a
 
 SRCS = copie_env.c get_variable.c pip.c redirect.c \
-cmd.c div.c main.c quote.c redirect2.c token.c execute_cmd.c execute_env.c\
+cmd.c div.c main.c quote.c redirect2.c token.c execute_cmd.c execute_env.c execute_built_in_extra.c execute_built_in_utils.c\
 execute_built_in.c get_str.c handle_operator.c ft_free.c fil_out_in.c \
 
 OBJS = $(SRCS:.c=.o)

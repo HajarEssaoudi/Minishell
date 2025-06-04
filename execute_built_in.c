@@ -6,49 +6,11 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 17:53:07 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:50:52 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_path()
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd == NULL)
-	{
-		// perror("getcwd");
-		return (NULL);
-	}
-	return (cwd);
-}
-
-char	*get_home_path(t_tok *tok)
-{
-	char	*home;
-	int		i;
-	int		j;
-
-	i = 0;
-	home = NULL;
-	while (tok->env[i])
-	{
-		if (ft_strcmp(tok->env[i], "HOME=") == 0)
-		{
-			home = ft_strdup(&(tok->env[i][5]));
-			if (!home)
-			{
-				perror("malloc");
-				return (NULL);
-			}
-			return (home);
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 // void print_list(t_env *env)
 // {
@@ -64,61 +26,6 @@ char	*get_home_path(t_tok *tok)
 // 	}
 // }
 
-void	change_env_paths(t_shell *shell)
-{
-	t_env *tmp;
-
-	tmp = shell->env;
-	while(tmp)
-	{
-		if (ft_strcmp(tmp->key , "OLDPWD") == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(shell->old_path);
-			break;
-		}
-		tmp = tmp->next;
-	}
-	tmp = shell->env;
-	while(tmp)
-	{
-		if (ft_strcmp(tmp->key , "PWD") == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(shell->current_path);
-			break;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	execute_unset(t_tok *tok, t_shell *shell)
-{
-	t_env	*tmp;
-	int		i;
-
-	i = 1;
-	if (!tok->str[i])
-		return;
-	while (tok->str[i])
-	{
-		tmp = shell->env;
-		while(tmp)
-		{
-			if (ft_strcmp(tmp->key , tok->str[i]) == 0)
-			{
-				free(tmp->value);
-				free(tmp->key);
-				tmp->value = NULL;
-				tmp->key = NULL;
-				break;
-			}
-			tmp = tmp->next;
-		}
-	i++;
-	}
-}
-
 void	execute_cd(t_tok *tok, t_shell *shell)
 {
 	char	*home_path;
@@ -128,23 +35,12 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	{
 		// change pwd and oldpwd
 	}
-	//to be checked later
-	if (tok->str[1] == NULL || ft_strcmp(tok->str[1], "~") == 0)
-	{
-		home_path = get_home_path(tok);
-		if (!home_path)
-			ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-		if (chdir(home_path) != 0)
-			perror("cd");
-	}
-	else
-	{
-		if (chdir(tok->str[1]) == -1)
-			perror("cd");
-	}
+	if (chdir(tok->str[1]) == -1)
+		perror("cd");
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
-		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
+		ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
+			2);
 	change_env_paths(shell);
 }
 
@@ -153,45 +49,15 @@ void	execute_pwd(t_tok *tok, t_shell *shell)
 	t_env	*tmp;
 
 	tmp = shell->env;
-	while(tmp)
+	while (tmp)
 	{
-		if (ft_strcmp(tmp->key , "PWD") == 0)
+		if (ft_strcmp(tmp->key, "PWD") == 0)
 		{
 			printf("%s\n", tmp->value);
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
-}
-
-void	print_strings(char **str, int i)
-{
-	while (str[i])
-	{
-		printf("%s", str[i]);
-		i++;
-		if (str[i])
-			printf(" ");
-	}
-}
-
-void	execute_echo(t_tok *tok)
-{
-
-	if (tok->str[1])
-	{
-		if (tok->str[2] && ft_strcmp(tok->str[1], "-n") == 0)
-		{
-			print_strings(tok->str, 2);
-		}
-		else
-		{
-			print_strings(tok->str, 1);
-			printf("\n");
-		}
-	}
-	else
-		printf("\n");
 }
 
 void	execute_env(t_tok *tok, t_shell *shell, char **env)
@@ -203,52 +69,5 @@ void	execute_env(t_tok *tok, t_shell *shell, char **env)
 	{
 		printf("%s\n", env[i]);
 		i++;
-	}
-}
-
-void	execute_exit(t_tok *tok, t_shell *shell)
-{
-	shell->exit_status = 0;
-	if (tok->str[1])
-	{
-		if (ft_atoi(tok->str[1]) >= LONG_MAX)
-		{
-			shell->exit_status = 2;
-			printf("exit\n");
-			//ft_clear
-			printf("Minishell: exit: %s: numeric argument required\n", tok->str[1]);
-			exit(shell->exit_status);
-		}
-		if (!ft_str_num(tok->str[1]))
-		{
-			shell->exit_status = 2;
-			printf("exit\n");
-			//ft_clear
-			printf("Minishell: exit: %s: numeric argument required\n", tok->str[1]);
-			exit(shell->exit_status);
-		}
-		else if (ft_str_num(tok->str[1]))
-		{
-			if (tok->str[2])
-			{
-				printf("exit\n");
-				shell->exit_status = 1;
-
-				ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
-			}
-			else if (!tok->str[2])
-			{
-				shell->exit_status = (unsigned char)ft_atoi(tok->str[1]);
-				printf("exit\n");
-				//ft_clear
-				exit(shell->exit_status);
-			}
-		}
-	}
-	else if (!tok->str[1])
-	{
-		// ft_clear
-		printf("exit\n");
-		exit(shell->exit_status);
 	}
 }

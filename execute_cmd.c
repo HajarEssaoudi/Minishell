@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 16:34:18 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:59:35 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 		execute_exit(tok, shell);
 	else if (ft_strcmp("unset", tok->str[0]) == 0)
 		execute_unset(tok, shell);
+	else if (ft_strcmp("export", tok->str[0]) == 0)
+		execute_export(tok, shell);
 }
 
 void	 execute_simple_cmd(t_tok *tok, char **env, int fd)

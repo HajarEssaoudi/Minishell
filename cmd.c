@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 22:35:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:22:40 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 					printf ("Minishell: %s:command not found\n", tok->path);
 					//ft_clear and exit
 					free_tok(tok);
-					return  (NULL);
+					return (NULL);
 				}
 			}
 			else
