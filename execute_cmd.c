@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:55:03 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/04 15:59:35 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:37:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	 execute_simple_cmd(t_tok *tok, char **env, int fd)
 			dup2(fd1, 1);
 			close(fd1);
 		}
+		printf("path====%s\n", tok->path);
 	}
 	else if (pid > 0)
 	{

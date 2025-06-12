@@ -6,25 +6,11 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:05:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/04 15:50:52 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:18:07 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void print_list(t_env *env)
-// {
-// 	int i;
-// 	t_env *tmp;
-
-// 	i = 0;
-// 	tmp = env;
-// 	while (tmp)
-// 	{
-// 		printf("key == %s value == %s\n", tmp->key, tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// }
 
 void	execute_cd(t_tok *tok, t_shell *shell)
 {

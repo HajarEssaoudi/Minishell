@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 23:06:34 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/03 21:53:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:22:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	split = (char **)malloc((countword(s, c) + 1) * sizeof(char *));
-	if (!split || !split[0])
+	if (!split)
 		return (NULL);
 	while (*s)
 	{
