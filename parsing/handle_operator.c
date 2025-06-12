@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 23:30:19 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 23:30:19 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 23:30:19 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:42 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 t_lexer	*handle_redirect_output(char *input, int *i, t_lexer *lexer)
 {

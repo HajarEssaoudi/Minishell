@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-05 08:50:35 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-05 08:50:35 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/05 08:50:35 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:50:12 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 int	check_after_befor_pip(int *i, char *input, int len)
 {

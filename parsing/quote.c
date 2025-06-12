@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 19:44:31 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 19:44:31 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 19:44:31 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:50:16 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 char	*check_quot(char *input, int *index, char quot, char **cp_env)
 {

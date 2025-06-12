@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   copie_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 09:48:51 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 09:48:51 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 09:48:51 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 int	size_env(char **env)
 {

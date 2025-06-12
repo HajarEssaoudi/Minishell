@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 19:45:32 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 19:45:32 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 19:45:32 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:50:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 static int	check_out(int *k, char *input)
 {

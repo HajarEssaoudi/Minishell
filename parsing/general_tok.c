@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   general_tok.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 20:36:46 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 {

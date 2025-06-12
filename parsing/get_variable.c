@@ -6,11 +6,11 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/04/23 15:28:03 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:49:35 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 char	*get_env_var(char **cp_env, char *var)
 {

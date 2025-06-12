@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   diviser_promt.c                                    :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 19:04:37 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 19:04:37 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 19:04:37 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 {

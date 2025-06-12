@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 09:47:27 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:53 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	print_str_array(char **arr)
 {
@@ -74,7 +74,6 @@ int	main(int argc, char **argv, char **env)
 			exit(1);
 		}
 		tok = get_tok(prompt, cp_env);
-		print_tok(tok);
 	}
 	free_str(cp_env);
 	return (0);

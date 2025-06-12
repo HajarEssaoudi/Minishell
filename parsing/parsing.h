@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 09:45:17 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 19:16:15 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSING_H
+# define PARSING_H
 
-# include "lib/libft.h"
+# include "../lib/libft.h"
 # include <ctype.h>
 # include <limits.h>
 # include <readline/history.h>

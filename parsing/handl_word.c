@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handl_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 01:39:53 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:39 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 char	*ft_new_str(char *input, int *i, char **cp_env, int j)
 {

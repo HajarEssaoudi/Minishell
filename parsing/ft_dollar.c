@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dollar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 02:53:54 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 02:53:54 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 02:53:54 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:12 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 static char	*handle_simple_var(char *result, char *var, char **cp_env, int *i)
 {

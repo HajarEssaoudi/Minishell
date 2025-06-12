@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   execute_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 17:25:52 by hes-saou          #+#    #+#             */
-/*   Updated: 2024/11/11 19:55:47 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/06/12 18:13:40 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/06/12 18:15:51 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../execution.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	execute_env(char **env)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while ((s1[i] || s2[i]) && i < n)
+	while (env[i])
 	{
-		if (s1[i] != s2[i])
-		{
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		}
+		printf("%s\n", env[i]);
 		i++;
 	}
-	if (i == n)
-		return (0);
-	return (s1[i] - s2[i]);
 }

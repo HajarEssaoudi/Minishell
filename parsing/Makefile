@@ -1,9 +1,9 @@
-NAME = minishell
+NAME = libparsing.a
 CC = cc
 CFLAGS = -g3
-# -Werror -Wextra -Wall
+# CFLAGS = -Wall -Wextra -Werror
 
-LIBFT = lib/libft.a
+LIBFT = ../lib/libft.a
 
 SRCS = 	pip.c copie_env.c handle_operator.c main.c quote.c \
 		ft_free.c handl_word.c redirect2.c ft_dollar.c ft_token.c \
@@ -11,25 +11,18 @@ SRCS = 	pip.c copie_env.c handle_operator.c main.c quote.c \
 
 OBJS = $(SRCS:.c=.o)
 
+all: $(NAME)
 
-do : all clean
-all : $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline -lncurses
-
-$(LIBFT):
-	make -C lib
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	make -C lib clean
 fclean: clean
 	rm -f $(NAME)
-	make -C lib fclean
 re: fclean all
 
 .PHONY: all clean fclean re

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-01 14:03:52 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-06-01 14:03:52 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/06/01 14:03:52 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/12 18:49:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	ft_add_type(t_lexer *lexer, char *type, int *st, int new_st)
 {
