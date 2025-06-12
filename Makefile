@@ -1,22 +1,33 @@
 NAME = minishell
 CC = cc
 CFLAGS = -g3
-LIBFT = lib/libft.a
-EXEC = execution/libexecution.a
+# CFLAGS = -Wall -Wextra -Werror
+
 
 SRCS = main.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+LIBFT_PATH = lib
+PARSING_PATH = parsing
+EXECUTION_PATH = execution
 
-$(NAME): $(OBJS) $(LIBFT) $(EXEC)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(EXEC) -lreadline -lncurses
+LIBS =	-L$(EXECUTION_PATH) -lexecution \
+		-L$(PARSING_PATH) -lparsing \
+		-L$(LIBFT_PATH) -lft
 
-$(LIBFT):
-	make -C lib
+all: libparsing libft libexecution $(NAME)
 
-$(EXEC):
-	make -C execution
+libft:
+	make -C $(LIBFT_PATH)
+
+libparsing:
+	make -C $(PARSING_PATH)
+
+libexecution:
+	make -C $(EXECUTION_PATH)
+
+$(NAME): $(OBJS) libexecution libparsing libft
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $@ -lreadline -lncurses
 
 %.o: %.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -24,11 +35,13 @@ $(EXEC):
 clean:
 	rm -f $(OBJS)
 	make -C lib clean
+	make -C parsing clean
 	make -C execution clean
 
 fclean: clean
 	rm -f $(NAME)
 	make -C lib fclean
+	make -C parsing fclean
 	make -C execution fclean
 
 re: fclean all
