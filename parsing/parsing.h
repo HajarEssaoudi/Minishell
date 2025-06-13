@@ -78,4 +78,5 @@ t_tok				*get_tok(char *prompt, char **env);
 char				*ft_special_caract(char *result, char *var);
 char				**ft_argv(char **argv, char *arg);
 char				**ft_red(char **argv, char *arg);
+t_tok	*check_cmd(t_tok *tok, char **cp_env);
 #endif

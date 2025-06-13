@@ -110,6 +110,9 @@ int	main(int argc, char **argv, char **env)
 		// if (!prompt[0])
 		// 	continue ;
 		tok = get_tok(prompt, cp_env);
+		// print_tok(tok);
+		tok = check_cmd(tok, cp_env);
+		// print_tok(tok);
 		if (tok != NULL)
 		{
 			tmp = tok;
