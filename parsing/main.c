@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:53 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:15:43 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (!prompt)
 		{
-			free_str(cp_env);
+			free_str(cp_env, 0);
 			printf("exit\n");
 			exit(1);
 		}
 		tok = get_tok(prompt, cp_env);
 	}
-	free_str(cp_env);
+	free_str(cp_env, 0);
 	return (0);
 }

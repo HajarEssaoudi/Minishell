@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 19:16:15 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:11:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_quot
 }					t_quot;
 
 char				**copy_env(char **env);
-void				free_str(char **str);
+void				free_str(char **str, int flag);
 void				free_lexer(t_lexer *lexer);
 int					skip_space_tab_newline(char *str, int i);
 t_lexer				*ft_operator(char *input, int *i, t_lexer *lexer);

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:26:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:25:44 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	int	i;
 
 	i = 0;
-	free_str(arr_env);
+	free_str(arr_env, 0);
 	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
 	if (!arr_env)
 	{

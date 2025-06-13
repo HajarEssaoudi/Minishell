@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025-05-31 09:47:27 by mabdelha         ###   ########.fr       */
+/*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/06/13 10:21:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,71 @@ void	print_tok(t_tok *tok)
 	}
 }
 
+t_shell	*initialise_struct(t_shell *shell, char **env)
+{
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+	{
+		//ft_clear
+		exit(1);
+	}
+	shell->env = create_list_env(env);
+	return (shell);
+}
+
+void	free_list_env (t_env *env)
+{
+	while(env)
+	{
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		env = env->next;
+	}
+	free(env);
+}
+
+void	free_koulchi(char **cp_env,t_shell *shell, int f)
+{
+	if (cp_env)
+		free_str(cp_env, 0);
+	if (shell)
+	{
+		if (shell->env)
+			free_list_env(shell->env);
+		free(shell);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*prompt;
 	char	**cp_env;
 	t_tok	*tok;
+	t_tok	*tmp;
+	t_shell	*shell;
 
 	cp_env = copy_env(env);
+	shell = initialise_struct(shell, cp_env);
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
-		if (!prompt[0])
-			continue ;
 		if (!prompt)
-		{
-			free_str(cp_env);
-			printf("exit\n");
-			exit(1);
-		}
+			free_str(cp_env, 1);
+		// if (!prompt[0])
+		// 	continue ;
 		tok = get_tok(prompt, cp_env);
-		print_tok(tok);
+		if (tok != NULL)
+		{
+			tmp = tok;
+			// printf("heyyy %s\n", tmp->path);
+			// print_tok(tok);
+			execute_cmd(tmp, cp_env, 0, shell);
+			cp_env = update_env_arr(shell->env, cp_env);
+		}
+		add_history(prompt);
 	}
-	free_str(cp_env);
+	free_koulchi(cp_env, shell, 0);
 	return (0);
 }

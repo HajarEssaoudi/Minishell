@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:47:09 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/12 21:15:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**ft_red(char **argv, char *arg)
 	argv2[i] = ft_strdup(arg);
 	argv2[i + 1] = NULL;
 	if (argv)
-		free_str(argv);
+		free_str(argv, 0);
 	return (argv2);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:22:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:26:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	execute_export(t_tok *tok, t_shell *shell)
 	t_env	*tmp;
 
 	i = 1;
-	if (!tok->str[1])
+	if (!tok->str[i])
 		list_env_variables(shell);
 	while(tok->str[i])
 	{

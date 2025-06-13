@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:15:38 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:30:09 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
 	else if(is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
 	else
-		execute_simple_cmd(tok, env, fd);
+		execute_external_cmd(tok, env, fd);
 }
 
 void	 execute_executable(t_tok *tok, char **env)
@@ -64,7 +64,7 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 		execute_export(tok, shell);
 }
 
-void	 execute_simple_cmd(t_tok *tok, char **env, int fd)
+void	 execute_external_cmd(t_tok *tok, char **env, int fd)
 {
 	char	**args;
 	pid_t	pid;
