@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/13 10:21:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/14 01:25:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,10 @@ int	main(int argc, char **argv, char **env)
 		// 	continue ;
 		tok = get_tok(prompt, cp_env);
 		// print_tok(tok);
-		tok = check_cmd(tok, cp_env);
 		// print_tok(tok);
 		if (tok != NULL)
 		{
 			tmp = tok;
-			// printf("heyyy %s\n", tmp->path);
 			// print_tok(tok);
 			execute_cmd(tmp, cp_env, 0, shell);
 			cp_env = update_env_arr(shell->env, cp_env);

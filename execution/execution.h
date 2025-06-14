@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/13 12:30:14 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/14 01:26:53 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ typedef struct s_shell
 	unsigned char	exit_status;
 	struct s_env	*env;
 }					t_shell;
+
+
+/*to be deleted */
+void	print_tok(t_tok *tok);
 
 /* execution */
 void				execute_executable(t_tok *tok, char **env);

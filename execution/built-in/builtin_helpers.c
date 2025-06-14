@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/13 12:25:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/14 00:24:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_env *init_node_env(char *str_env)
 	{
 		node_env->key = ft_substr(str_env, 0, (equal - str_env));
 		node_env->value = ft_strdup(equal + 1);
+		node_env->next = NULL;
 	}
 	else
 	{
@@ -70,8 +71,8 @@ int	ft_lst_size(t_env *lst)
 
 	if (!lst)
 		return (-1);
-	tmp = lst;
 	count = 0;
+	tmp = lst;
 	while (tmp)
 	{
 		tmp = tmp->next;

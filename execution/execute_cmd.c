@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/13 12:30:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/14 02:11:25 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	 execute_external_cmd(t_tok *tok, char **env, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
+		tok = check_cmd(tok, env);
+		// if ()
 		if (execve(tok->path, tok->str, env) == -1)
 		{
 			perror("minishell failed");
@@ -81,9 +83,7 @@ void	 execute_external_cmd(t_tok *tok, char **env, int fd)
 		}
 	}
 	else if (pid > 0)
-	{
 		waitpid(pid, &status, 0);
-	}
 	else
 	{
 		perror("fork failed");

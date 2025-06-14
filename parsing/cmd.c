@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/05/05 02:14:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/06/14 01:00:08 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				{
 					printf ("bash: %s:command not found\n", tok->path);
 					//ft_clear and exit
-					return  (NULL);
+					return (NULL);
 				}
 			}
 			else
@@ -94,7 +94,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				{
 					printf ("Minishell: command not found: %s\n", tok->path);
 					//ft_clear and exit
-					return  (NULL);
+					return (NULL);
 				}
 			}
 		}
