@@ -18,30 +18,37 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 	char	**var;
 	char	*str;
 	char	**quot;
+	char	*tmp;
+	int		k;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	str = ft_strdup("");
-	while (*var)
-	{
-		str = ft_strjoin(str, *var);
-		var++;
-	}
 	free(sub);
-	// free_str(var, 0);
+	str = ft_strdup("");
+	k = 0;
+	while (var && var[k])
+	{
+		tmp = ft_strjoin(str, var[k]);
+		free(str);
+		str = tmp;
+		k++;
+	}
+	free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		quot = ft_str(input, i, cp_env);
-		if (*quot)
+		k = 0;
+		if (quot[k])
 		{
-			while (*quot)
+			while (quot[k])
 			{
-				sub = ft_strjoin(str, *quot);
-				quot++;
+				tmp = ft_strjoin(str, quot[k]);
+				free(str);
+				str = tmp;
+				k++;
 			}
-			free(str);
-			str = sub;
 			free_str(quot, 0);
+			free(str);
 		}
 		else
 			return (NULL);
@@ -55,31 +62,51 @@ char	**ft_add_str(char **str, char *input, int *i, char **cp_env, int j)
 	char	*sub;
 	char	**var;
 	char	*s;
+	char	*tmp;
 	char	**new;
+	char	**result;
+	int		k;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	while (*var)
+	free(sub);
+	s = ft_strdup("");
+	k = 0;
+	while (str[k])
 	{
-		while (*str)
-			str++;
-		s = ft_strjoin(*str, *var);
-		var++;
+		tmp = ft_strjoin(s, str[k]);
+		free(str);
+		str = tmp;
+		k++;
 	}
 	free_str(str, 0);
-	free(sub);
+	k = 0;
+	while (var[k])
+	{
+		tmp = ft_strjoin(s, var[k]);
+		free(s);
+		s = tmp;
+		k++;
+	}
 	free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		new = ft_str(input, i, cp_env);
 		if (!new)
 			return (NULL);
-		else
-			s = ft_strjoin(s, *new);
+		k = 0;
+		while (new[k])
+		{
+			tmp = ft_strjoin(s, new[k]);
+			free(s);
+			s = tmp;
+			k++;
+		}
 		free_str(new, 0);
 	}
-	var = ft_split(s, ' ');
-	return (var);
+	result = ft_split(s, ' ');
+	free(s);
+	return (result);
 }
 
 char	**ft_str(char *input, int *i, char **cp_env)
