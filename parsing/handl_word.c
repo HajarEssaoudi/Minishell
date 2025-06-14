@@ -12,61 +12,74 @@
 
 #include "parsing.h"
 
-char	*ft_new_str(char *input, int *i, char **cp_env, int j)
+char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
 	char	**var;
 	char	*str;
-	char	*quot;
+	char	**quot;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	str = ft_strdup(var);
+	str = ft_strdup("");
+	while (*var)
+	{
+		str = ft_strjoin(str, *var);
+		var++;
+	}
 	free(sub);
-	free(var);
+	// free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		quot = ft_str(input, i, cp_env);
-		if (quot)
+		if (*quot)
 		{
-			sub = ft_strjoin(str, quot);
+			while (*quot)
+			{
+				sub = ft_strjoin(str, *quot);
+				quot++;
+			}
 			free(str);
 			str = sub;
-			free(quot);
+			free_str(quot, 0);
 		}
 		else
 			return (NULL);
 	}
-	return (str);
+	var = ft_split(str, ' ');
+	return (var);
 }
 
-char	*ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
+char	**ft_add_str(char **str, char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
 	char	**var;
 	char	*s;
-	char	*new;
+	char	**new;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
 	while (*var)
 	{
-		s = ft_strjoin(str, *var);
+		while (*str)
+			str++;
+		s = ft_strjoin(*str, *var);
 		var++;
 	}
-	free(str);
+	free_str(str, 0);
 	free(sub);
-	free(var);
+	free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		new = ft_str(input, i, cp_env);
 		if (!new)
 			return (NULL);
 		else
-			s = ft_strjoin(s, new);
-		free(new);
+			s = ft_strjoin(s, *new);
+		free_str(new, 0);
 	}
-	return (s);
+	var = ft_split(s, ' ');
+	return (var);
 }
 
 char	**ft_str(char *input, int *i, char **cp_env)
@@ -97,15 +110,19 @@ char	**ft_str(char *input, int *i, char **cp_env)
 
 t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 {
-	char	*str;
+	char	**str;
 
 	str = ft_str(input, i, cp_env);
 	if (!str)
 		return (NULL);
-	if (*str != '\0')
+	if (!*str)
 	{
-		add_ch(&lexer, "string", str);
-		free(str);
+		while (*str)
+		{
+			add_ch(&lexer, "string", *str);
+			str++;
+		}
+		free_str(str, 0);
 	}
 	return (lexer);
 }

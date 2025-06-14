@@ -83,7 +83,7 @@ char	*cv_var(char *str, int *i)
 	return (NULL);
 }
 
-char	**ft_dollar(char *str, char **cp_env, char **result, int *i)
+char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 {
 	char	*var;
 
