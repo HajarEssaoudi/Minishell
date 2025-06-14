@@ -15,7 +15,7 @@
 char	*ft_new_str(char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*str;
 	char	*quot;
 
@@ -43,13 +43,17 @@ char	*ft_new_str(char *input, int *i, char **cp_env, int j)
 char	*ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*s;
 	char	*new;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	s = ft_strjoin(str, var);
+	while (*var)
+	{
+		s = ft_strjoin(str, *var);
+		var++;
+	}
 	free(str);
 	free(sub);
 	free(var);
@@ -65,9 +69,9 @@ char	*ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
 	return (s);
 }
 
-char	*ft_str(char *input, int *i, char **cp_env)
+char	**ft_str(char *input, int *i, char **cp_env)
 {
-	char	*str;
+	char	**str;
 	int		j;
 
 	str = NULL;

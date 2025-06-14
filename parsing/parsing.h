@@ -51,7 +51,7 @@ typedef struct s_quot
 {
 	int				start;
 	int				i;
-	char			*str;
+	char			**str;
 	char			*sub;
 }					t_quot;
 

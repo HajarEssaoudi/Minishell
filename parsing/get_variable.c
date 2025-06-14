@@ -55,13 +55,14 @@ static char	*handle_normal_char(char *result, char c)
 	return (tmp_result);
 }
 
-char	*ft_var(char *str, char **cp_env, char input)
+char	**ft_var(char *str, char **cp_env, char input)
 {
 	int		i;
 	char	*result;
+	char	**token;
 
 	i = 0;
-	result = malloc(1);
+	result = malloc(sizeof(char *) * 2);
 	result[0] = '\0';
 	while (str[i])
 	{
@@ -69,7 +70,6 @@ char	*ft_var(char *str, char **cp_env, char input)
 				|| str[i + 1] == '\0' || str[i + 1] == ' ') && (input != '"'
 				&& input != '\''))
 		{
-			printf("%c\n", input);
 			result = handle_tilde(result, cp_env, &i);
 		}
 		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
@@ -79,5 +79,6 @@ char	*ft_var(char *str, char **cp_env, char input)
 		else
 			result = handle_normal_char(result, str[i++]);
 	}
-	return (result);
+	token = ft_split(result, ' ');
+	return (token);
 }

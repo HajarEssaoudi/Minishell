@@ -15,7 +15,7 @@
 char	*check_quot(char *input, int *index, char quot, char **cp_env)
 {
 	t_quot	*vars;
-	char	*result;
+	char	**result;
 
 	vars = malloc(sizeof(t_quot));
 	vars->start = *index + 1;
