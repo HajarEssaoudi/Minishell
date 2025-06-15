@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:54:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2024/11/11 16:22:22 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:03:24 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,32 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		p[i] = s1[i];
 		i++;
 	}
+	while (s2[j])
+		p[i++] = s2[j++];
+	p[i] = '\0';
+	return (p);
+}
+
+char	*ft_strjoin_sep(char const *s1, char const *s2, char sep)
+{
+	int		i;
+	int		j;
+	char	*p;
+
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
+	p = (char *)malloc(i + j + 1 + 1);
+	if (!p)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	p[i] = sep;
+	i++;
 	while (s2[j])
 		p[i++] = s2[j++];
 	p[i] = '\0';
