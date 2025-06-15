@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 01:08:56 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 16:42:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,41 +67,58 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 void	execute_with_pipe(t_tok *tok, char **env)
 {
 	int	fd[2];
-	pid_t pid1, pid2;
+	int	prev_fd;
+	pid_t pid1;
 
-	while(tok->pip[0])
+	prev_fd = -1;
+	while(tok)
 	{
-		if (pipe(fd) == -1)
+		if (tok->pip && tok->pip[0] == '|')
 		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
+			if (pipe(fd) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
 		}
 		pid1 = fork();
 		if (pid1 == 0)
 		{
-			close(fd[0]);
-			dup2(fd[1], 1); // Redirect stdout to pipe write end, 1 ===> pipe write
-			close(fd[1]);
+			/*if not the first cmd*/
+			if (prev_fd != -1)
+			{
+				dup2(prev_fd, 0);
+				close(prev_fd);
+			}
+			if (tok->pip && tok->pip[0] == '|')
+			{
+				close (fd[0]);
+				dup2(fd[1], 1);
+				close(fd[1]);
+			}
 			execve(tok->path, tok->str, env);
-			perror("execve ls");
+			perror("execve");
 			exit(EXIT_FAILURE);
 		}
-		pid2 = fork();
-		if (pid2 == 0)
+		else
 		{
-			close(fd[1]);
-			dup2(fd[0], 0); // Redirect stdin to pipe read end, 0 =====> pipe read
-			close(fd[0]);
-			execve(tok->next->path, tok->next->str, env);
-			perror("execve wc");
-			exit(EXIT_FAILURE);
+			if (prev_fd != -1)
+				close(prev_fd);
+			if (tok->pip && tok->pip[0] == '|')
+			{
+				close(fd[1]);
+				prev_fd = fd[0];
+			}
+			else
+			{
+				if (prev_fd != -1)
+					close(prev_fd);
+				break;
+			}
 		}
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(pid1, NULL, 0);
-		waitpid(pid2, NULL, 0);
 		tok = tok->next;
 	}
+	while(wait(NULL) != -1);
 }
 
 void	 execute_external_cmd(t_tok *tok, char **env, int fd)
@@ -111,31 +128,31 @@ void	 execute_external_cmd(t_tok *tok, char **env, int fd)
 	int		status;
 	int fd1;
 
-	pid = fork();
-	if (pid == 0)
+	tok = check_cmd(tok, env);
+	if (tok->pip && tok->pip[0] == '|')
 	{
-		tok = check_cmd(tok, env);
-		if (tok->pip && tok->pip[0] == '|')
+		execute_with_pipe(tok, env);
+	}
+	else
+	{
+		pid = fork();
+		if (pid == 0)
 		{
-			execute_with_pipe(tok, env);
-		}
-		// print_tok(tok);
-		else
-		{
+			// print_tok(tok);
 			if (execve(tok->path, tok->str, env) == -1)
 			{
 				perror("minishell failed");
 				exit(EXIT_FAILURE);
 			}
 		}
-	}
-	if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-	}
-	else
-	{
-		perror("fork failed");
-		return ;
+		if (pid > 0)
+		{
+			waitpid(pid, &status, 0);
+		}
+		else
+		{
+			perror("fork failed");
+			return ;
+		}
 	}
 }

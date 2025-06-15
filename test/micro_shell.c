@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 # include <readline/readline.h>
+#include <parsing.h>
 
 
 int	how_many_pipes(char *line)
@@ -17,7 +18,7 @@ int	how_many_pipes(char *line)
 	return (f);
 }
 
-void	 execute_external_cmd(int fd, int f)
+void	 execute_external_cmd(t_tok *tok, int f)
 {
 	char	**args;
 	int		pid;
@@ -35,11 +36,13 @@ void	 execute_external_cmd(int fd, int f)
 				f--;
 			}
 		}
-		
-		if (execve(tok->path, tok->str, NULL) == -1)
+		else
 		{
-			perror("minishell failed");
-			exit(EXIT_FAILURE);
+			if (execve(tok->path, tok->str, NULL) == -1)
+			{
+				perror("minishell failed");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else if (pid > 0)
@@ -53,14 +56,22 @@ void	 execute_external_cmd(int fd, int f)
 	}
 }
 
-int main()
+int main(int argc, char **argv, char **env)
 {
 	char	*line;
+	t_tok	*tok;
+	t_tok	*tmp;
 	int		f;
 	while(1)
 	{
 		line = readline("micro $>");
 		f = how_many_pipes(line);
-		
+		tok = get_tok(line, tok->env);
+		if (tok != NULL)
+		{
+			// tmp = tok;
+			// print_tok(tok);
+			execute_external_cmd(tok, f);
+		}
 	}
 }
