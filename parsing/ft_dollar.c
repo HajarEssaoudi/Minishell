@@ -66,12 +66,13 @@ char	*cv_var(char *str, int *i)
 			break ;
 		j++;
 	}
-	if (str[j])
+	if (!str[j])
 	{
 		j = *i;
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
 			(*i)++;
 		var = ft_substr(str, j, *i - j);
+
 		return (var);
 	}
 	else
