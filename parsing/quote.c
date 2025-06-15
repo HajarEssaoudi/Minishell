@@ -12,15 +12,15 @@
 
 #include "parsing.h"
 
-char	**check_quot(char *input, int *index, char quot, char **cp_env)
+char	*check_quot(char *input, int *index, char quot, char **cp_env)
 {
 	t_quot	*vars;
-	char	**result;
+	char	*result;
 
 	vars = malloc(sizeof(t_quot));
 	vars->start = *index + 1;
 	vars->i = vars->start;
-	vars->str = malloc(sizeof(char *) * 2);
+	vars->str = NULL;
 	while (input[vars->i] && input[vars->i] != quot)
 		vars->i++;
 	if (input[vars->i] == quot)
@@ -32,10 +32,7 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env)
 			free(vars->sub);
 		}
 		else
-		{
-			vars->str[0] = ft_substr(input, vars->start, vars->i - vars->start);
-			vars->str[1] = NULL;
-		}
+			vars->str = ft_substr(input, vars->start, vars->i - vars->start);
 		*index = vars->i + 1;
 	}
 	else
@@ -44,7 +41,6 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env)
 		return (NULL);
 	}
 	result = vars->str;
-	free_str(vars->str, 0);
 	free(vars);
 	return (result);
 }
