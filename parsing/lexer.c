@@ -45,7 +45,7 @@ t_lexer	*ft_lexer(char *input, char **env)
 	while (input[i])
 	{
 		i = skip_space_tab_newline(input, i);
-		if (!strlen(input) && !input[i])
+		if (!ft_strlen(input) && !input[i])
 			return (NULL);
 		else
 		{

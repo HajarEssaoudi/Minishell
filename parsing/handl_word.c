@@ -12,62 +12,106 @@
 
 #include "parsing.h"
 
-char	*ft_new_str(char *input, int *i, char **cp_env, int j)
+char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*str;
-	char	*quot;
+	char	**quot;
+	char	*tmp;
+	int		k;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	str = ft_strdup(var);
 	free(sub);
-	free(var);
+	str = ft_strdup("");
+	k = 0;
+	while (var && var[k])
+	{
+		tmp = ft_strjoin(str, var[k]);
+		free(str);
+		str = tmp;
+		k++;
+	}
+	free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		quot = ft_str(input, i, cp_env);
-		if (quot)
+		k = 0;
+		if (quot[k])
 		{
-			sub = ft_strjoin(str, quot);
+			while (quot[k])
+			{
+				tmp = ft_strjoin(str, quot[k]);
+				free(str);
+				str = tmp;
+				k++;
+			}
+			free_str(quot, 0);
 			free(str);
-			str = sub;
-			free(quot);
 		}
 		else
 			return (NULL);
 	}
-	return (str);
+	var = ft_split(str, ' ');
+	return (var);
 }
 
-char	*ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
+char	**ft_add_str(char **str, char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*s;
-	char	*new;
+	char	*tmp;
+	char	**new;
+	char	**result;
+	int		k;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	s = ft_strjoin(str, var);
-	free(str);
 	free(sub);
-	free(var);
+	s = ft_strdup("");
+	k = 0;
+	while (str[k])
+	{
+		tmp = ft_strjoin(s, str[k]);
+		free(str);
+		str = tmp;
+		k++;
+	}
+	free_str(str, 0);
+	k = 0;
+	while (var[k])
+	{
+		tmp = ft_strjoin(s, var[k]);
+		free(s);
+		s = tmp;
+		k++;
+	}
+	free_str(var, 0);
 	if (input[*i] == '"')
 	{
 		new = ft_str(input, i, cp_env);
 		if (!new)
 			return (NULL);
-		else
-			s = ft_strjoin(s, new);
-		free(new);
+		k = 0;
+		while (new[k])
+		{
+			tmp = ft_strjoin(s, new[k]);
+			free(s);
+			s = tmp;
+			k++;
+		}
+		free_str(new, 0);
 	}
-	return (s);
+	result = ft_split(s, ' ');
+	free(s);
+	return (result);
 }
 
-char	*ft_str(char *input, int *i, char **cp_env)
+char	**ft_str(char *input, int *i, char **cp_env)
 {
-	char	*str;
+	char	**str;
 	int		j;
 
 	str = NULL;
@@ -93,15 +137,19 @@ char	*ft_str(char *input, int *i, char **cp_env)
 
 t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 {
-	char	*str;
+	char	**str;
 
 	str = ft_str(input, i, cp_env);
 	if (!str)
 		return (NULL);
-	if (*str != '\0')
+	if (!*str)
 	{
-		add_ch(&lexer, "string", str);
-		free(str);
+		while (*str)
+		{
+			add_ch(&lexer, "string", *str);
+			str++;
+		}
+		free_str(str, 0);
 	}
 	return (lexer);
 }
