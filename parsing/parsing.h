@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/14 23:32:29 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 17:14:13 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ t_tok				*get_tok(char *prompt, char **env);
 char				*ft_special_caract(char *result, char *var);
 char				**ft_argv(char **argv, char *arg);
 char				**ft_red(char **argv, char *arg);
-t_tok	*check_cmd(t_tok *tok, char **cp_env);
+t_tok				*check_cmd(t_tok *tok, char **cp_env);
 #endif

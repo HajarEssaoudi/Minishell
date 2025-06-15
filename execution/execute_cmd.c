@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 16:42:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:53:42 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
 {
+	// print_tok(tok);
 	if (tok->execute)
 		execute_executable(tok, env);
-	else if(is_built_in(tok->str[0], env))
-		execute_built_in(tok, shell, env);
+	if (tok->pip && tok->pip[0] == '|')
+		execute_with_pipe(tok, env, shell);
 	else
-		execute_external_cmd(tok, env, fd);
+	{
+		if(is_built_in(tok->str[0], env))
+			execute_built_in(tok, shell, env);
+		else
+			execute_external_cmd(tok, env, shell, 0);
+	}
 }
 
 void	 execute_executable(t_tok *tok, char **env)
@@ -64,7 +70,7 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 		execute_export(tok, shell);
 }
 
-void	execute_with_pipe(t_tok *tok, char **env)
+void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	int	fd[2];
 	int	prev_fd;
@@ -82,6 +88,11 @@ void	execute_with_pipe(t_tok *tok, char **env)
 			}
 		}
 		pid1 = fork();
+		if (pid1 == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
 		if (pid1 == 0)
 		{
 			/*if not the first cmd*/
@@ -90,15 +101,22 @@ void	execute_with_pipe(t_tok *tok, char **env)
 				dup2(prev_fd, 0);
 				close(prev_fd);
 			}
+			/*not last cmd*/
 			if (tok->pip && tok->pip[0] == '|')
 			{
 				close (fd[0]);
 				dup2(fd[1], 1);
 				close(fd[1]);
 			}
-			execve(tok->path, tok->str, env);
-			perror("execve");
-			exit(EXIT_FAILURE);
+			if(is_built_in(tok->str[0], env))
+			{
+				{
+					execute_built_in(tok, shell, env);
+					exit(shell->exit_status);
+				}
+			}
+			else
+				execute_external_cmd(tok, env, shell, 1);
 		}
 		else
 		{
@@ -118,27 +136,30 @@ void	execute_with_pipe(t_tok *tok, char **env)
 		}
 		tok = tok->next;
 	}
-	while(wait(NULL) != -1);
+	while(wait(NULL) > 0);
 }
 
-void	 execute_external_cmd(t_tok *tok, char **env, int fd)
+void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 {
-	char	**args;
 	pid_t	pid;
 	int		status;
-	int fd1;
 
 	tok = check_cmd(tok, env);
-	if (tok->pip && tok->pip[0] == '|')
+	if (flag == 1)
 	{
-		execute_with_pipe(tok, env);
+		if (execve(tok->path, tok->str, env) == -1)
+			{
+				perror("minishell failed");
+				exit(EXIT_FAILURE);
+			}
 	}
+	// if (tok->pip && tok->pip[0] == '|')
+	// 	execute_with_pipe(tok, env, shell);
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			// print_tok(tok);
 			if (execve(tok->path, tok->str, env) == -1)
 			{
 				perror("minishell failed");
@@ -146,9 +167,7 @@ void	 execute_external_cmd(t_tok *tok, char **env, int fd)
 			}
 		}
 		if (pid > 0)
-		{
 			waitpid(pid, &status, 0);
-		}
 		else
 		{
 			perror("fork failed");
