@@ -24,6 +24,7 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
 	free(sub);
+<<<<<<< HEAD
 	str = ft_strdup("");
 	k = 0;
 	while (var && var[k])
@@ -35,6 +36,10 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 	}
 	free_str(var, 0);
 	if (input[*i] == '"')
+=======
+	free(var);
+	if (input[*i] == '"' || input[*i] == '\'')
+>>>>>>> 47f99e9 (fixe error)
 	{
 		quot = ft_str(input, i, cp_env);
 		k = 0;
@@ -70,6 +75,7 @@ char	**ft_add_str(char **str, char *input, int *i, char **cp_env, int j)
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
 	free(sub);
+<<<<<<< HEAD
 	s = ft_strdup("");
 	k = 0;
 	while (str[k])
@@ -90,6 +96,10 @@ char	**ft_add_str(char **str, char *input, int *i, char **cp_env, int j)
 	}
 	free_str(var, 0);
 	if (input[*i] == '"')
+=======
+	free(var);
+	if (input[*i] == '"' || input[*i] == '\'')
+>>>>>>> 47f99e9 (fixe error)
 	{
 		new = ft_str(input, i, cp_env);
 		if (!new)
@@ -119,7 +129,7 @@ char	**ft_str(char *input, int *i, char **cp_env)
 	{
 		str = check_quot(input, i, input[*i], cp_env);
 		if (!str)
-			return (NULL);
+		return (NULL);
 	}
 	j = *i;
 	while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
