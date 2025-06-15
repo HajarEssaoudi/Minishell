@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:40:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_tok_word_cmd(t_lexer *lexer, char *type, t_tok *tmp)
 	{
 		tmp->str = ft_argv(tmp->str, lexer->args);
 	}
+	if (!(ft_strncmp(lexer->type, "pip", ft_strlen("pip"))))
+		tmp->pip = ft_strdup("|");
 }
 
 t_tok	*ft_token(t_lexer *lexer)

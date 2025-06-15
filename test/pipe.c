@@ -9,6 +9,7 @@ int	main(void)
 	char	*args1[] = {"ls", NULL};
 	char	*args2[] = {"wc", "-l", NULL};
 
+	//ls | wc -l
 	pid_t pid1, pid2;
 	if (pipe(fd) == -1)
 	{
