@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/13 10:26:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 20:36:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,12 @@ void	execute_export(t_tok *tok, t_shell *shell)
 		while (tmp)
 		{
 			new = init_node_env(tok->str[i]);
-			if (ft_strcmp(new->key , tmp->key) == 0)
+			if (!new)
+			{
+				// ft_clear
+				return ;
+			}
+			if (ft_strcmp(new->key, tmp->key) == 0)
 			{
 				free(tmp->value);
 				tmp->value = new->value;
