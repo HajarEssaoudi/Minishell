@@ -59,7 +59,7 @@ char	*cv_var(char *str, int *i)
 	int		j;
 	char	*var;
 
-	j = 1;
+	j = *i;
 	while (str[j])
 	{
 		if (!ft_isalpha(str[j]) && !ft_isdigit(str[j]))
@@ -72,6 +72,7 @@ char	*cv_var(char *str, int *i)
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
 			(*i)++;
 		var = ft_substr(str, j, *i - j);
+
 		return (var);
 	}
 	else

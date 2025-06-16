@@ -94,10 +94,20 @@ char	*ft_str(char *input, int *i, char **cp_env)
 t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 {
 	char	*str;
+	char	*tmp;
+	char	*init_str;
 
 	str = ft_str(input, i, cp_env);
 	if (!str)
 		return (NULL);
+	while (input[*i] == '"' || input[*i] == '\'')
+	{
+		tmp = ft_str(input, i, cp_env);
+		init_str = ft_strjoin(str, tmp);
+		free(str);
+		free(tmp);
+		str = init_str;
+	}
 	if (*str != '\0')
 	{
 		add_ch(&lexer, "string", str);
