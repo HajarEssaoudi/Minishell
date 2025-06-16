@@ -90,7 +90,7 @@ char	**ft_var(char *str, char **cp_env, char input)
 		split = malloc(sizeof(char *) * 2);
 		split[0] = result;
 		split[1] = NULL;
-		free(result);
+		// free(result);
 	}
 	return (split);
 }

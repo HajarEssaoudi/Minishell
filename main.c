@@ -110,11 +110,8 @@ int	main(int argc, char **argv, char **env)
 		// if (!prompt[0])
 		// 	continue ;
 		tok = get_tok(prompt, cp_env);
-<<<<<<< HEAD
-=======
-		print_tok(tok);
 		// print_tok(tok);
->>>>>>> 5419bb3 (split)
+		// print_tok(tok);
 		if (tok != NULL)
 		{
 			tmp = tok;
