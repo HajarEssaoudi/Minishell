@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:53:54 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:12:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*cv_var(char *str, int *i)
 			break ;
 		j++;
 	}
-	if (str[j])
+	if (!str[j])
 	{
 		j = *i;
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])

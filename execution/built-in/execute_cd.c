@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:09:35 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 22:57:06 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	change_env_paths(t_shell *shell)
 		if (ft_strcmp(tmp->key, "PWD") == 0)
 		{
 			free(tmp->value);
-			tmp->value = ft_strdup(shell->current_path);
+			if (shell->current_path)
+				tmp->value = ft_strdup(shell->current_path);
+			else
+				return ;
 			break ;
 		}
 		tmp = tmp->next;

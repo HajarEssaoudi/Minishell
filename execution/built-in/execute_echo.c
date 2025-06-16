@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:12:14 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 22:20:39 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:11:35 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	print_strings(char **str, int i)
 void	execute_echo(t_tok *tok)
 {
 	int		i;
-	int		f_option;
 
 	i = 1;
 	if (!tok->str[1])
@@ -41,6 +40,11 @@ void	execute_echo(t_tok *tok)
 		else
 			break;
 	}
-	if (tok->str[i])
+	if (i == 1)
+	{
+		print_strings(tok->str, i);
+		printf("\n");
+	}
+	else if (tok->str[i])
 		print_strings(tok->str, i);
 }
