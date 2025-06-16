@@ -12,69 +12,78 @@
 
 #include "parsing.h"
 
-char	*ft_new_str(char *input, int *i, char **cp_env, int j)
+char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*str;
-	char	*quot;
+	char	**quot;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	str = ft_strdup(var);
-	free(sub);
-	free(var);
+	// str = ft_strdup(var);
+	// free(sub);
+	// free(var);
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		quot = ft_str(input, i, cp_env);
-		if (quot)
+		if (quot && quot[0])
 		{
-			sub = ft_strjoin(str, quot);
+			int k = 0;
+			while (var[k])
+				k++;
+			k--;
+			sub = ft_strjoin(var[k], quot[0]);
 			free(str);
-			str = sub;
-			free(quot);
+			var[k] = sub;
+			// free(quot);
 		}
 		else
 			return (NULL);
 	}
-	return (str);
+	return (var);
 }
 
-char	*ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
+char	**ft_add_str(char *str, char *input, int *i, char **cp_env, int j)
 {
 	char	*sub;
-	char	*var;
+	char	**var;
 	char	*s;
-	char	*new;
+	char	**new;
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
-	s = ft_strjoin(str, var);
+	s = ft_strjoin(str, var[0]);
 	free(str);
 	free(sub);
-	free(var);
+	free(var[0]);
+	var[0] = s;
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
+		int k = 0;
+		while (var[k])
+			k++;
+		k--;
 		new = ft_str(input, i, cp_env);
 		if (!new)
 			return (NULL);
 		else
-			s = ft_strjoin(s, new);
-		free(new);
+			var[k] = ft_strjoin(var[k], new[0]);
+		// free(new);
 	}
-	return (s);
+	return (var);
 }
 
-char	*ft_str(char *input, int *i, char **cp_env)
+char	**ft_str(char *input, int *i, char **cp_env)
 {
-	char	*str;
+	char	**str;
 	int		j;
 
 	str = NULL;
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		str = check_quot(input, i, input[*i], cp_env);
-		if (!str)
+		if (!str[0])
 			return (NULL);
 	}
 	j = *i;
@@ -84,7 +93,12 @@ char	*ft_str(char *input, int *i, char **cp_env)
 	if (j != *i)
 	{
 		if (str)
-			str = ft_add_str(str, input, i, cp_env, j);
+		{
+			int k = 0;
+			while (str[k])
+				k++;
+			str = ft_add_str(str[k - 1], input, i, cp_env, j);
+		}
 		else
 			str = ft_new_str(input, i, cp_env, j);
 	}
@@ -93,25 +107,31 @@ char	*ft_str(char *input, int *i, char **cp_env)
 
 t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 {
-	char	*str;
-	char	*tmp;
+	char	**str;
+	char	**tmp;
 	char	*init_str;
-
+	int k = 0;
 	str = ft_str(input, i, cp_env);
 	if (!str)
 		return (NULL);
 	while (input[*i] == '"' || input[*i] == '\'')
 	{
+		k = 0;
 		tmp = ft_str(input, i, cp_env);
-		init_str = ft_strjoin(str, tmp);
-		free(str);
-		free(tmp);
-		str = init_str;
+		while (str[k])
+			k++;
+		k--;
+		init_str = ft_strjoin(str[k], tmp[0]);
+		free(str[k]);
+		// free(tmp);
+		str[k] = init_str;
 	}
-	if (*str != '\0')
+	k = 0;
+	while (str[k])
 	{
-		add_ch(&lexer, "string", str);
-		free(str);
+		add_ch(&lexer, "string", str[k]);
+		free(str[k]);
+		k++;
 	}
 	return (lexer);
 }

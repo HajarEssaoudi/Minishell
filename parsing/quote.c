@@ -12,12 +12,13 @@
 
 #include "parsing.h"
 
-char	*check_quot(char *input, int *index, char quot, char **cp_env)
+char	**check_quot(char *input, int *index, char quot, char **cp_env)
 {
 	t_quot	*vars;
-	char	*result;
+	char	**result;
 
 	vars = malloc(sizeof(t_quot));
+	result = malloc(sizeof(char *) * 2);
 	vars->start = *index + 1;
 	vars->i = vars->start;
 	vars->str = NULL;
@@ -28,7 +29,7 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 		if (quot == '"')
 		{
 			vars->sub = ft_substr(input, vars->start, vars->i - vars->start);
-			vars->str = ft_var(vars->sub, cp_env, quot);
+			vars->str = *ft_var(vars->sub, cp_env, quot);
 			free(vars->sub);
 		}
 		else
@@ -40,7 +41,8 @@ char	*check_quot(char *input, int *index, char quot, char **cp_env)
 		printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
 		return (NULL);
 	}
-	result = vars->str;
+	result[0] = vars->str;
+	result[1] = NULL;
 	free(vars);
 	return (result);
 }

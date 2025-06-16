@@ -64,11 +64,10 @@ int					check_redirect1(char *input);
 int					check_redirect2(char *input);
 t_lexer				*get_str(char *input, int *i, t_lexer *lexer,
 						char **cp_env);
-char				*ft_str(char *input, int *i, char **cp_env);
+char	**ft_str(char *input, int *i, char **cp_env);
 void				add_ch(t_lexer **lexer, char *type, char *input);
-char				*check_quot(char *input, int *index, char quot,
-						char **cp_env);
-char				*ft_var(char *str, char **cp_env, char input);
+char	**check_quot(char *input, int *index, char quot, char **cp_env);
+char	**ft_var(char *str, char **cp_env, char input);
 t_lexer				*handle_pip(char *input, int *i, t_lexer *div);
 t_lexer				*ft_lexer(char *input, char **env);
 char				*ft_dollar(char *str, char **cp_env, char *result, int *i);

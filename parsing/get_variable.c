@@ -55,10 +55,11 @@ static char	*handle_normal_char(char *result, char c)
 	return (tmp_result);
 }
 
-char	*ft_var(char *str, char **cp_env, char input)
+char	**ft_var(char *str, char **cp_env, char input)
 {
 	int		i;
 	char	*result;
+	char	**split;
 
 	i = 0;
 	result = malloc(1);
@@ -79,5 +80,17 @@ char	*ft_var(char *str, char **cp_env, char input)
 		else
 			result = handle_normal_char(result, str[i++]);
 	}
-	return (result);
+	if (input != '"')
+	{
+		split = ft_split(result, ' ');
+		free(result);
+	}
+	else
+	{
+		split = malloc(sizeof(char *) * 2);
+		split[0] = result;
+		split[1] = NULL;
+		free(result);
+	}
+	return (split);
 }
