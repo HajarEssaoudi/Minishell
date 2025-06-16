@@ -1,0 +1,16 @@
+a.out
+dup.c
+echo.c
+execve.c
+file.txt
+fork.c
+fork2.c
+micro_shell.c
+output.txt
+pipe.c
+pipe_pro.c
+pipe_test.c
+redirections.c
+test
+test.c
+test_multi_pipe.c

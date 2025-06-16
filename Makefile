@@ -15,6 +15,9 @@ LIBS =	-L$(EXECUTION_PATH) -lexecution \
 		-L$(PARSING_PATH) -lparsing \
 		-L$(LIBFT_PATH) -lft
 
+
+do: all clean
+
 all: libparsing libft libexecution $(NAME)
 
 libft:

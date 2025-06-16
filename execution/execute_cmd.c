@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 18:58:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:54:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
 {
-	// print_tok(tok);
 	if (tok->execute)
 		execute_executable(tok, env);
 	if (tok->pip && tok->pip[0] == '|')
