@@ -59,14 +59,14 @@ char	*cv_var(char *str, int *i)
 	int		j;
 	char	*var;
 
-	j = 1;
+	j = *i;
 	while (str[j])
 	{
 		if (!ft_isalpha(str[j]) && !ft_isdigit(str[j]))
 			break ;
 		j++;
 	}
-	if (str[j])
+	if (!str[j])
 	{
 		j = *i;
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
