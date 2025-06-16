@@ -105,11 +105,42 @@ char	**ft_str(char *input, int *i, char **cp_env)
 	return (str);
 }
 
+char	**ft_splitjoin(char	**split1, char **split2)
+{
+	int	i;
+	int	j;
+	int	len_split1;
+	int	len_split2;
+	char	**split3;
+	
+	i = 0;
+	j = 0;
+	len_split1 = 0;
+	len_split2 = 0;
+	while (split1 && split1[len_split1])
+		len_split1++;
+	while (split2 && split2[len_split2])
+		len_split2++;
+	split3 = malloc(sizeof(char *) * (len_split1 + len_split2 + 1));
+	while (i < len_split1)
+	{
+		split3[i] = split1[i];
+		i++;
+	}
+	while (j < len_split2)
+	{
+		split3[len_split1 + j] = split2[j];
+		j++;
+	}
+	split3[len_split1 + len_split2] = NULL;
+	return(split3);
+}
+
 t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 {
 	char	**str;
 	char	**tmp;
-	char	*init_str;
+	char	**init_str;
 	int k = 0;
 	str = ft_str(input, i, cp_env);
 	if (!str)
@@ -121,10 +152,17 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		while (str[k])
 			k++;
 		k--;
-		init_str = ft_strjoin(str[k], tmp[0]);
-		free(str[k]);
+		init_str = ft_splitjoin(str, tmp);
+		// free(str[k]);
 		// free(tmp);
-		str[k] = init_str;
+		int l = 0;
+		while (str[k])
+		{
+			free(str[k]);
+			k++;
+		}
+		free(str);
+		str = init_str;
 	}
 	k = 0;
 	while (str[k])
