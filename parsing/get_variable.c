@@ -60,8 +60,11 @@ char	**ft_var(char *str, char **cp_env, char input)
 	int		i;
 	char	*result;
 	char	**split;
+	char	*IFS;
+	char *new;
 
 	i = 0;
+	IFS = get_env_var(cp_env, "IFS");
 	result = malloc(1);
 	result[0] = '\0';
 	while (str[i])
@@ -82,6 +85,24 @@ char	**ft_var(char *str, char **cp_env, char input)
 	}
 	if (input != '"')
 	{
+		if (IFS)
+		{
+			new = malloc(ft_strlen(result) + 1);
+			int h = 0;
+			while (result[h])
+			{
+				if (ft_strchr(IFS, result[h]) != NULL)
+				{
+					new[h] = ' ';
+				}
+				else
+					new[h] = result[h];
+				h++;
+			}
+			new[h] = '\0';
+			free(result);
+			result = ft_strdup(new);
+		}
 		split = ft_split(result, ' ');
 		free(result);
 	}
