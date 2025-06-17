@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/16 21:49:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/17 02:30:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ int	main(int argc, char **argv, char **env)
 		// 	continue ;
 		tok = get_tok(prompt, cp_env);
 		// print_tok(tok);
-		// print_tok(tok);
+		
 		if (tok != NULL)
 		{
 			tmp = tok;
-			print_tok(tok);
+			// print_tok(tok);
 			execute_cmd(tmp, cp_env, 0, shell);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
