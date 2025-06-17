@@ -34,7 +34,7 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 				k++;
 			k--;
 			sub = ft_strjoin(var[k], quot[0]);
-			free(str);
+			// free(str);
 			var[k] = sub;
 			// free(quot);
 		}
@@ -124,12 +124,12 @@ char	**ft_splitjoin(char	**split1, char **split2)
 	split3 = malloc(sizeof(char *) * (len_split1 + len_split2 + 1));
 	while (i < len_split1)
 	{
-		split3[i] = split1[i];
+		split3[i] = ft_strdup(split1[i]);
 		i++;
 	}
 	while (j < len_split2)
 	{
-		split3[len_split1 + j] = split2[j];
+		split3[len_split1 + j] = ft_strdup(split2[j]);
 		j++;
 	}
 	split3[len_split1 + len_split2] = NULL;
@@ -156,10 +156,10 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		// free(str[k]);
 		// free(tmp);
 		int l = 0;
-		while (str[k])
+		while (str[l])
 		{
-			free(str[k]);
-			k++;
+			free(str[l]);
+			l++;
 		}
 		free(str);
 		str = init_str;

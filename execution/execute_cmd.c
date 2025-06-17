@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/16 16:54:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/17 02:34:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,29 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 	int		status;
 
 	tok = check_cmd(tok, env);
+	
+	if (ft_strcmp(tok->output[0], ">") == 0)
+	{
+		int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			perror("open");
+			exit(EXIT_FAILURE);
+		}
+
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			close(fd);
+			exit(EXIT_FAILURE);
+		}
+		close(fd);
+		if (execve(tok->path, tok->str, NULL) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
 	if (flag == 1)
 	{
 		if (execve(tok->path, tok->str, env) == -1)

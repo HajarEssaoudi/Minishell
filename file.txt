@@ -1,2 +1,10 @@
-dd
-dd
+Makefile
+execution
+file.txt
+ft_printf
+lib
+main.c
+minishell
+minishell.h
+parsing
+test
