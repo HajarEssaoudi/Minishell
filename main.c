@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **env)
 		// if (!prompt[0])
 		// 	continue ;
 		tok = get_tok(prompt, cp_env);
-		print_tok(tok);
+		// print_tok(tok);
 		// print_tok(tok);
 		// print_tok(tok);
 		if (tok != NULL)
@@ -121,6 +121,7 @@ int	main(int argc, char **argv, char **env)
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
 		add_history(prompt);
+		free_tok(tok);
 	}
 	free_koulchi(cp_env, shell, 0);
 	return (0);

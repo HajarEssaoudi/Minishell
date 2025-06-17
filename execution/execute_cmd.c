@@ -145,7 +145,7 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 
 	tok = check_cmd(tok, env);
 	
-	if (ft_strcmp(tok->output[0], ">") == 0)
+	if (tok->output && ft_strcmp(tok->output[0], ">") == 0)
 	{
 		int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)

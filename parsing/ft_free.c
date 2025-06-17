@@ -45,3 +45,24 @@ void	free_lexer(t_lexer *lexer)
 		lexer = tmp;
 	}
 }
+
+void	free_tok(t_tok *tok)
+{
+	if(tok->append)
+		free_str(tok->append, 0);
+	if(tok->execute)
+		free(tok->execute);
+	if(tok->heredoc)
+		free_str(tok->heredoc, 0);
+	if (tok->input)
+		free_str(tok->input, 0);
+	if (tok->output)
+		free_str(tok->output, 0);
+	if (tok->path)
+		free(tok->path);
+	if (tok->pip)
+		free(tok->pip);
+	if (tok->str)
+		free_str(tok->str, 0);
+	free(tok);
+}

@@ -55,6 +55,36 @@ static char	*handle_normal_char(char *result, char c)
 	return (tmp_result);
 }
 
+
+char	**ft_splitIFS(char *str, char *IFS)
+{
+	int	i;
+	int	j;
+	int	k;
+	char	**new;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	new = malloc (sizeof(char *) * (ft_strlen(str) + 2));
+	while (str[i])
+	{
+		if (ft_strchr(IFS, str[i]))
+		{
+			new[k++] = ft_substr(str, j, i - j);
+			j = i + 1;
+			if (new[j])
+				new[k++] = ft_strdup("");
+		}
+		i++;
+	}
+	if (i > j)
+		new[k++] = ft_substr(str, j, i - j);
+	else if (str[i - 1] && ft_strchr(IFS, str[i - 1]))
+		new[k++] = ft_strdup("");
+	new[k] = NULL;
+	return (new);
+}
 char	**ft_var(char *str, char **cp_env, char input)
 {
 	int		i;
@@ -86,25 +116,10 @@ char	**ft_var(char *str, char **cp_env, char input)
 	if (input != '"')
 	{
 		if (IFS)
-		{
-			new = malloc(ft_strlen(result) + 1);
-			int h = 0;
-			while (result[h])
-			{
-				if (ft_strchr(IFS, result[h]) != NULL)
-				{
-					new[h] = ' ';
-				}
-				else
-					new[h] = result[h];
-				h++;
-			}
-			new[h] = '\0';
-			free(result);
-			result = ft_strdup(new);
-		}
-		split = ft_split(result, ' ');
-		free(result);
+			split = ft_splitIFS(result, IFS);
+		else
+			split = ft_split(result, ' ');
+		// free(result);
 	}
 	else
 	{
