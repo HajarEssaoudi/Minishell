@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/17 02:34:35 by root             ###   ########.fr       */
+/*   Updated: 2025/06/18 12:01:30 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,40 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 		execute_export(tok, shell);
 }
 
+void	execute_execve (t_tok *tok, char **env, int flag)
+{
+	pid_t	pid;
+	int		status;
+
+	if (flag == 0)
+	{
+		if (execve(tok->path, tok->str, env) == -1)
+		{
+			perror("minishell failed");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			if (execve(tok->path, tok->str, env) == -1)
+			{
+				perror("minishell failed");
+				exit(EXIT_FAILURE);
+			}
+		}
+		if (pid > 0)
+			waitpid(pid, &status, 0);
+		else
+		{
+			perror("fork failed");
+			return ;
+		}
+	}
+}
+
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	int	fd[2];
@@ -109,13 +143,11 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 			}
 			if(is_built_in(tok->str[0], env))
 			{
-				{
-					execute_built_in(tok, shell, env);
-					exit(shell->exit_status);
-				}
+				execute_built_in(tok, shell, env);
+				exit(shell->exit_status);
 			}
 			else
-				execute_external_cmd(tok, env, shell, 1);
+				execute_execve(tok, env, 0);
 		}
 		else
 		{
@@ -178,15 +210,25 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 	else if (!tok)
 		return ;
 	else
+	if (tok->output && ft_strcmp(tok->output[0], ">") == 0)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(tok->path, tok->str, env) == -1)
+			int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
 			{
-				perror("minishell failed");
+				perror("open");
 				exit(EXIT_FAILURE);
 			}
+			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				close(fd);
+				exit(EXIT_FAILURE);
+			}
+			close(fd);
+			execute_execve (tok, env, 0);
 		}
 		if (pid > 0)
 			waitpid(pid, &status, 0);
@@ -196,4 +238,6 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 			return ;
 		}
 	}
+	else
+		execute_execve (tok, env, 1);
 }
