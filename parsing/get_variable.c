@@ -119,7 +119,7 @@ char	**ft_var(char *str, char **cp_env, char input)
 			split = ft_splitIFS(result, IFS);
 		else
 			split = ft_split(result, ' ');
-		// free(result);
+		free(result);
 	}
 	else
 	{

@@ -145,28 +145,28 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 
 	tok = check_cmd(tok, env);
 	
-	if (tok->output && ft_strcmp(tok->output[0], ">") == 0)
-	{
-		int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
+	// if (tok->output && ft_strcmp(tok->output[0], ">") == 0)
+	// {
+	// 	int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	// 	if (fd < 0)
+	// 	{
+	// 		perror("open");
+	// 		exit(EXIT_FAILURE);
+	// 	}
 
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(EXIT_FAILURE);
-		}
-		close(fd);
-		if (execve(tok->path, tok->str, NULL) == -1)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-	}
+	// 	if (dup2(fd, STDOUT_FILENO) == -1)
+	// 	{
+	// 		perror("dup2");
+	// 		close(fd);
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// 	close(fd);
+	// 	if (execve(tok->path, tok->str, NULL) == -1)
+	// 	{
+	// 		perror("execve");
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// }
 	if (flag == 1)
 	{
 		if (execve(tok->path, tok->str, env) == -1)
@@ -175,6 +175,8 @@ void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
 			exit(EXIT_FAILURE);
 		}
 	}
+	else if (!tok)
+		return ;
 	else
 	{
 		pid = fork();
