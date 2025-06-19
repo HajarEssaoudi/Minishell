@@ -69,15 +69,18 @@ t_shell	*initialise_struct(t_shell *shell, char **env)
 
 void	free_list_env (t_env *env)
 {
+	t_env *tmp;
 	while(env)
 	{
+		tmp = env->next;
 		if (env->key)
 			free(env->key);
 		if (env->value)
 			free(env->value);
-		env = env->next;
+		free(env);
+		env = tmp;
 	}
-	free(env);
+	// free(env);
 }
 
 void	free_koulchi(char **cp_env,t_shell *shell, int f)
@@ -112,7 +115,7 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env);
 		// print_tok(tok);
 		// print_tok(tok);
-		// print_tok(tok);
+		print_tok(tok);
 		if (tok != NULL)
 		{
 			tmp = tok;
@@ -121,7 +124,8 @@ int	main(int argc, char **argv, char **env)
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
 		add_history(prompt);
-		free_tok(tok);
+		if (tok)
+			free_tok(tok);
 	}
 	free_koulchi(cp_env, shell, 0);
 	return (0);

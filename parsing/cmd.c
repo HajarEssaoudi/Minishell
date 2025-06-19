@@ -19,6 +19,7 @@ char	*check_ext(char *input, char **cp_env)
 	char	*path;
 	char	**path_split;
 	char	*cmd;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
@@ -26,17 +27,18 @@ char	*check_ext(char *input, char **cp_env)
 	path_split = ft_split(path, ':');
 	while (path_split[i])
 	{
-		cmd = ft_strjoin(path_split[i], "/");
-		cmd = ft_strjoin(cmd, input);
+		tmp = ft_strjoin(path_split[i], "/");
+		cmd = ft_strjoin(tmp, input);
+		free(tmp);
 		if (access(cmd, F_OK) == 0)
 		{
-			free(path_split);
+			free_str(path_split, 0);
 			return (cmd);
 		}
 		free(cmd);
 		i++;
 	}
-	free(path_split);
+	free_str(path_split, 0);
 	return (NULL);
 }
 static char	*is_built_in(char *input, char **cp_env)
@@ -80,6 +82,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				{
 					free(tok->path);
 					tok->path = ft_strdup(ex);
+					free(ex);
 				}
 				else if (!ex && !in)
 				{

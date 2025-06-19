@@ -87,7 +87,7 @@ char	*cv_var(char *str, int *i)
 char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 {
 	char	*var;
-
+	
 	(*i)++;
 	var = NULL;
 	if (str[*i] == '{')

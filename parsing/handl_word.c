@@ -22,7 +22,7 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j)
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i]);
 	// str = ft_strdup(var);
-	// free(sub);
+	free(sub);
 	// free(var);
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
@@ -168,8 +168,8 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 	while (str[k])
 	{
 		add_ch(&lexer, "string", str[k]);
-		free(str[k]);
 		k++;
 	}
+	free_str(str, 0);
 	return (lexer);
 }
