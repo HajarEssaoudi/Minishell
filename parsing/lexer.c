@@ -17,6 +17,8 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 	{
 		lexer = ft_operator(input, i, lexer);
+		if (lexer->flag)
+			free(lexer->flag);
 		if (!lexer)
 		{
 			free_lexer(lexer);
@@ -35,6 +37,8 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 			free_lexer(lexer);
 			return (NULL);
 		}
+		if (lexer->flag)
+			free(lexer->flag);
 	}
 	return (lexer);
 }

@@ -142,6 +142,7 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 	char	**tmp;
 	char	**init_str;
 	int k = 0;
+	printf("%s\n", lexer->flag);
 	str = ft_str(input, i, cp_env, lexer->flag);
 	if (!str)
 		return (NULL);
