@@ -85,15 +85,17 @@ char	**ft_splitIFS(char *str, char *IFS)
 	new[k] = NULL;
 	return (new);
 }
-char	**ft_var(char *str, char **cp_env, char input)
+char	**ft_var(char *str, char **cp_env, char input, char *flag)
 {
 	int		i;
 	char	*result;
 	char	**split;
 	char	*IFS;
 	char *new;
+	int	k;
 
 	i = 0;
+	k = 0;
 	IFS = get_env_var(cp_env, "IFS");
 	result = malloc(1);
 	result[0] = '\0';
@@ -107,7 +109,10 @@ char	**ft_var(char *str, char **cp_env, char input)
 			result = handle_tilde(result, cp_env, &i);
 		}
 		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-			result = ft_dollar(str, cp_env, result, &i);
+		{
+			k = i;
+			result = ft_dollar(str, cp_env, result, &i, flag);
+		}
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
 			result = handle_normal_char(result, str[i += 2]);
 		else
@@ -127,6 +132,12 @@ char	**ft_var(char *str, char **cp_env, char input)
 		split[0] = result;
 		split[1] = NULL;
 		// free(result);
+	}
+	if ((!split[0] || split[1]) && flag[0] == '2')
+	{
+		printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
+		free_str(split, 0);
+		return (NULL);
 	}
 	return (split);
 }

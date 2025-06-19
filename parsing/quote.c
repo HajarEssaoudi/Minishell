@@ -29,7 +29,7 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env)
 		if (quot == '"')
 		{
 			vars->sub = ft_substr(input, vars->start, vars->i - vars->start);
-			vars->str = *ft_var(vars->sub, cp_env, quot);
+			vars->str = *ft_var(vars->sub, cp_env, quot, 0);
 			free(vars->sub);
 		}
 		else

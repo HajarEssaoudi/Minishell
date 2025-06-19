@@ -22,6 +22,10 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 			free_lexer(lexer);
 			return (NULL);
 		}
+		else if (!ft_strcmp(lexer->args, "<<"))
+			lexer->flag = ft_strdup("1");
+		else
+			lexer->flag = ft_strdup("2");
 	}
 	else if (input[*i])
 	{

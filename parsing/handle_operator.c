@@ -41,7 +41,7 @@ t_lexer	*handle_redirect_append(char *input, int *i, t_lexer *lexer)
 	if (!check_redirect2(input))
 	{
 		add_ch(&lexer, "append", ">>");
-		(*i)++;
+		(*i) += 2;
 	}
 	else
 		return (NULL);
@@ -53,7 +53,7 @@ t_lexer	*handle_redirect_heredoc(char *input, int *i, t_lexer *lexer)
 	if (!check_redirect2(input))
 	{
 		add_ch(&lexer, "heredoc", "<<");
-		(*i)++;
+		(*i) += 2;
 	}
 	else
 		return (NULL);

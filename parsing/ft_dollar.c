@@ -84,7 +84,7 @@ char	*cv_var(char *str, int *i)
 	return (NULL);
 }
 
-char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
+char	*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag)
 {
 	char	*var;
 	
@@ -94,6 +94,12 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i)
 		result = handle_braces_var(result, str, cp_env, i);
 	else
 	{
+		if (flag[0] == '1')
+		{
+			--(*i);
+			var = cv_var(str, i);
+			return (var);
+		}
 		var = cv_var(str, i);
 		if (!var)
 		{
