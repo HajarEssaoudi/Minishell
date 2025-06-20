@@ -28,8 +28,11 @@ void	add_ch(t_lexer **lexer, char *type, char *input)
 	token->args = ft_strdup(input);
 	token->type = ft_strdup(type);
 	token->next = NULL;
-	if (!*lexer)
+	token->flag = NULL;
+	if (!*lexer || !(*lexer)->type)
 	{
+		if (*lexer)
+			free(*lexer);
 		*lexer = token;
 	}
 	else
