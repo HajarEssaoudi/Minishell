@@ -94,6 +94,8 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 	char *new;
 	int	k;
 
+	// printf("%s\n", str);
+
 	i = 0;
 	k = 0;
 	IFS = get_env_var(cp_env, "IFS");
@@ -112,31 +114,33 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		{
 			k = i;
 			result = ft_dollar(str, cp_env, result, &i, flag);
+			// printf("dollar => %s\n", result);
 		}
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
 			result = handle_normal_char(result, str[i += 2]);
 		else
 			result = handle_normal_char(result, str[i++]);
 	}
+	// printf("result => %s\n", result);
 	if (input != '"')
 	{
 		if (IFS)
 			split = ft_splitIFS(result, IFS);
 		else
 			split = ft_split(result, ' ');
-		if (!split || !split[0])
-		{
-			split = malloc(sizeof(char *) * 2);
-			if (result[0] == ' ')
-				split[0] = ft_strdup(" ");
-			else
-				split[0] = ft_strdup("");
-			split[1] = NULL;
-		}
+		// if (!split || !split[0])
+		// {
+		// 	split = malloc(sizeof(char *) * 2);
+		// 	// if (result[0] == ' ')
+		// 	// 	split[0] = ft_strdup(" ");
+		// 	// else
+		// 	split[0] = ft_strdup("");
+		// 	split[1] = NULL;
+		// }
 		free(result);
 	}
 	else
-	{
+	{		
 		split = malloc(sizeof(char *) * 2);
 		split[0] = result;
 		split[1] = NULL;

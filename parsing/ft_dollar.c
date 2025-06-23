@@ -18,12 +18,14 @@ static char	*handle_simple_var(char *result, char *var, char **cp_env, int *i)
 	char	*tmp;
 
 	val = get_env_var(cp_env, var);
+	// printf("val => %s\n", val);
 	if (val)
 		tmp = ft_strjoin(result, val);
 	else
 		tmp = ft_strdup(result);
 	free(result);
 	free(var);
+	// printf("tmp => %s\n", tmp);
 	return (tmp);
 }
 
@@ -72,13 +74,13 @@ char	*cv_var(char *str, int *i)
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
 			(*i)++;
 		var = ft_substr(str, j, *i - j);
-
 		return (var);
 	}
 	else
 	{
 		while (str[*i])
 			(*i)++;
+		printf("ft_substr(str, j, *i - j) => %s\n", ft_substr(str, j, *i - j));
 		return (ft_substr(str, j, *i - j));
 	}
 	return (NULL);
@@ -101,6 +103,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag)
 			return (var);
 		}
 		var = cv_var(str, i);
+		printf("var => %s\n", var);
 		if (!var)
 		{
 			free(result);

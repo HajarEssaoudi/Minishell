@@ -50,6 +50,8 @@ char	*ft_special_caract(char *result, char *var)
 
 	tmp = NULL;
 	tmp = ft_strjoin(result, var);
+	// printf("var => %s\n", var);
+	// printf("tmp => %s\n", tmp);
 	free(var);
 	free(result);
 	return (tmp);
