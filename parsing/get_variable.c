@@ -124,6 +124,15 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 			split = ft_splitIFS(result, IFS);
 		else
 			split = ft_split(result, ' ');
+		if (!split || !split[0])
+		{
+			split = malloc(sizeof(char *) * 2);
+			if (result[0] == ' ')
+				split[0] = ft_strdup(" ");
+			else
+				split[0] = ft_strdup("");
+			split[1] = NULL;
+		}
 		free(result);
 	}
 	else
