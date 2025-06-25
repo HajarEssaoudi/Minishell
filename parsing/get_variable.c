@@ -91,6 +91,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 	char	*result;
 	char	**split;
 	char	*IFS;
+	char	**new_split;
 	char *new;
 	int	k;
 
@@ -137,6 +138,26 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		// 	split[0] = ft_strdup("");
 		// 	split[1] = NULL;
 		// }
+		int k = 0;
+		while (result[k])
+			k++;
+		if(result[k - 1] == ' ')
+		{
+			k = 0;
+			while (split[k])
+				k++;
+			new_split = malloc(sizeof(char *) * (k + 1));
+			k = 0;
+			while (split[k])
+			{
+				new_split[k] = split[k];
+				k++;
+			}
+			new_split[k] = ft_strdup("");
+			new_split[k + 1] = NULL;
+			free(split);
+			split = new_split;
+		}
 		free(result);
 	}
 	else

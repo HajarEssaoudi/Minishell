@@ -12,6 +12,26 @@
 
 #include "parsing.h"
 
+void	add_rederict(t_rederict **rederect, char *type, char *filename)
+{
+	t_rederict	*new_rederict;
+	t_rederict	*tmp;
+
+	new_rederict = malloc(sizeof(t_rederict));
+	new_rederict->filename = ft_strdup(filename);
+	new_rederict->type = ft_strdup(type);
+	new_rederict->next = NULL;
+	tmp = rederect;
+	if (!*rederect)
+		rederect = new_rederict;
+	else
+	{
+		while (tmp)
+			tmp = tmp->next;
+		tmp->next = new_rederict;
+	}
+}
+
 void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 {
 	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))

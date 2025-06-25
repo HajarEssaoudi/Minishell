@@ -24,6 +24,13 @@
 # include <string.h>
 # include <sys/wait.h>
 
+typedef struct s_rederict
+{
+	char	*type;
+	char	*filename;
+	struct s_rederict *next;
+}	t_rederict;
+
 typedef struct s_tok
 {
 	char			**str;
@@ -33,6 +40,7 @@ typedef struct s_tok
 	char			**output;
 	char			**input;
 	char			**append;
+	t_rederict		*redirect;
 	char			*pip;
 	char			**env;
 	char			*pwd;
