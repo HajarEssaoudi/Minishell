@@ -40,6 +40,14 @@ void	print_tok(t_tok *tok)
 		printf(" execute: %s\n", tok->execute ? tok->execute : "(null)");
 		printf(" path: %s\n", tok->path ? tok->path : "(null)");
 		print_str_array(tok->str);
+		int j = 0;
+		while (tok->redirect)
+		{
+			printf("redirect #%d\n", j);
+			printf("%s %s\n", tok->redirect->type, tok->redirect->filename);
+			tok->redirect = tok->redirect->next;
+			j++;
+		}
 		printf(" heredoc:\n");
 		print_str_array(tok->heredoc);
 		printf(" output:\n");
@@ -115,14 +123,14 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env);
 		// print_tok(tok);
 		// print_tok(tok);
-		// print_tok(tok);
-		if (tok != NULL)
-		{
-			tmp = tok;
-			// print_tok(tok);
-			execute_cmd(tmp, cp_env, 0, shell);
-			cp_env = update_env_arr(shell->env, cp_env);
-		}
+		print_tok(tok);
+		// if (tok != NULL)
+		// {
+		// 	tmp = tok;
+		// 	// print_tok(tok);
+		// 	execute_cmd(tmp, cp_env, 0, shell);
+		// 	cp_env = update_env_arr(shell->env, cp_env);
+		// }
 		add_history(prompt);
 		if (tok)
 			free_tok(tok);

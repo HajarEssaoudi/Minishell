@@ -21,12 +21,12 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename)
 	new_rederict->filename = ft_strdup(filename);
 	new_rederict->type = ft_strdup(type);
 	new_rederict->next = NULL;
-	tmp = rederect;
+	tmp = *rederect;
 	if (!*rederect)
-		rederect = new_rederict;
+		*rederect = new_rederict;
 	else
 	{
-		while (tmp)
+		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_rederict;
 	}
@@ -37,22 +37,22 @@ void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))
 	{
 		if (!(ft_strncmp(type, "output", ft_strlen("output"))))
-			tmp->output = ft_red(tmp->output, lexer->args);
+			add_rederict(&tmp->redirect, ">", lexer->args);
 		else if (!(ft_strncmp(type, "input", ft_strlen("input"))))
-			tmp->input = ft_red(tmp->input, lexer->args);
+			add_rederict(&tmp->redirect, "<", lexer->args);
 		else if (!(ft_strncmp(type, "append", ft_strlen("append"))))
-			tmp->append = ft_red(tmp->append, lexer->args);
+			add_rederict(&tmp->redirect, ">>", lexer->args);
 		else if (!(ft_strncmp(type, "heredoc", ft_strlen("heredoc"))))
-			tmp->heredoc = ft_red(tmp->heredoc, lexer->args);
+			add_rederict(&tmp->redirect, "<<", lexer->args);
 	}
-	if (!(ft_strncmp(lexer->type, "output", ft_strlen("output"))))
-		tmp->output = ft_red(tmp->output, lexer->args);
-	if (!(ft_strncmp(lexer->type, "input", ft_strlen("input"))))
-		tmp->input = ft_red(tmp->input, lexer->args);
-	if (!(ft_strncmp(lexer->type, "append", ft_strlen("append"))))
-		tmp->append = ft_red(tmp->append, lexer->args);
-	if (!(ft_strncmp(lexer->type, "heredoc", ft_strlen("heredoc"))))
-		tmp->heredoc = ft_red(tmp->heredoc, lexer->args);
+	// if (!(ft_strncmp(lexer->type, "output", ft_strlen("output"))))
+	// 	tmp->output = ft_red(tmp->output, lexer->args);
+	// if (!(ft_strncmp(lexer->type, "input", ft_strlen("input"))))
+	// 	tmp->input = ft_red(tmp->input, lexer->args);
+	// if (!(ft_strncmp(lexer->type, "append", ft_strlen("append"))))
+	// 	tmp->append = ft_red(tmp->append, lexer->args);
+	// if (!(ft_strncmp(lexer->type, "heredoc", ft_strlen("heredoc"))))
+	// 	tmp->heredoc = ft_red(tmp->heredoc, lexer->args);
 }
 
 void	ft_tok_word_cmd(t_lexer *lexer, char *type, t_tok *tmp)
