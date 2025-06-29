@@ -33,7 +33,7 @@ int	check_after_befor_pip(int *i, char *input, int len)
 	j = *i + 1;
 	while (input[j] && input[j] == ' ')
 		j++;
-	if (!input[j])
+	if (!input[j] ||  input[j] == '|')
 	{
 		printf("Minishell: syntax error near unexpected token `|'\n");
 		return (1);

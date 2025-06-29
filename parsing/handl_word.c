@@ -83,7 +83,7 @@ char	**ft_str(char *input, int *i, char **cp_env, char *flag)
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		str = check_quot(input, i, input[*i], cp_env);
-		if (!str[0])
+		if (!str || !str[0])
 			return (NULL);
 	}
 	j = *i;
@@ -141,9 +141,18 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 	char	**str;
 	char	**tmp;
 	char	**init_str;
+	t_lexer	*new_lex;
+	char	*flag;
 	int k = 0;
 	
-	str = ft_str(input, i, cp_env, lexer->flag);
+	new_lex = lexer;
+	while (new_lex)
+	{
+		flag = new_lex->flag;
+		new_lex = new_lex->next;
+	}
+	
+	str = ft_str(input, i, cp_env, flag);
 	if (!str)
 		return (NULL);
 	while (input[*i] == '"' || input[*i] == '\'')

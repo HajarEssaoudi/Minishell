@@ -14,6 +14,7 @@
 
 t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 {
+	t_lexer	*tmp;
 	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 	{
 		lexer = ft_operator(input, i, lexer);
@@ -22,12 +23,19 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 			free_lexer(lexer);
 			return (NULL);
 		}
-		if (lexer->flag)
-			free(lexer->flag);
-		if (!ft_strcmp(lexer->type, "heredoc"))
-			lexer->flag = ft_strdup("1");
-		else
-			lexer->flag = ft_strdup("2");
+		tmp = lexer;
+		while (tmp)
+		{
+			if (tmp->flag)
+				free(tmp->flag);
+			if (!ft_strcmp(tmp->type, "heredoc"))
+				tmp->flag = ft_strdup("1");
+			else if (!ft_strcmp(tmp->type, "output") || !ft_strcmp(tmp->type, "input") || !ft_strcmp(tmp->type, "append"))
+				tmp->flag = ft_strdup("2");
+			else
+				tmp->flag = ft_strdup("0");
+			tmp = tmp->next;
+		}
 	}
 	else if (input[*i])
 	{

@@ -43,11 +43,24 @@ static char	*handle_tilde(char *result, char **cp_env, int *i)
 	return (tmp);
 }
 
-static char	*handle_normal_char(char *result, char c)
+static char	*handle_normal_char(char *result, char c, char quot)
 {
 	char	tmp_char[2];
 	char	*tmp_result;
+	char	*sub;
+	int		i;
 
+	i = 0;
+	while(result[i])
+	{
+		if (result[i] == '\\' && c == quot)
+		{
+			sub = ft_substr(result, 0, i - 0);
+			free(result);
+			result = sub;
+		}
+		i++;
+	}
 	tmp_char[0] = c;
 	tmp_char[1] = '\0';
 	tmp_result = ft_strjoin(result, tmp_char);
@@ -115,12 +128,13 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		{
 			k = i;
 			result = ft_dollar(str, cp_env, result, &i, flag);
+			printf("result => %s\n", result);
 			// printf("dollar => %s\n", result);
 		}
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
-			result = handle_normal_char(result, str[i += 2]);
+			result = handle_normal_char(result, str[i += 2], input);
 		else
-			result = handle_normal_char(result, str[i++]);
+			result = handle_normal_char(result, str[i++], input);
 	}
 	// printf("result => %s\n", result);
 	if (input != '"')
@@ -167,7 +181,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		split[1] = NULL;
 		// free(result);
 	}
-	if ((!split[0] || split[1]) && flag[0] == '2')
+	if ((!split || !split[0] || split[1]) && flag[0] == '2')
 	{
 		printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
 		free_str(split, 0);

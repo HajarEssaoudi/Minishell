@@ -68,7 +68,7 @@ char	*cv_var(char *str, int *i)
 			break ;
 		j++;
 	}
-	if (!str[j])
+	if (!str[j] || (!ft_isalpha(str[j]) && !ft_isdigit(str[j])))
 	{
 		j = *i;
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
@@ -80,7 +80,7 @@ char	*cv_var(char *str, int *i)
 	{
 		while (str[*i])
 			(*i)++;
-		printf("ft_substr(str, j, *i - j) => %s\n", ft_substr(str, j, *i - j));
+		// printf("ft_substr(str, j, *i - j) => %s\n", ft_substr(str, j, *i - j));
 		return (ft_substr(str, j, *i - j));
 	}
 	return (NULL);
@@ -92,6 +92,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag)
 	
 	(*i)++;
 	var = NULL;
+	// printf("flag %s\n", flag);
 	if (str[*i] == '{')
 		result = handle_braces_var(result, str, cp_env, i);
 	else

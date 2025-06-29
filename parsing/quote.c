@@ -22,7 +22,7 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env)
 	vars->start = *index + 1;
 	vars->i = vars->start;
 	vars->str = NULL;
-	while (input[vars->i] && input[vars->i] != quot)
+	while (input[vars->i] && (input[vars->i] != quot || (input[vars->i] == quot && input[vars->i - 1] == '\\')))
 		vars->i++;
 	if (input[vars->i] == quot)
 	{

@@ -48,14 +48,6 @@ void	print_tok(t_tok *tok)
 			tok->redirect = tok->redirect->next;
 			j++;
 		}
-		printf(" heredoc:\n");
-		print_str_array(tok->heredoc);
-		printf(" output:\n");
-		print_str_array(tok->output);
-		printf(" input:\n");
-		print_str_array(tok->input);
-		printf(" append:\n");
-		print_str_array(tok->append);
 		printf(" pip: %s\n", tok->pip ? tok->pip : "(null)");
 		printf("------------------------\n");
 		tok = tok->next;
