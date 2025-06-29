@@ -3,6 +3,7 @@
         "sstream": "c",
         "random": "c",
         "chrono": "c",
-        "functional": "c"
+        "functional": "c",
+        "cstdlib": "c"
     }
 }

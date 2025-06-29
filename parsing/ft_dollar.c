@@ -64,11 +64,11 @@ char	*cv_var(char *str, int *i)
 	j = *i;
 	while (str[j])
 	{
-		if (!ft_isalpha(str[j]) && !ft_isdigit(str[j]))
+		if (!ft_isalpha(str[j]) && !ft_isdigit(str[j]) && str[j] != '_')
 			break ;
 		j++;
 	}
-	if (!str[j] || (!ft_isalpha(str[j]) && !ft_isdigit(str[j])))
+	if (!str[j] || str[j] == '"' || str[j] == '\'' || str[j] ==' ' || str[j] == '\n' || str[j] == '\t')
 	{
 		j = *i;
 		while ((ft_isalpha(str[*i]) || str[*i] == '_') && str[*i])
@@ -89,21 +89,22 @@ char	*cv_var(char *str, int *i)
 char	*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag)
 {
 	char	*var;
+	char	*new;
 	
 	(*i)++;
 	var = NULL;
+	new = NULL;
 	// printf("flag %s\n", flag);
 	if (str[*i] == '{')
 		result = handle_braces_var(result, str, cp_env, i);
 	else
 	{
+		var = cv_var(str, i);
 		if (flag && flag[0] == '1')
 		{
-			--(*i);
-			var = cv_var(str, i);
-			return (var);
+			new = ft_strjoin("$", var);
+			return (new);
 		}
-		var = cv_var(str, i);
 		printf("var => %s\n", var);
 		if (!var)
 		{

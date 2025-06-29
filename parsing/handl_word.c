@@ -88,7 +88,7 @@ char	**ft_str(char *input, int *i, char **cp_env, char *flag)
 	}
 	j = *i;
 	while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
-		&& input[*i] != ' ' && input[*i] != '"' && input[*i] != '\'')
+		&& input[*i] != ' ' && input[*i] != '\t' && input[*i] != '\n' && input[*i] != '"' && input[*i] != '\'')
 		(*i)++;
 	if (j != *i)
 	{
