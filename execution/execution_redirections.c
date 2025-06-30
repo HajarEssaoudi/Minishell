@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:36:32 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/30 17:56:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:30:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 	char		*last_out = NULL;
 	char		*last_in = NULL;
 	char		*last_append = NULL;
+	pid_t		pid;
+	int			status;
 
 	tmp = tok->redirect;
 	while (tmp)
@@ -33,14 +35,31 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			delimiter = tmp->filename;
 		tmp = tmp->next;
 	}
-	if (delimiter)
-		ft_herdoc(tok, delimiter, env, shell);
-	if (last_in)
-		ft_in(tok, last_in, env, shell);
-	if (last_out)
-		ft_out(tok, last_out ,env, shell);
-	if (last_append)
-		ft_append(tok, last_append, env, shell);
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork failed");
+		return;
+	}
+	if (pid == 0)
+	{
+		if (delimiter)
+			ft_herdoc(tok, delimiter, env, shell);
+		if (last_in)
+			ft_in(tok, last_in, env, shell);
+		if (last_out)
+			ft_out(tok, last_out ,env, shell);
+		if (last_append)
+			ft_append(tok, last_append, env, shell);
+		if (is_built_in(tok->str[0], env))
+			execute_built_in(tok, shell, env);
+		else
+			execute_external_cmd(tok, env, 0);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
 }
 
 // void	execute_redirect(t_tok *tok)

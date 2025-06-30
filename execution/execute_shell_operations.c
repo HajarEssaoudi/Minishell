@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_shell_operations.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:16:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/30 17:39:03 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:35:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,19 @@ void	ft_out(t_tok *tok,char *filename, char **env, t_shell *shell)
 	pid_t	pid;
 	int		status;
 	int		fd;
-
-	pid = fork();
-	if (pid < 0)
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
 	{
-		perror("fork failed");
-		return ;
+		perror("open");
+		exit(EXIT_FAILURE);
 	}
-	if (pid == 0)
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(EXIT_FAILURE);
-		}
+		perror("dup2");
 		close(fd);
-		if(is_built_in(tok->str[0], env))
-		{
-			execute_built_in(tok, shell, env);
-			exit(0);
-		}
-		else
-			execute_external_cmd (tok, env, 0);
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
-
+	close(fd);
 }
 
 void	ft_in(t_tok *tok,char *filename, char **env, t_shell *shell)
@@ -60,37 +38,19 @@ void	ft_in(t_tok *tok,char *filename, char **env, t_shell *shell)
 	int		status;
 	int		fd;
 
-	pid = fork();
-	if (pid == 0)
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
 	{
-		fd = open(filename, O_RDONLY);
-		if (fd < 0)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(EXIT_FAILURE);
-		}
+		perror("open");
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
 		close(fd);
-		if(is_built_in(tok->str[0], env))
-		{
-			execute_built_in(tok, shell, env);
-			exit(0);
-		}
-		else
-			execute_external_cmd(tok, env, 0);
+		exit(EXIT_FAILURE);
 	}
-	if (pid > 0)
-		waitpid(pid, &status, 0);
-	else
-	{
-		perror("fork failed");
-		return ;
-	}
+	close(fd);
 }
 
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
