@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:00 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:10:52 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ int	main(int argc, char **argv, char **env)
 		prompt = readline("Minishell$> ");
 		if (!prompt)
 			free_str(cp_env, 1);
-		// if (!prompt[0])
-		// 	continue ;
+		if (!prompt[0])
+			continue ;
 		tok = get_tok(prompt, cp_env);
 		if (tok != NULL)
 		{

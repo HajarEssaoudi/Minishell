@@ -1,0 +1,15 @@
+execution
+file.txt
+ft_printf
+input.txt
+lib
+main.c
+Makefile
+minishell
+minishell.h
+now.txt
+output.txt
+out.txt
+parsing
+readline.supp
+test

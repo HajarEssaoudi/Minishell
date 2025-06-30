@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/30 17:22:18 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:08:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	execute_cmd(t_tok *tok, char **env, t_shell *shell)
 {
 	if (tok->execute)
 		execute_executable(tok, env);
-	else if (tok->redirect)
+	if (tok->redirect)
 		execute_redirect(tok, env, shell);
-	else if (tok->pip && tok->pip[0] == '|')
+	if (tok->pip && tok->pip[0] == '|')
 		execute_with_pipe(tok, env, shell);
 	else if(is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
