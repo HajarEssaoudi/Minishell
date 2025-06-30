@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:12:14 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 23:11:35 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:30:27 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	execute_echo(t_tok *tok)
 	while (tok->str[i])
 	{
 		if (ft_strncmp(tok->str[i], "-n", 2) == 0)
+		{
 			i++;
+		}
 		else
 			break;
 	}

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 18:53:26 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:38:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,25 @@ typedef struct s_shell
 	struct s_env	*env;
 }					t_shell;
 
-
 /*to be deleted */
-void	print_tok(t_tok *tok);
+void				print_tok(t_tok *tok);
 
 /* execution */
 void				execute_executable(t_tok *tok, char **env);
-void				execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag);
+void				execute_external_cmd(t_tok *tok, char **env, int flag);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 void				execute_built_in(t_tok *tok, t_shell *shell, char **env);
-void				execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell);
+void				execute_cmd(t_tok *tok, char **env, t_shell *shell);
+
+
+/*shell's operations*/
+
+void	execute_redirect(t_tok *tok, char **env, t_shell *shell);
+void	ft_out(t_tok *tok,char *filename, char **env, t_shell *shell);
+void	ft_in(t_tok *tok,char *filename, char **env, t_shell *shell);
+void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
+void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell);
+void	ft_append(t_tok *tok,char *filename, char **env, t_shell *shell);
 
 /* helpers */
 int					is_built_in(char *input, char **cp_env);

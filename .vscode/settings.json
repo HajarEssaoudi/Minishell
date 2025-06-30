@@ -4,6 +4,9 @@
         "random": "c",
         "chrono": "c",
         "functional": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "parsing.h": "c",
+        "libft.h": "c",
+        "execution.h": "c"
     }
 }

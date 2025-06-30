@@ -6,25 +6,24 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:57:59 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/19 15:17:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:22:18 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	execute_cmd(t_tok *tok, char **env, int fd, t_shell *shell)
+void	execute_cmd(t_tok *tok, char **env, t_shell *shell)
 {
 	if (tok->execute)
 		execute_executable(tok, env);
-	if (tok->pip && tok->pip[0] == '|')
+	else if (tok->redirect)
+		execute_redirect(tok, env, shell);
+	else if (tok->pip && tok->pip[0] == '|')
 		execute_with_pipe(tok, env, shell);
+	else if(is_built_in(tok->str[0], env))
+		execute_built_in(tok, shell, env);
 	else
-	{
-		if(is_built_in(tok->str[0], env))
-			execute_built_in(tok, shell, env);
-		else
-			execute_external_cmd(tok, env, shell, 0);
-	}
+		execute_external_cmd(tok, env, 1);
 }
 
 void	 execute_executable(t_tok *tok, char **env)
@@ -69,11 +68,14 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 		execute_export(tok, shell);
 }
 
-void	execute_execve (t_tok *tok, char **env, int flag)
+void	 execute_external_cmd (t_tok *tok, char **env, int flag)
 {
 	pid_t	pid;
 	int		status;
 
+	tok = check_cmd(tok, env);
+	if (!tok)
+		return ;
 	if (flag == 0)
 	{
 		if (execve(tok->path, tok->str, env) == -1)
@@ -101,111 +103,4 @@ void	execute_execve (t_tok *tok, char **env, int flag)
 			return ;
 		}
 	}
-}
-
-void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
-{
-	int	fd[2];
-	int	prev_fd;
-	pid_t pid1;
-
-	prev_fd = -1;
-	while(tok)
-	{
-		if (tok->pip && tok->pip[0] == '|')
-		{
-			if (pipe(fd) == -1)
-			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
-			}
-		}
-		pid1 = fork();
-		if (pid1 == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (pid1 == 0)
-		{
-			/*if not the first cmd*/
-			if (prev_fd != -1)
-			{
-				dup2(prev_fd, 0);
-				close(prev_fd);
-			}
-			/*not last cmd*/
-			if (tok->pip && tok->pip[0] == '|')
-			{
-				close (fd[0]);
-				dup2(fd[1], 1);
-				close(fd[1]);
-			}
-			if(is_built_in(tok->str[0], env))
-			{
-				execute_built_in(tok, shell, env);
-				exit(shell->exit_status);
-			}
-			else
-				execute_execve(tok, env, 0);
-		}
-		else
-		{
-			if (prev_fd != -1)
-				close(prev_fd);
-			if (tok->pip && tok->pip[0] == '|')
-			{
-				close(fd[1]);
-				prev_fd = fd[0];
-			}
-			else
-			{
-				if (prev_fd != -1)
-					close(prev_fd);
-				break;
-			}
-		}
-		tok = tok->next;
-	}
-	while(wait(NULL) > 0);
-}
-
-void	 execute_external_cmd(t_tok *tok, char **env, t_shell *shell, int flag)
-{
-	pid_t	pid;
-	int		status;
-
-	tok = check_cmd(tok, env);
-	if (!tok)
-		return ;
-	if (tok->output && ft_strcmp(tok->output[0], ">") == 0)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			int fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
-			{
-				perror("open");
-				exit(EXIT_FAILURE);
-			}
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				close(fd);
-				exit(EXIT_FAILURE);
-			}
-			close(fd);
-			execute_execve (tok, env, 0);
-		}
-		if (pid > 0)
-			waitpid(pid, &status, 0);
-		else
-		{
-			perror("fork failed");
-			return ;
-		}
-	}
-	else
-		execute_execve (tok, env, 1);
 }

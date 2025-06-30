@@ -6,22 +6,27 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:16:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/24 17:07:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:39:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	ft_out(t_tok *tok, char **env, t_shell *shell)
+void	ft_out(t_tok *tok,char *filename, char **env, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
 	int		fd;
 
 	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork failed");
+		return ;
+	}
 	if (pid == 0)
 	{
-		fd = open(tok->output[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
 			perror("open");
@@ -35,20 +40,21 @@ void	ft_out(t_tok *tok, char **env, t_shell *shell)
 		}
 		close(fd);
 		if(is_built_in(tok->str[0], env))
+		{
 			execute_built_in(tok, shell, env);
+			exit(0);
+		}
 		else
-			execute_execve(tok, env, 1);
+			execute_external_cmd (tok, env, 0);
 	}
-	if (pid > 0)
-		waitpid(pid, &status, 0);
 	else
 	{
-		perror("fork failed");
-		return ;
+		waitpid(pid, &status, 0);
 	}
+
 }
 
-void	ft_in(t_tok *tok, char **env, t_shell *shell)
+void	ft_in(t_tok *tok,char *filename, char **env, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -57,7 +63,7 @@ void	ft_in(t_tok *tok, char **env, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		fd = open(tok->input[1], O_RDONLY);
+		fd = open(filename, O_RDONLY);
 		if (fd < 0)
 		{
 			perror("open");
@@ -71,9 +77,12 @@ void	ft_in(t_tok *tok, char **env, t_shell *shell)
 		}
 		close(fd);
 		if(is_built_in(tok->str[0], env))
+		{
 			execute_built_in(tok, shell, env);
+			exit(0);
+		}
 		else
-			execute_execve(tok, env, 1);
+			execute_external_cmd(tok, env, 0);
 	}
 	if (pid > 0)
 		waitpid(pid, &status, 0);
@@ -125,10 +134,10 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 			if(is_built_in(tok->str[0], env))
 			{
 				execute_built_in(tok, shell, env);
-				exit(shell->exit_status);
+				exit(0);
 			}
 			else
-				execute_execve(tok, env, 0);
+				execute_external_cmd(tok, env, 0);
 		}
 		else
 		{
@@ -151,21 +160,22 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	while(wait(NULL) > 0);
 }
 
-void	ft_herdoc(t_tok *tok, char **env, t_shell *shell)
+void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 {
 	char	*line;
 	int		pipefd[2];
+	int		stdin_copy;
 
+	stdin_copy = dup(STDIN_FILENO);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
 		return;
 	}
-
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, tok->heredoc[1]) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 			break;
 		write(pipefd[1], line, ft_strlen(line));
 		write(pipefd[1], "\n", 1);
@@ -173,16 +183,23 @@ void	ft_herdoc(t_tok *tok, char **env, t_shell *shell)
 	}
 	close(pipefd[1]);
 
-	dup2(pipefd[0], 0);
+	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 
 	if (is_built_in(tok->str[0], env))
+	{
 		execute_built_in(tok, shell, env);
+		exit(0);
+	}
 	else
-		execute_execve(tok, env, 1);
+		execute_external_cmd(tok, env, 1);
+
+	dup2(stdin_copy, STDIN_FILENO);
+	close(stdin_copy);
 }
 
-void	ft_append(t_tok *tok, char **env, t_shell *shell)
+
+void	ft_append(t_tok *tok, char *filename,char **env, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -196,7 +213,7 @@ void	ft_append(t_tok *tok, char **env, t_shell *shell)
 	}
 	if (pid == 0)
 	{
-		fd = open(tok->append[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
 		{
 			perror("open");
@@ -210,9 +227,12 @@ void	ft_append(t_tok *tok, char **env, t_shell *shell)
 		}
 		close(fd);
 		if (is_built_in(tok->str[0], env))
+		{
 			execute_built_in(tok, shell, env);
+			exit(0);
+		}
 		else
-			execute_execve(tok, env, 1);
+			execute_external_cmd(tok, env, 0);
 	}
 	else
 	{
