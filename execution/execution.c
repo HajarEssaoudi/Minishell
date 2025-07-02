@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 15:42:41 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:00:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,18 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 		{
 			if(is_built_in(tmp->str[0], env))
 			{
+				int saved_stdout = -1;
+				if (tmp->redirect)
+				{
+					saved_stdout = dup(STDOUT_FILENO);
+					execute_redirect(tmp, env, shell);
+				}
 				execute_built_in(tmp, shell, env);
+				if (tmp->redirect)
+				{
+					dup2(saved_stdout, STDOUT_FILENO);
+					close(saved_stdout);
+				}
 				return ;
 			}
 		}
@@ -64,7 +75,8 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 				dup2(fd[1], 1);
 				close(fd[1]);
 			}
-			// execute_redirect(tmp, env, shell);
+			if (tmp->redirect)
+				execute_redirect(tmp, env, shell);
 			if(is_built_in(tmp->str[0], env))
 			{
 				execute_built_in(tmp, shell, env);
