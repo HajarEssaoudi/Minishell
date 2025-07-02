@@ -1,4 +1,1 @@
-HAJAR
-hajar
-ana
-AnAnA
+start

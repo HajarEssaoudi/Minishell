@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 16:00:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:22:17 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 	int		prev_fd;
 	pid_t	pid1;
 	int		status;
+	int		f_pipe = 0;
 
 	tok = check_cmd(tok, env);
 	if (!tok)
@@ -29,13 +30,14 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 	{
 		if (tmp->pip && tmp->pip[0] == '|')
 		{
+			f_pipe = 1;
 			if (pipe(fd) == -1)
 			{
 				perror("pipe");
 				exit(EXIT_FAILURE);
 			}
 		}
-		else
+		else if (!(tmp->pip && tmp->pip[0] == '|') && f_pipe == 0)
 		{
 			if(is_built_in(tmp->str[0], env))
 			{
