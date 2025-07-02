@@ -3,11 +3,11 @@ CC = cc
 CFLAGS = -g3
 # CFLAGS += -Wall -Wextra -Werror 
 
-SRCS =	helpers.c execute_cmd.c execution_redirections.c execute_shell_operations.c \
-		built-in/builtin_helpers.c \
-		built-in/execute_cd.c built-in/execute_echo.c built-in/execute_env.c \
-		built-in/execute_exit.c built-in/execute_export.c built-in/execute_pwd.c \
-		built-in/execute_unset.c
+SRCS =	helpers.c execution.c execute_execve.c execute_builtin.c \
+		redirections/execute_redirections.c redirections/operations.c \
+		built-in/builtin_helpers.c built-in/execute_cd.c built-in/execute_echo.c \
+		built-in/execute_env.c built-in/execute_exit.c built-in/execute_export.c \
+		built-in/execute_pwd.c built-in/execute_unset.c \
 
 OBJS = $(SRCS:.c=.o)
 

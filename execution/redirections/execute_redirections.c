@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_redirections.c                           :+:      :+:    :+:   */
+/*   execute_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 15:36:32 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/30 21:35:32 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/07/02 13:49:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 {
@@ -35,29 +35,12 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			delimiter = tmp->filename;
 		tmp = tmp->next;
 	}
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork failed");
-		return;
-	}
-	if (pid == 0)
-	{
-		if (delimiter)
-			ft_herdoc(tok, delimiter, env, shell);
-		if (last_in)
-			ft_in(tok, last_in, env, shell);
-		if (last_out)
-			ft_out(tok, last_out ,env, shell);
-		if (last_append)
-			ft_append(tok, last_append, env, shell);
-		if (is_built_in(tok->str[0], env))
-			execute_built_in(tok, shell, env);
-		else
-			execute_external_cmd(tok, env, 0);
-		exit(0);
-	}
-	else
-		waitpid(pid, &status, 0);
+	if (delimiter)
+		ft_herdoc(tok, delimiter, env, shell);
+	if (last_in)
+		ft_in(tok, last_in, env, shell);
+	if (last_out)
+		ft_out(tok, last_out ,env, shell);
+	if (last_append)
+		ft_append(tok, last_append, env, shell);
 }

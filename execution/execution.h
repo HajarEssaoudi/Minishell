@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/30 16:38:59 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:10:12 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,22 @@ typedef struct s_shell
 void				print_tok(t_tok *tok);
 
 /* execution */
-void				execute_executable(t_tok *tok, char **env);
-void				execute_external_cmd(t_tok *tok, char **env, int flag);
-void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
-void				execute_built_in(t_tok *tok, t_shell *shell, char **env);
-void				execute_cmd(t_tok *tok, char **env, t_shell *shell);
 
+void				execute_cmd(t_tok *tok, t_shell *shell, char **env);
+void				ft_execve(t_tok *tok, char **env);
+void				execute_with_execve(t_tok *tok, char **env);
 
 /*shell's operations*/
 
-void	execute_redirect(t_tok *tok, char **env, t_shell *shell);
-void	ft_out(t_tok *tok,char *filename, char **env, t_shell *shell);
-void	ft_in(t_tok *tok,char *filename, char **env, t_shell *shell);
-void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
-void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell);
-void	ft_append(t_tok *tok,char *filename, char **env, t_shell *shell);
+void				execute_redirect(t_tok *tok, char **env, t_shell *shell);
+void				ft_out(t_tok *tok, char *filename, char **env,
+						t_shell *shell);
+void				ft_in(t_tok *tok, char *filename, char **env,
+						t_shell *shell);
+void				ft_herdoc(t_tok *tok, char *delimiter, char **env,
+						t_shell *shell);
+void				ft_append(t_tok *tok, char *filename, char **env,
+						t_shell *shell);
 
 /* helpers */
 int					is_built_in(char *input, char **cp_env);
@@ -68,6 +69,7 @@ void				change_env_paths(t_shell *shell);
 void				list_env_variables(t_shell *shell);
 
 /* execute built-in */
+void				execute_built_in(t_tok *tok, t_shell *shell, char **env);
 void				execute_cd(t_tok *tok, t_shell *shell);
 void				execute_pwd(t_shell *shell);
 void				execute_echo(t_tok *tok);

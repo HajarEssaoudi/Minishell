@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/30 22:10:52 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:48:45 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	main(int argc, char **argv, char **env)
 	char	*prompt;
 	char	**cp_env;
 	t_tok	*tok;
-	t_tok	*tmp;
 	t_shell	*shell;
 
 	cp_env = copy_env(env);
@@ -115,9 +114,8 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env);
 		if (tok != NULL)
 		{
-			tmp = tok;
 			// print_tok(tok);
-			execute_cmd(tmp, cp_env, shell);
+			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
 		add_history(prompt);
