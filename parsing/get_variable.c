@@ -113,8 +113,8 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 	i = 0;
 	k = 0;
 	IFS = get_env_var(cp_env, "IFS");
-	result = malloc(1);
-	result[0] = '\0';
+	result = ft_strdup("");
+	// result[0] = '\0';
 	while (str[i])
 	{
 		if (str[i] == '~' && (i == 0 || (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\n' )) && (str[i + 1] == '/'
@@ -155,7 +155,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		int k = 0;
 		while (result[k])
 			k++;
-		if(result[k - 1] == ' ')
+		if(result[k - 1] == ' ' && split[0])
 		{
 			k = 0;
 			while (split[k])
@@ -181,7 +181,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		split[1] = NULL;
 		// free(result);
 	}
-	if ((!split || !split[0] || split[1]) && flag[0] == '2')
+	if ((!split || !split[0] || split[1]) && (flag && flag[0] == '2'))
 	{
 		printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
 		free_str(split, 0);
