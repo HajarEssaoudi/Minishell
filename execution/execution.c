@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 16:22:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:58:29 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,14 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 				close(fd[1]);
 			}
 			if (tmp->redirect)
+			{
 				execute_redirect(tmp, env, shell);
+				if (tmp->heredoc_fd != -1)
+				{
+					dup2(tmp->heredoc_fd, STDIN_FILENO);
+					close(tmp->heredoc_fd);
+				}
+			}
 			if(is_built_in(tmp->str[0], env))
 			{
 				execute_built_in(tmp, shell, env);

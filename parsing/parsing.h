@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/15 17:14:13 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:22:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_tok
 	char			**input;
 	char			**append;
 	t_rederict		*redirect;
+	int				heredoc_fd;
 	char			*pip;
 	char			**env;
 	char			*pwd;

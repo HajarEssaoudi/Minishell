@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/01 20:48:45 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:27:29 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
+		tok->heredoc_fd = -1;
 		if (tok != NULL)
 		{
 			// print_tok(tok);

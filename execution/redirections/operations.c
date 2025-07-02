@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 13:48:07 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:18:18 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 	free(line);
 	close(pipefd[1]);
 
-	dup2(pipefd[0], STDIN_FILENO);
-	close(pipefd[0]);
+	tok->heredoc_fd = pipefd[0];
+	// dup2(pipefd[0], STDIN_FILENO);
+	// close(pipefd[0]);
 }
 
 void	ft_append(t_tok *tok, char *filename,char **env, t_shell *shell)
