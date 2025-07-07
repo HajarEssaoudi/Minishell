@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/31 09:47:27 by mabdelha          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/02 17:27:29 by hes-saou         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/02 21:00:20 by mabdelha         ###   ########.fr       */
->>>>>>> 6d5564d (change)
+/*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/07/07 14:55:31 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +40,7 @@ void	print_tok(t_tok *tok)
 		printf(" execute: %s\n", tok->execute ? tok->execute : "(null)");
 		printf(" path: %s\n", tok->path ? tok->path : "(null)");
 		print_str_array(tok->str);
+		printf("herdoc_fd == %d\n", tok->heredoc_fd);
 		int j = 0;
 		while (tok->redirect)
 		{
@@ -116,10 +113,8 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
-		tok->heredoc_fd = -1;
 		if (tok != NULL)
 		{
-			// print_tok(tok);
 			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
