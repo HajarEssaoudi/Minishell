@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 13:49:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:58:54 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			last_in = tmp->filename;
 		else if (ft_strcmp(tmp->type, ">>") == 0)
 			last_append = tmp->filename;
-		else if (ft_strcmp(tmp->type, "<<") == 0)
-			delimiter = tmp->filename;
+		// else if (ft_strcmp(tmp->type, "<<") == 0)
+		// 	delimiter = tmp->filename;
 		tmp = tmp->next;
 	}
-	if (delimiter)
-		ft_herdoc(tok, delimiter, env, shell);
+	// if (delimiter)
+	// 	ft_herdoc(tok, delimiter, env, shell);
 	if (last_in)
 		ft_in(tok, last_in, env, shell);
 	if (last_out)
