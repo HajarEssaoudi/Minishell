@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/02 14:10:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:46:45 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void				print_tok(t_tok *tok);
 void				execute_cmd(t_tok *tok, t_shell *shell, char **env);
 void				ft_execve(t_tok *tok, char **env);
 void				execute_with_execve(t_tok *tok, char **env);
+void				execute_cases(t_tok *tok, t_shell *shell, char **env);
+void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 
 /*shell's operations*/
 

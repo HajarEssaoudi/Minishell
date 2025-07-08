@@ -7,6 +7,7 @@
         "cstdlib": "c",
         "parsing.h": "c",
         "libft.h": "c",
-        "execution.h": "c"
+        "execution.h": "c",
+        "minishell.h": "c"
     }
 }

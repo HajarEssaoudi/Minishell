@@ -6,22 +6,22 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/15 21:30:51 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:53:14 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-t_env *init_node_env(char *str_env)
+t_env	*init_node_env(char *str_env)
 {
 	t_env	*node_env;
 	char	*equal;
 
 	node_env = malloc(sizeof(t_env));
-	if(!node_env)
+	if (!node_env)
 	{
 		ft_putstr_fd("allocation failed\n", 2);
-		//clear_exit;
+		// clear_exit;
 	}
 	equal = ft_strchr(str_env, '=');
 	if (equal)
@@ -37,22 +37,23 @@ t_env *init_node_env(char *str_env)
 	return (node_env);
 }
 
-t_env *create_list_env(char **arr_env)
+t_env	*create_list_env(char **arr_env)
 {
 	t_env	*head;
 	t_env	*tmp;
 	int		i;
+	t_env	*new_node;
 
 	i = 0;
 	head = NULL;
 	tmp = NULL;
-	while(arr_env[i])
+	while (arr_env[i])
 	{
-		t_env *new_node = init_node_env(arr_env[i]);
+		new_node = init_node_env(arr_env[i]);
 		if (new_node == NULL)
 		{
 			ft_putstr_fd("allocation failed\n", 2);
-			//clear_exit
+			// clear_exit
 		}
 		if (!head)
 			head = new_node;
@@ -91,7 +92,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	if (!arr_env)
 	{
 		ft_putstr_fd("allocation failed\n", 2);
-		//ft_clear and exit
+		// ft_clear and exit
 	}
 	while (lst_env)
 	{
@@ -99,7 +100,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 		if (!arr_env[i])
 		{
 			ft_putstr_fd("allocation failed\n", 2);
-			//ft_clear and exit
+			// ft_clear and exit
 		}
 		i++;
 		lst_env = lst_env->next;
@@ -121,4 +122,31 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new)
 			last = last->next;
 		last->next = new;
 	}
+}
+
+t_env	*sort_var(t_shell *shell)
+{
+	t_env	*env;
+	t_env	*head;
+	int		sorted;
+
+	head = shell->env;
+	if (!head)
+		return (NULL);
+	sorted = 0;
+	while (!sorted)
+	{
+		sorted = 1;
+		env = head;
+		while (env && env->next)
+		{
+			if (ft_strcmp(env->key, env->next->key) > 0)
+			{
+				swap_env_nodes(env, env->next);
+				sorted = 0;
+			}
+			env = env->next;
+		}
+	}
+	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:17:32 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:19:48 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:55:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ void	free_node(t_env *env)
 	}
 }
 
+void	check_prev(t_env *prev, t_env *tmp, t_shell *shell)
+{
+	if (prev == NULL)
+		shell->env = tmp->next;
+	else
+		prev->next = tmp->next;
+}
+
 void	execute_unset(t_tok *tok, t_shell *shell)
 {
 	t_env	*tmp;
@@ -32,7 +40,7 @@ void	execute_unset(t_tok *tok, t_shell *shell)
 
 	i = 1;
 	if (!tok->str[i])
-		return;
+		return ;
 	while (tok->str[i])
 	{
 		tmp = shell->env;
@@ -41,12 +49,9 @@ void	execute_unset(t_tok *tok, t_shell *shell)
 		{
 			if (ft_strcmp(tmp->key, tok->str[i]) == 0)
 			{
-				if (prev == NULL)
-					shell->env = tmp->next;
-				else
-					prev->next = tmp->next;
+				check_prev(prev, tmp, shell);
 				free_node(tmp);
-				break;
+				break ;
 			}
 			prev = tmp;
 			tmp = tmp->next;
@@ -54,4 +59,3 @@ void	execute_unset(t_tok *tok, t_shell *shell)
 		i++;
 	}
 }
-
