@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/02 17:22:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:10:36 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_tok
 	char			**env;
 	char			*pwd;
 	char			*old_pwd;
+	unsigned char	exit_status;
 	struct s_tok	*next;
 }					t_tok;
 

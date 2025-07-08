@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:53:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:34:36 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,34 @@ static void	swap_env_nodes(t_env *a, t_env *b)
 	b->value = tmp_value;
 }
 
-static void	print_env(t_env *env)
+static t_env	*sort_var(t_shell *shell)
 {
-	int		i;
-	t_env	*tmp;
+	t_env	*env;
+	t_env	*head;
+	int		sorted;
 
-	i = 0;
-	tmp = env;
-	while (tmp)
+	head = shell->env;
+	if (!head)
+		return (NULL);
+	sorted = 0;
+	while (!sorted)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		sorted = 1;
+		env = head;
+		while (env && env->next)
+		{
+			if (ft_strcmp(env->key, env->next->key) > 0)
+			{
+				swap_env_nodes(env, env->next);
+				sorted = 0;
+			}
+			env = env->next;
+		}
 	}
+	return (head);
 }
 
-static void	list_env_variables(t_shell *shell)
+void	list_env_variables(t_shell *shell)
 {
 	t_env	*env;
 

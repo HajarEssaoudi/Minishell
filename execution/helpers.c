@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:00:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:58:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:59:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	is_built_in(char *input, char **cp_env)
 	cmd = (char *[]){"cd", "echo", "pwd", "export", "unset", "env", "exit",
 		NULL};
 	i = 0;
+	if (input == NULL)
+		return (0);
 	while (cmd[i])
 	{
 		if (ft_strcmp(input, cmd[i]) == 0)

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:14:13 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:29:28 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	open_file(char *path)
 	if (fd == -1)
 	{
 		perror("open for read heredoc");
-		return ;
+		// ft_clear_exit
 	}
 	return (fd);
 }

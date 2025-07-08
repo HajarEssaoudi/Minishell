@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/07 23:22:47 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:49:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	free_list_env (t_env *env)
 		free(env);
 		env = tmp;
 	}
-	// free(env);
 }
 
 void	free_koulchi(char **cp_env,t_shell *shell, int f)

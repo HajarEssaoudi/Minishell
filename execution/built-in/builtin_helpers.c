@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:53:14 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 14:34:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,29 +124,16 @@ void	ft_lstadd_back_env(t_env **lst, t_env *new)
 	}
 }
 
-t_env	*sort_var(t_shell *shell)
+void	print_env(t_env *env)
 {
-	t_env	*env;
-	t_env	*head;
-	int		sorted;
+	int		i;
+	t_env	*tmp;
 
-	head = shell->env;
-	if (!head)
-		return (NULL);
-	sorted = 0;
-	while (!sorted)
+	i = 0;
+	tmp = env;
+	while (tmp)
 	{
-		sorted = 1;
-		env = head;
-		while (env && env->next)
-		{
-			if (ft_strcmp(env->key, env->next->key) > 0)
-			{
-				swap_env_nodes(env, env->next);
-				sorted = 0;
-			}
-			env = env->next;
-		}
+		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
-	return (head);
 }

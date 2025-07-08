@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 00:52:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:14:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /*a ajouter ft_clear exit*/
 
-void	ft_execve(t_tok *tok, char **env)
+void	ft_execve(char *path,char **str, char **env)
 {
-	if (execve(tok->path, tok->str, env) == -1)
+	if (execve(path, str, env) == -1)
 	{
 		perror("minishell");
 		exit(1);
@@ -29,7 +29,12 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	if (is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
 	else
-		ft_execve(tok, env);
+	{
+		if (tok->execute)
+			ft_execve(tok->execute, NULL, env);
+		else if (tok->path)
+			ft_execve(tok->path, tok->str, env);
+	}
 	exit(EXIT_FAILURE);
 }
 /*a corriger {if (!tok) return; } */
@@ -51,7 +56,10 @@ void	execute_with_execve(t_tok *tok, char **env)
 	}
 	if (pid == 0)
 	{
-		ft_execve(tok, env);
+		if (tok->execute)
+			ft_execve(tok->execute, NULL, env);
+		else if (tok->path)
+			ft_execve(tok->path, tok->str, env);
 	}
 	else
 	{

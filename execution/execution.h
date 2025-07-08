@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 00:46:45 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:15:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void				print_tok(t_tok *tok);
 /* execution */
 
 void				execute_cmd(t_tok *tok, t_shell *shell, char **env);
-void				ft_execve(t_tok *tok, char **env);
+void				ft_execve(char *path,char **str, char **env);
 void				execute_with_execve(t_tok *tok, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
+// void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/
 
@@ -69,6 +70,7 @@ char				*get_path(void);
 void				print_strings(char **str, int i);
 void				change_env_paths(t_shell *shell);
 void				list_env_variables(t_shell *shell);
+void				print_env(t_env *env);
 
 /* execute built-in */
 void				execute_built_in(t_tok *tok, t_shell *shell, char **env);

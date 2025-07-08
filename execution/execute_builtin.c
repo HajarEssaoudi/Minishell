@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:28:02 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/04 21:47:28 by root             ###   ########.fr       */
+/*   Updated: 2025/07/08 17:59:51 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 {
+	if (tok->str[0] == NULL)
+		return ;
 	if (ft_strcmp("cd", tok->str[0]) == 0)
 		execute_cd(tok, shell);
 	else if (ft_strcmp("pwd", tok->str[0]) == 0)
