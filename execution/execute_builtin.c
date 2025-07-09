@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:28:02 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 17:59:51 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:06:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 	else if (ft_strcmp("env", tok->str[0]) == 0)
 		execute_env(env);
 	else if (ft_strcmp("exit", tok->str[0]) == 0)
-		execute_exit(tok, shell);
+		execute_exit(tok);
 	else if (ft_strcmp("unset", tok->str[0]) == 0)
 		execute_unset(tok, shell);
 	else if (ft_strcmp("export", tok->str[0]) == 0)

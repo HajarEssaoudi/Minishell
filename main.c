@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 14:49:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 01:35:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_shell	*initialise_struct(t_shell *shell, char **env)
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
-		//ft_clear
+		// ft_clear_exit()
 		exit(1);
 	}
 	shell->env = create_list_env(env);
@@ -83,7 +83,7 @@ void	free_list_env (t_env *env)
 	}
 }
 
-void	free_koulchi(char **cp_env,t_shell *shell, int f)
+void	ft_clear(char **cp_env,t_shell *shell, int f)
 {
 	if (cp_env)
 		free_str(cp_env, 0);
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		prompt = readline("Minishell$> ");
 		if (!prompt)
-			free_str(cp_env, 1);
+			ft_clear(cp_env, shell, 1);
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
@@ -121,6 +121,6 @@ int	main(int argc, char **argv, char **env)
 		if (tok)
 			free_tok(tok);
 	}
-	free_koulchi(cp_env, shell, 0);
+	ft_clear(cp_env, shell, 0);
 	return (0);
 }

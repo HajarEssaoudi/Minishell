@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 18:15:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:06:43 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void				execute_cd(t_tok *tok, t_shell *shell);
 void				execute_pwd(t_shell *shell);
 void				execute_echo(t_tok *tok);
 void				execute_env(char **env);
-void				execute_exit(t_tok *tok, t_shell *shell);
+void				execute_exit(t_tok *tok);
 void				execute_unset(t_tok *tok, t_shell *shell);
 void				execute_export(t_tok *tok, t_shell *shell);
 
