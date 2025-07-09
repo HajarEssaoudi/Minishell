@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:44:31 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:50:16 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:40:50 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	**check_quot(char *input, int *index, char quot, char **cp_env)
+char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *lexer)
 {
 	t_quot	*vars;
 	char	**result;
@@ -29,7 +29,7 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env)
 		if (quot == '"')
 		{
 			vars->sub = ft_substr(input, vars->start, vars->i - vars->start);
-			vars->str = *ft_var(vars->sub, cp_env, quot, 0);
+			vars->str = *ft_var(vars->sub, cp_env, quot, 0, lexer);
 			free(vars->sub);
 		}
 		else

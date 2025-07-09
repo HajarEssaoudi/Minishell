@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/09 22:34:49 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/10 00:21:08 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PARSING_H
 # define PARSING_H
@@ -76,10 +77,10 @@ int					check_redirect1(char *input);
 int					check_redirect2(char *input);
 t_lexer				*get_str(char *input, int *i, t_lexer *lexer,
 						char **cp_env);
-char	**ft_str(char *input, int *i, char **cp_env, char *flag);
+char	**ft_str(char *input, int *i, char **cp_env, char *flag, t_lexer *lexer);
 void				add_ch(t_lexer **lexer, char *type, char *input);
-char	**check_quot(char *input, int *index, char quot, char **cp_env);
-char	**ft_var(char *str, char **cp_env, char input, char *flag);
+char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *lexer);
+char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer);
 t_lexer				*handle_pip(char *input, int *i, t_lexer *div);
 char	*cv_var(char *str, int *i);
 t_lexer				*ft_lexer(char *input, char **env);

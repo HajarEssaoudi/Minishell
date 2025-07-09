@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dollar.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 02:53:54 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/15 23:12:47 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:39:33 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag)
 			new = ft_strjoin("$", var);
 			return (new);
 		}
-		printf("var => %s\n", var);
+		// printf("var => %s\n", var);
 		if (!var)
 		{
 			free(result);

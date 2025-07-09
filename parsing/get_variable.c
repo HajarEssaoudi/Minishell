@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_variable.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/09 10:39:28 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/10 00:19:52 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "parsing.h"
 
@@ -98,7 +99,7 @@ char	**ft_splitIFS(char *str, char *IFS)
 	new[k] = NULL;
 	return (new);
 }
-char	**ft_var(char *str, char **cp_env, char input, char *flag)
+char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 {
 	int		i;
 	char	*result;
@@ -128,7 +129,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 		{
 			k = i;
 			result = ft_dollar(str, cp_env, result, &i, flag);
-			printf("result => %s\n", result);
+			// printf("result => %s\n", result);
 			// printf("dollar => %s\n", result);
 		}
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
@@ -137,7 +138,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 			result = handle_normal_char(result, str[i++], input);
 	}
 	// printf("result => %s\n", result);
-	if (input != '"')
+	if (input != '"' && (ft_strcmp(lexer->args, "export" ) || (!ft_strcmp(lexer->args, "export") && str[k - 1] != '='))	)
 	{
 		if (IFS)
 			split = ft_splitIFS(result, IFS);
@@ -160,7 +161,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 			k = 0;
 			while (split[k])
 				k++;
-			new_split = malloc(sizeof(char *) * (k + 1));
+			new_split = malloc(sizeof(char *) * (k + 2));
 			k = 0;
 			while (split[k])
 			{
