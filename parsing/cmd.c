@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/14 01:00:08 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 21:25:45 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ char	*check_ext(char *input, char **cp_env)
 		free(tmp);
 		if (access(cmd, F_OK) == 0)
 		{
-			free_str(path_split, 0);
+			free_str(path_split);
 			return (cmd);
 		}
 		free(cmd);
 		i++;
 	}
-	free_str(path_split, 0);
+	free_str(path_split);
 	return (NULL);
 }
+
 static char	*is_built_in(char *input, char **cp_env)
 {
 	char	*cmd[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit",
@@ -67,8 +68,6 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	{
 		if (tok->path)
 		{
-			//if (access(tok->path, F_OK) == 0)
-				//break;
 			if (tok->path[0] != '/')
 			{
 				char *in = is_built_in(tok->path, cp_env);
@@ -86,8 +85,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
-					printf ("bash: %s:command not found\n", tok->path);
-					//ft_clear and exit
+					ft_printf (2, "bash: %s:command not found\n", tok->path);
 					return (NULL);
 				}
 			}
@@ -95,8 +93,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 			{
 				if (access(tok->path, F_OK) != 0)
 				{
-					printf ("Minishell: command not found: %s\n", tok->path);
-					//ft_clear and exit
+					ft_printf (2, "Minishell: command not found: %s\n", tok->path);
 					return (NULL);
 				}
 			}

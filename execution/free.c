@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_pwd.c                                      :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 18:10:17 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:14:53 by hes-saou         ###   ########.fr       */
+/*   Created: 2025/07/09 20:19:13 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/07/09 20:19:52 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "execution.h"
 
-void	execute_pwd(t_shell *shell)
+void	free_list_env (t_env *env)
 {
-	t_env	*tmp;
-
-	tmp = shell->env;
-	while (tmp)
+	t_env *tmp;
+	while(env)
 	{
-		if (ft_strcmp(tmp->key, "PWD") == 0)
-		{
-			printf("%s\n", tmp->value);
-			break ;
-		}
-		tmp = tmp->next;
+		tmp = env->next;
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
+		env = tmp;
+	}
+}
+
+void	ft_clear(char **cp_env,t_shell *shell,t_tok *tok)
+{
+	if (cp_env)
+		free_str(cp_env);
+	if (shell)
+	{
+		if (shell->env)
+			free_list_env(shell->env);
+		free(shell);
 	}
 }

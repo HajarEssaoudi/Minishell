@@ -6,13 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 21:11:40 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:39:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	free_str(char **str, int f)
+void	free_str(char **str)
 {
 	int	i;
 
@@ -23,11 +23,6 @@ void	free_str(char **str, int f)
 		i++;
 	}
 	free(str);
-	if (f == 1)
-	{
-		printf("exit\n");
-		exit(1);
-	}
 }
 
 void	free_lexer(t_lexer *lexer)
@@ -49,20 +44,20 @@ void	free_lexer(t_lexer *lexer)
 void	free_tok(t_tok *tok)
 {
 	if(tok->append)
-		free_str(tok->append, 0);
+		free_str(tok->append);
 	if(tok->execute)
 		free(tok->execute);
 	if(tok->heredoc)
-		free_str(tok->heredoc, 0);
+		free_str(tok->heredoc);
 	if (tok->input)
-		free_str(tok->input, 0);
+		free_str(tok->input);
 	if (tok->output)
-		free_str(tok->output, 0);
+		free_str(tok->output);
 	if (tok->path)
 		free(tok->path);
 	if (tok->pip)
 		free(tok->pip);
 	if (tok->str)
-		free_str(tok->str, 0);
+		free_str(tok->str);
 	free(tok);
 }

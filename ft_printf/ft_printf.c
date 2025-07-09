@@ -36,7 +36,7 @@ int	ft_printf(int fd, const char *str, ...)
 			}
 		}
 		else
-			count += ft_putchar_fd(fd, str[i++]);
+			count += ft_putchar_fd_printf(fd, str[i++]);
 	}
 	return (count);
 }
@@ -47,18 +47,18 @@ int	check_type(int fd, char c, va_list args)
 
 	count = 0;
 	if (c == 'c')
-		count += ft_putchar_fd(fd, va_arg(args, int));
+		count += ft_putchar_fd_printf(fd, va_arg(args, int));
 	else if (c == 's')
-		count += ft_putstr_fd(fd, va_arg(args, char *));
+		count += ft_putstr_fd_printf(fd, va_arg(args, char *));
 	else if (c == 'd' || c == 'i')
-		count += ft_putnbr_fd(fd, va_arg(args, int));
+		count += ft_putnbr_fd_printf(fd, va_arg(args, int));
 	else if (c == 'u')
-		count += ft_putunbr_fd(fd, va_arg(args, int));
+		count += ft_putunbr_fd_printf(fd, va_arg(args, int));
 	else if (c == 'x' || c == 'X')
-		count += ft_puthex_fd(fd, c, va_arg(args, int));
+		count += ft_puthex_fd_printf(fd, c, va_arg(args, int));
 	else if (c == 'p')
-		count += ft_putptr_fd(fd, va_arg(args, void *));
+		count += ft_putptr_fd_printf(fd, va_arg(args, void *));
 	else if (c == '%')
-		count += ft_putchar_fd(fd, '%');
+		count += ft_putchar_fd_printf(fd, '%');
 	return (count);
 }

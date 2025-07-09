@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 01:35:59 by root             ###   ########.fr       */
+/*   Updated: 2025/07/09 23:17:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,43 +56,15 @@ void	print_tok(t_tok *tok)
 	}
 }
 
-t_shell	*initialise_struct(t_shell *shell, char **env)
+t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 {
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
-		// ft_clear_exit()
-		exit(1);
+		ft_clear(env, shell, tok);
 	}
 	shell->env = create_list_env(env);
 	return (shell);
-}
-
-void	free_list_env (t_env *env)
-{
-	t_env *tmp;
-	while(env)
-	{
-		tmp = env->next;
-		if (env->key)
-			free(env->key);
-		if (env->value)
-			free(env->value);
-		free(env);
-		env = tmp;
-	}
-}
-
-void	ft_clear(char **cp_env,t_shell *shell, int f)
-{
-	if (cp_env)
-		free_str(cp_env, 0);
-	if (shell)
-	{
-		if (shell->env)
-			free_list_env(shell->env);
-		free(shell);
-	}
 }
 
 int	main(int argc, char **argv, char **env)
@@ -103,20 +75,27 @@ int	main(int argc, char **argv, char **env)
 	t_shell	*shell;
 
 	cp_env = copy_env(env);
-	shell = initialise_struct(shell, cp_env);
+	shell = initialise_struct(env, shell, tok);
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
 		if (!prompt)
-			ft_clear(cp_env, shell, 1);
+		{
+			ft_clear(cp_env, shell, tok);
+			ft_printf(2, "exit\n");
+			shell->exit_status = EXIT_SUCCESS;
+			exit(shell->exit_status);
+		}
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
 		if (tok != NULL)
 		{
+			// print_tok(tok);
 			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
+		printf("exit status:%d\n", shell->exit_status);
 		add_history(prompt);
 		if (tok)
 			free_tok(tok);

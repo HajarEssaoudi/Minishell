@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/08 17:10:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:34:49 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
+# include "../ft_printf/ft_printf.h"
 
 typedef struct s_rederict
 {
@@ -67,7 +68,7 @@ typedef struct s_quot
 }					t_quot;
 
 char				**copy_env(char **env);
-void				free_str(char **str, int flag);
+void				free_str(char **str);
 void				free_lexer(t_lexer *lexer);
 int					skip_space_tab_newline(char *str, int i);
 t_lexer				*ft_operator(char *input, int *i, t_lexer *lexer);

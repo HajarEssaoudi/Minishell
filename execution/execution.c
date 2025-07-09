@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 18:23:51 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:37:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	if (tok->str && is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
 	else
-		execute_with_execve(tok, env);
+		execute_with_execve(tok, shell, env);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
@@ -56,9 +56,6 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 		}
 		tmp = tmp->next;
 	}
-	tok = check_cmd(tok, env);
-	if (!tok)
-		return ;
 	if (tok->pip && tok->pip[0] == '|')
 		execute_with_pipe(tok, env, shell);
 	else

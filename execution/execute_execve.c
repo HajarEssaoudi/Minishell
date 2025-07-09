@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 18:38:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:21:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,11 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 /*add ft_clear_exits so that check_cmd dont return NULL*/
 /*mais exits directement*/
 
-void	execute_with_execve(t_tok *tok, char **env)
+void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 {
 	pid_t	pid;
 	int		status;
 
-	tok = check_cmd(tok, env);
-	if (!tok)
-		return ;
 	pid = fork();
 	if (pid < 0)
 	{
@@ -56,6 +53,13 @@ void	execute_with_execve(t_tok *tok, char **env)
 	}
 	if (pid == 0)
 	{
+		tok = check_cmd(tok, env);
+		if (!tok)
+		{
+			shell->exit_status = EXIT_NOT_FOUND;
+			exit(shell->exit_status);
+			printf("exit status:%d\n", shell->exit_status);
+		}
 		if (tok->execute)
 			ft_execve(tok->execute, NULL, env);
 		else if (tok->path)

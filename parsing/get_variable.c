@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:35 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:39:28 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag)
 	if ((!split || !split[0] || split[1]) && (flag && flag[0] == '2'))
 	{
 		printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
-		free_str(split, 0);
+		free_str(split);
 		return (NULL);
 	}
 	return (split);

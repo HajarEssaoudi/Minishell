@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:39 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:39:31 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,6 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		add_ch(&lexer, "string", str[k]);
 		k++;
 	}
-	free_str(str, 0);
+	free_str(str);
 	return (lexer);
 }
