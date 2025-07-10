@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/10 01:39:25 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:10:49 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
-		tok->str = ft_exit_status(tok->str, shell->exit_status);
+		if (tok->str)
+			tok->str = ft_exit_status(tok->str, shell->exit_status);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
