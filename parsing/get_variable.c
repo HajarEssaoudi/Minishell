@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/10 00:19:52 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/10 01:02:40 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	**ft_splitIFS(char *str, char *IFS)
 	new[k] = NULL;
 	return (new);
 }
+
 char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 {
 	int		i;
