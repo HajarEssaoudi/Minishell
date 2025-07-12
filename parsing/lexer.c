@@ -3,18 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:04:37 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:02:42 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
+void ft_ambiguous(t_lexer *tmp)
 {
-	t_lexer	*tmp;
+	while (tmp)
+	{
+		if (tmp->flag)
+			free(tmp->flag);
+		if (!ft_strcmp(tmp->type, "heredoc"))
+			tmp->flag = ft_strdup("1");
+		else if (!ft_strcmp(tmp->type, "output"))
+			tmp->flag = ft_strdup("2");
+		else if (!ft_strcmp(tmp->type, "input"))
+			tmp->flag = ft_strdup("2");
+		else if (!ft_strcmp(tmp->type, "append"))
+			tmp->flag = ft_strdup("2");
+		else
+			tmp->flag = ft_strdup("0");
+		tmp = tmp->next;
+	}
+}
+
+t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
+{
+	t_lexer *tmp;
 	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 	{
 		lexer = ft_operator(input, i, lexer);
@@ -24,18 +44,7 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 			return (NULL);
 		}
 		tmp = lexer;
-		while (tmp)
-		{
-			if (tmp->flag)
-				free(tmp->flag);
-			if (!ft_strcmp(tmp->type, "heredoc"))
-				tmp->flag = ft_strdup("1");
-			else if (!ft_strcmp(tmp->type, "output") || !ft_strcmp(tmp->type, "input") || !ft_strcmp(tmp->type, "append"))
-				tmp->flag = ft_strdup("2");
-			else
-				tmp->flag = ft_strdup("0");
-			tmp = tmp->next;
-		}
+		ft_ambiguous(tmp);
 	}
 	else if (input[*i])
 	{
@@ -52,10 +61,10 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	return (lexer);
 }
 
-t_lexer	*ft_lexer(char *input, char **env)
+t_lexer *ft_lexer(char *input, char **env)
 {
-	int		i;
-	t_lexer	*lexer;
+	int i;
+	t_lexer *lexer;
 
 	i = 0;
 	lexer = malloc(sizeof(t_lexer));
@@ -63,7 +72,7 @@ t_lexer	*ft_lexer(char *input, char **env)
 	lexer->flag = NULL;
 	lexer->next = NULL;
 	lexer->type = NULL;
-	
+
 	while (input[i])
 	{
 		i = skip_space_tab_newline(input, i);

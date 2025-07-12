@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/11 03:30:21 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:34:48 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 	}
 	shell->env = create_list_env(env);
 	shell->exit_status = '0';
+	shell->line = 0;
 	return (shell);
 }
 
@@ -138,11 +139,11 @@ char	**ft_exit_status(char **str, char exit)
 	}
 	tmp[i] = NULL;
 	i = 0;
-	while (tmp[i])
-	{
-		printf("tmp => %s\n", tmp[i]);
-		i++;
-	}
+	// while (tmp[i])
+	// {
+	// 	printf("tmp => %s\n", tmp[i]);
+	// 	i++;
+	// }
 	free_str(str);
 	return (tmp);
 }
@@ -161,6 +162,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
+		shell->line++;
 		if (!prompt)
 		{
 			ft_clear(cp_env, shell, tok);
@@ -171,16 +173,17 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
-		if (tok->str)
+		// printf("%c\n", shell->exit_status);
+		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
-			print_tok(tok);
+			// print_tok(tok);
 			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
-		printf("exit status:%d\n", shell->exit_status);
+		printf("exit status:%c\n", shell->exit_status);
 		add_history(prompt);
 		if (tok)
 			free_tok(tok);

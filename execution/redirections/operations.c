@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 10:56:47 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/12 11:21:27 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
+
+extern int g_flag;
 
 void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 {
@@ -68,6 +70,9 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 	char	*line;
 	int		fd;
 
+	signal(SIGINT, ft_handl_herdoc);
+	g_flag = 0;
+	signal(SIGQUIT, SIG_IGN);
 	fd = open("./.tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 	{
@@ -77,7 +82,16 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line)
+		{
+			ft_putstr_fd("bash: warning: here-document at line ", 2);
+			ft_putnbr_fd(shell->line, 2);
+			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(delimiter, 2);
+			ft_putstr_fd("')\n", 2);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
