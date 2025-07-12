@@ -2,6 +2,7 @@
     "files.associations": {
         "execution.h": "c",
         "parsing.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "ft_printf.h": "c"
     }
 }

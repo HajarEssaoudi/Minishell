@@ -6,11 +6,13 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/10 20:10:49 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/11 03:30:21 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_flag = 0;
 
 void	print_str_array(char **arr)
 {
@@ -152,6 +154,8 @@ int	main(int argc, char **argv, char **env)
 	t_tok	*tok;
 	t_shell	*shell;
 
+	signal(SIGINT, ft_handl);
+	signal(SIGQUIT, SIG_IGN);
 	cp_env = copy_env(env);
 	shell = initialise_struct(env, shell, tok);
 	while (1)

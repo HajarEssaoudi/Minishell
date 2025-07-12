@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 23:21:20 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/11 03:43:56 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+extern	int g_flag;
 
 /*a ajouter ft_clear exit*/
 
@@ -45,7 +47,9 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 {
 	pid_t	pid;
 	int		status;
+	int		sig;
 
+	g_flag = 1;
 	pid = fork();
 	if (pid < 0)
 	{
@@ -53,6 +57,8 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	}
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		tok = check_cmd(tok, env);
 		if (!tok)
 		{
@@ -68,5 +74,14 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if(WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				printf("Quit (core dumped)\n");
+			else if (sig == SIGINT)
+				printf("\n");
+		}
 	}
+	g_flag = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/10 01:29:12 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/11 03:34:15 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,8 @@ void				execute_export(t_tok *tok, t_shell *shell);
 /*freeing*/
 void				free_list_env(t_env *env);
 void				ft_clear(char **cp_env, t_shell *shell, t_tok *tok);
+
+/*signal*/
+void    ft_handl(int sig);
 
 #endif
