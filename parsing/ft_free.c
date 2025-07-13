@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/09 10:39:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/13 02:23:59 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	free_lexer(t_lexer *lexer)
 			free(lexer->args);
 		if (lexer->type)
 			free(lexer->type);
+		if (lexer->flag)
+			free(lexer->flag);
 		free(lexer);
 		lexer = tmp;
 	}

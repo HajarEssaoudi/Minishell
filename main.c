@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/12 09:34:48 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:41:54 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_tok(t_tok *tok)
 		while (tok->redirect)
 		{
 			printf("redirect #%d\n", j);
-			printf("%s %s\n", tok->redirect->type, tok->redirect->filename);
+			printf("%s %s %s\n", tok->redirect->type, tok->redirect->filename, tok->redirect->flag);
 			tok->redirect = tok->redirect->next;
 			j++;
 		}
@@ -183,7 +183,7 @@ int	main(int argc, char **argv, char **env)
 			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
-		printf("exit status:%c\n", shell->exit_status);
+		// printf("exit status:%c\n", shell->exit_status);
 		add_history(prompt);
 		if (tok)
 			free_tok(tok);

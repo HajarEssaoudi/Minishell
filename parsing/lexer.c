@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:04:37 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/12 09:02:42 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:24:27 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_lexer *ft_lexer(char *input, char **env)
 	lexer->flag = NULL;
 	lexer->next = NULL;
 	lexer->type = NULL;
+	lexer->ambg = NULL;
 
 	while (input[i])
 	{

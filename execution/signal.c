@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/12 11:21:21 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 03:19:58 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void    ft_handl_herdoc(int sig)
     (void)sig;
     g_flag = 1;
     printf("\n");
+    exit(130);
 }

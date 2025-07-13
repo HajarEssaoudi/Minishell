@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:06:34 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:28 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:50:15 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ void	add_ch(t_lexer **lexer, char *type, char *input)
 	{
 		tmp = *lexer;
 		while (tmp->next)
+		{
+			if (!ft_strcmp(tmp->ambg, "3"))
+				token->ambg = tmp->ambg;
 			tmp = tmp->next;
+		}
 		tmp->next = token;
 	}
 }

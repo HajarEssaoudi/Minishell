@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/12 11:21:27 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:03:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,39 +69,67 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 {
 	char	*line;
 	int		fd;
+	pid_t	pid;
+	int		status;
+	int		sig;
 
-	signal(SIGINT, ft_handl_herdoc);
-	g_flag = 0;
-	signal(SIGQUIT, SIG_IGN);
-	fd = open("./.tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
+	g_flag = 1;
+	pid = fork();
+	if (pid == 0)
 	{
-		perror("open heredoc");
-		return ;
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
+		signal(SIGINT, ft_handl_herdoc);
+		// g_flag = 0;
+		fd = open("./.tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
+		if (fd == -1)
 		{
-			ft_putstr_fd("bash: warning: here-document at line ", 2);
-			ft_putnbr_fd(shell->line, 2);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(delimiter, 2);
-			ft_putstr_fd("')\n", 2);
-			break ;
+			perror("open heredoc");
+			return ;
 		}
-		if (ft_strcmp(line, delimiter) == 0)
-			break ;
-		ft_putstr_fd(line, fd);
-		ft_putstr_fd("\n", fd);
-		free(line);
+		while (1)
+		{
+			line = readline("> ");
+			if (!line)
+			{
+				ft_putstr_fd("bash: warning: here-document at line ", 2);
+				ft_putnbr_fd(shell->line, 2);
+				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+				ft_putstr_fd(delimiter, 2);
+				ft_putstr_fd("')\n", 2);
+				close(fd);
+				exit(0);
+			}
+			if (ft_strcmp(line, delimiter) == 0)
+				break ;
+			ft_putstr_fd(line, fd);
+			ft_putstr_fd("\n", fd);
+			free(line);
+		}
+		if (line)
+			free(line);
+		close(fd);
+		exit(0);
 	}
-	free(line);
-	close(fd);
+	else if (pid > 0)
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+		signal(SIGINT, ft_handl);
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGINT)
+			{
+				unlink("./.tmp.txt");
+				g_flag = 0;
+				tok->heredoc_fd = -1;
+				return ;
+			}
+		}
+	}
 	fd = open_file("./.tmp.txt");
 	tok->heredoc_fd = fd;
 	unlink("./.tmp.txt");
+	g_flag = 0;
 }
 
 void	ft_append(t_tok *tok, char *filename, char **env, t_shell *shell)

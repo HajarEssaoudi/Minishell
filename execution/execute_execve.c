@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/12 09:33:57 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:03:05 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 		{
 			shell->exit_status = EXIT_NOT_FOUND;
 			exit(shell->exit_status);
-			printf("exit status:%c\n", shell->exit_status);
+			// printf("exit status:%c\n", shell->exit_status);
 		}
 		if (tok->execute)
 			ft_execve(tok->execute, NULL, env);

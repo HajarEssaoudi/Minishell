@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/10 01:02:40 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:24:38 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 	char	**split;
 	char	*IFS;
 	char	**new_split;
+	t_lexer	*new_lexer;
 	char *new;
 	int	k;
 
@@ -116,6 +117,7 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 	k = 0;
 	IFS = get_env_var(cp_env, "IFS");
 	result = ft_strdup("");
+	new_lexer = lexer;
 	// result[0] = '\0';
 	while (str[i])
 	{
@@ -183,11 +185,20 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 		split[1] = NULL;
 		// free(result);
 	}
+	// printf("%s\n", flag);
 	if ((!split || !split[0] || split[1]) && (flag && flag[0] == '2'))
 	{
-		printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
-		free_str(split);
-		return (NULL);
+		// while (new_lexer->next)
+		// {
+		// 	printf("%s => %s\n", lexer->args, lexer->flag);
+		// 	new_lexer = new_lexer->next;
+		// }
+		// if (lexer->flag)
+		// 	free(lexer->flag);
+		lexer->ambg = ft_strdup("3");
+		// printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
+		// free_str(split);
+		// return (NULL);
 	}
 	return (split);
 }

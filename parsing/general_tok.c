@@ -6,13 +6,13 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/12 08:20:57 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:49:57 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	add_rederict(t_rederict **rederect, char *type, char *filename)
+void	add_rederict(t_rederict **rederect, char *type, char *filename, char *flag)
 {
 	t_rederict	*new_rederict;
 	t_rederict	*tmp;
@@ -20,6 +20,10 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename)
 	new_rederict = malloc(sizeof(t_rederict));
 	new_rederict->filename = ft_strdup(filename);
 	new_rederict->type = ft_strdup(type);
+	if (flag)
+		new_rederict->flag = ft_strdup(flag);
+	else
+		new_rederict->flag = NULL;
 	new_rederict->next = NULL;
 	tmp = *rederect;
 	if (!*rederect)
@@ -29,21 +33,26 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_rederict;
+		printf("hhh => %s\n", tmp->type);
 	}
 }
 
 void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 {
+	char *flag = NULL;
+	// printf("hhh %s\n", lexer->ambg);
 	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))
 	{
+		if (!ft_strcmp(lexer->ambg, "3"))
+			flag = "1";
 		if (!(ft_strncmp(type, "output", ft_strlen("output"))))
-			add_rederict(&tmp->redirect, ">", lexer->args);
+			add_rederict(&tmp->redirect, ">", lexer->args, flag);
 		else if (!(ft_strncmp(type, "input", ft_strlen("input"))))
-			add_rederict(&tmp->redirect, "<", lexer->args);
+			add_rederict(&tmp->redirect, "<", lexer->args, flag);
 		else if (!(ft_strncmp(type, "append", ft_strlen("append"))))
-			add_rederict(&tmp->redirect, ">>", lexer->args);
+			add_rederict(&tmp->redirect, ">>", lexer->args, flag);
 		else if (!(ft_strncmp(type, "heredoc", ft_strlen("heredoc"))))
-			add_rederict(&tmp->redirect, "<<", lexer->args);
+			add_rederict(&tmp->redirect, "<<", lexer->args, NULL);
 	}
 	// if (!(ft_strncmp(lexer->type, "output", ft_strlen("output"))))
 	// 	tmp->output = ft_red(tmp->output, lexer->args);
