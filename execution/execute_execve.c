@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 18:07:25 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/14 19:05:06 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "execution.h"
 
