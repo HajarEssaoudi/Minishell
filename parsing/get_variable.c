@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/14 08:40:49 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:06:46 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,14 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 	{
 		// printf("split[0] %s\n", split[0]);
 		// printf("split[1] %s\n", split[1]);
+		if (!split || !split[0])
+		{
+			if (split)
+				free(split);
+			split = malloc(sizeof(char *) * 2);
+			split[0] = ft_strdup("");
+			split[1] = NULL;
+		}
 		while (new_lexer->next)
 		{
 			// printf("%s => %s\n", new_lexer->args, new_lexer->flag);

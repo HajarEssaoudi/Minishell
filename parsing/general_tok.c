@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/14 08:35:19 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:08:12 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename, char *flag)
 		new_rederict->filename = ft_strdup("");
 	new_rederict->type = ft_strdup(type);
 	// printf("flag %s\n", flag);
-	new_rederict->flag = ft_strdup(flag);
+	if (flag)
+		new_rederict->flag = ft_strdup(flag);
+	else
+		new_rederict->flag = ft_strdup("0");
 	new_rederict->next = NULL;
 	tmp = *rederect;
 	if (!*rederect)
