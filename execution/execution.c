@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 08:47:14 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:06:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	saved_stdin = -1;
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	// printf("%s => %d\n", tok->redirect->filename, tok->heredoc_fd);
 	if (tok->heredoc_fd != -1)
 	{
 		dup2(tok->heredoc_fd, STDIN_FILENO);
@@ -30,7 +29,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	t_rederict *re = tok->redirect;
 	while (re)
 	{
-		printf("%s => %s", re->type, re->filename);
+		// printf("%s => %s", re->type, re->filename);
 		re = re->next;
 	}
 	if (tok->redirect && tok->heredoc_fd == -1)

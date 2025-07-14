@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 08:59:29 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:52:56 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,20 @@ t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 		ft_clear(env, shell, tok);
 	}
 	shell->env = create_list_env(env);
-	shell->exit_status = '0';
+	shell->exit_status = 0;
 	shell->line = 0;
 	return (shell);
 }
 
-char	**ft_exit_status(char **str, char exit)
+char	**ft_exit_status(char **str, int exit)
 {
 	char	**tmp;
 	char	*tmp1;
 	char	*sub;
 	char	*sub1;
-	char	exit_st[2];
+	char	*exit_st;
 
-	exit_st[0] = exit;
-	exit_st[1] = '\0';
+	exit_st = ft_itoa(exit);
 	int 	i;
 	int		j;
 	int k = 0;
@@ -139,11 +138,6 @@ char	**ft_exit_status(char **str, char exit)
 	}
 	tmp[i] = NULL;
 	i = 0;
-	// while (tmp[i])
-	// {
-	// 	printf("tmp => %s\n", tmp[i]);
-	// 	i++;
-	// }
 	free_str(str);
 	return (tmp);
 }
@@ -167,7 +161,6 @@ int	main(int argc, char **argv, char **env)
 		{
 			ft_clear(cp_env, shell, tok);
 			ft_printf(2, "exit\n");
-			shell->exit_status = EXIT_SUCCESS;
 			exit(shell->exit_status);
 		}
 		if (!prompt[0])
@@ -176,6 +169,7 @@ int	main(int argc, char **argv, char **env)
 		// printf("%c\n", shell->exit_status);
 		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
+			print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;

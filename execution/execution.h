@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/12 11:16:16 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:48:31 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_shell
 {
 	char *old_path;
 	char *current_path;
-	unsigned char exit_status;
+	int	exit_status;
 	int line;
 	struct s_env *env;
 } t_shell;
@@ -42,7 +42,7 @@ void print_tok(t_tok *tok);
 /* execution */
 
 void execute_cmd(t_tok *tok, t_shell *shell, char **env);
-void ft_execve(char *path, char **str, char **env);
+void ft_execve(char *path, char **str, char **env, t_shell *shell);
 void execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void execute_cases(t_tok *tok, t_shell *shell, char **env);
 void execute_with_pipe(t_tok *tok, char **env, t_shell *shell);

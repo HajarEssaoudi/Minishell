@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:19:13 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 20:19:52 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:53:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_clear(char **cp_env,t_shell *shell,t_tok *tok)
 	{
 		if (shell->env)
 			free_list_env(shell->env);
+		// free(shell->exit_status);
 		free(shell);
 	}
 }
