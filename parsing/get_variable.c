@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 00:11:02 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/13 09:24:38 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 08:40:49 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,14 +188,17 @@ char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer)
 	// printf("%s\n", flag);
 	if ((!split || !split[0] || split[1]) && (flag && flag[0] == '2'))
 	{
-		// while (new_lexer->next)
-		// {
-		// 	printf("%s => %s\n", lexer->args, lexer->flag);
-		// 	new_lexer = new_lexer->next;
-		// }
+		// printf("split[0] %s\n", split[0]);
+		// printf("split[1] %s\n", split[1]);
+		while (new_lexer->next)
+		{
+			// printf("%s => %s\n", new_lexer->args, new_lexer->flag);
+			new_lexer = new_lexer->next;
+		}
 		// if (lexer->flag)
 		// 	free(lexer->flag);
-		lexer->ambg = ft_strdup("3");
+		new_lexer->ambg = ft_strdup("3");
+		// printf("new_lexer->args %s\n", new_lexer->next->args);
 		// printf ("minishell %s: ambiguous redirect\n", cv_var(str, &k));
 		// free_str(split);
 		// return (NULL);

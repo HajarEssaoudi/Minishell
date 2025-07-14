@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/13 09:34:28 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 08:47:14 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	{
 		dup2(tok->heredoc_fd, STDIN_FILENO);
 		close(tok->heredoc_fd);
+	}
+	t_rederict *re = tok->redirect;
+	while (re)
+	{
+		printf("%s => %s", re->type, re->filename);
+		re = re->next;
 	}
 	if (tok->redirect && tok->heredoc_fd == -1)
 		execute_redirect(tok, env, shell);

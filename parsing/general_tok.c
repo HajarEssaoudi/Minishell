@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/13 09:49:57 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/14 08:35:19 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename, char *flag)
 	t_rederict	*tmp;
 
 	new_rederict = malloc(sizeof(t_rederict));
-	new_rederict->filename = ft_strdup(filename);
-	new_rederict->type = ft_strdup(type);
-	if (flag)
-		new_rederict->flag = ft_strdup(flag);
+	if (filename)
+		new_rederict->filename = ft_strdup(filename);
 	else
-		new_rederict->flag = NULL;
+		new_rederict->filename = ft_strdup("");
+	new_rederict->type = ft_strdup(type);
+	// printf("flag %s\n", flag);
+	new_rederict->flag = ft_strdup(flag);
 	new_rederict->next = NULL;
 	tmp = *rederect;
 	if (!*rederect)
@@ -33,18 +34,19 @@ void	add_rederict(t_rederict **rederect, char *type, char *filename, char *flag)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_rederict;
-		printf("hhh => %s\n", tmp->type);
+		// printf("hhh => %s\n", tmp->type);
 	}
 }
 
 void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 {
 	char *flag = NULL;
-	// printf("hhh %s\n", lexer->ambg);
+	// printf("lexer->ambg => %s\n", lexer->ambg);
 	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))
 	{
 		if (!ft_strcmp(lexer->ambg, "3"))
 			flag = "1";
+		// printf("lexer->ambg2 => %s\n", lexer->ambg);
 		if (!(ft_strncmp(type, "output", ft_strlen("output"))))
 			add_rederict(&tmp->redirect, ">", lexer->args, flag);
 		else if (!(ft_strncmp(type, "input", ft_strlen("input"))))
@@ -109,6 +111,28 @@ t_tok	*ft_token(t_lexer *lexer)
 	return (tok);
 }
 
+void	ft_amg(t_lexer *lexer)
+{
+	t_lexer	*tmp;
+	t_lexer	*next;
+	
+	tmp = lexer;
+	while(tmp)
+	{
+		if (tmp->ambg && !ft_strcmp(tmp->ambg, "3"))
+		{
+			next = tmp->next;
+			while(next && !ft_strcmp(next->type, "filename"))
+			{
+				if (!next->ambg)
+					next->ambg = ft_strdup("3");
+				next = next->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 t_tok	*get_tok(char *prompt, char **env)
 {
 	t_tok	*tok;
@@ -119,6 +143,7 @@ t_tok	*get_tok(char *prompt, char **env)
 	if (lexer)
 	{
 		ft_type(lexer);
+		ft_amg(lexer);
 		tok = ft_token(lexer);
 	}
 	free_lexer(lexer);
