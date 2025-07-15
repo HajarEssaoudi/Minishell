@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 03:42:28 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:33:14 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 		close(fd);
 		exit(EXIT_FAILURE);
 	}
+	if (tok->str && is_built_in(tok->str[0], env))
+		execute_built_in(tok, shell, env);
+	else
+		execute_with_execve(tok, shell, env);
 	close(fd);
 }
 
