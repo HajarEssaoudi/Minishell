@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/13 09:28:56 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:04:26 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ typedef struct s_tok
 	char			**str;
 	char			*execute;
 	char			*path;
-	char			**heredoc;
-	char			**output;
-	char			**input;
-	char			**append;
 	t_rederict		*redirect;
 	int				heredoc_fd;
 	char			*pip;

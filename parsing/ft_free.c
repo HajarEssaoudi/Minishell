@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/14 18:56:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:06:34 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,21 @@ void	free_lexer(t_lexer *lexer)
 
 void	free_tok(t_tok *tok)
 {
-	if(tok->append)
-		free_str(tok->append);
+	if (tok->redirect)
+	{
+		while (tok->redirect)
+		{
+			if (tok->redirect->filename)
+				free(tok->redirect->filename);
+			if (tok->redirect->flag)
+				free(tok->redirect->flag);
+			if (tok->redirect->type)
+				free(tok->redirect->type);
+			tok->redirect = tok->redirect->next;
+		}
+	}
 	if(tok->execute)
 		free(tok->execute);
-	if(tok->heredoc)
-		free_str(tok->heredoc);
-	if (tok->input)
-		free_str(tok->input);
-	if (tok->output)
-		free_str(tok->output);
 	if (tok->path)
 		free(tok->path);
 	if (tok->pip)
