@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:06:34 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/14 00:51:11 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:26:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	add_ch(t_lexer **lexer, char *type, char *input)
 		tmp = *lexer;
 		while (tmp->next)
 		{
+			token->quot = tmp->quot;
 			// if (!ft_strcmp(tmp->ambg, "3"))
 			// 	token->ambg = tmp->ambg;
 			tmp = tmp->next;

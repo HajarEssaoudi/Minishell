@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/15 15:22:03 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:40:08 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	print_tok(t_tok *tok)
 		printf(" path: %s\n", tok->path ? tok->path : "(null)");
 		print_str_array(tok->str);
 		printf("herdoc_fd == %d\n", tok->heredoc_fd);
+		printf ("quot => %d\n", tok->quot);
 		int j = 0;
 		while (tok->redirect)
 		{
@@ -57,6 +58,10 @@ void	print_tok(t_tok *tok)
 		index++;
 	}
 }
+#include <stdio.h>
+
+
+
 
 t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 {
@@ -138,6 +143,7 @@ char	**ft_exit_status(char **str, int exit)
 	}
 	tmp[i] = NULL;
 	i = 0;
+	free(exit_st);
 	free_str(str);
 	return (tmp);
 }

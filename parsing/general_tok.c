@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/14 10:08:12 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:00:35 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_tok	*ft_token(t_lexer *lexer)
 	{
 		ft_tok_word_cmd(lexer, type, tmp);
 		ft_tok_redirect(lexer, type, tmp);
+		tmp->quot = lexer->quot;
 		if (!(ft_strncmp(lexer->type, "pip", ft_strlen("pip"))))
 		{
 			tmp->next = malloc(sizeof(t_tok));
@@ -136,6 +137,20 @@ void	ft_amg(t_lexer *lexer)
 	}
 }
 
+void print_lexer(t_lexer *lexer)
+{
+    while (lexer != NULL)
+    {
+        printf("flag: %s\n", lexer->flag ? lexer->flag : "NULL");
+        printf("args: %s\n", lexer->args ? lexer->args : "NULL");
+        printf("type: %s\n", lexer->type ? lexer->type : "NULL");
+        printf("ambg: %s\n", lexer->ambg ? lexer->ambg : "NULL");
+        printf("quot: %d\n", lexer->quot);
+        printf("-----------------\n");
+        lexer = lexer->next;
+    }
+}
+
 t_tok	*get_tok(char *prompt, char **env)
 {
 	t_tok	*tok;
@@ -143,6 +158,7 @@ t_tok	*get_tok(char *prompt, char **env)
 
 	tok = NULL;
 	lexer = ft_lexer(prompt, env);
+	// print_lexer(lexer);
 	if (lexer)
 	{
 		ft_type(lexer);

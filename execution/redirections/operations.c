@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 08:45:44 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:29:36 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	open_file(char *path)
 	return (fd);
 }
 
-char	*ft_expand(char *line, t_tok *tok)
+char	*ft_expand(char *line, char **env)
 {
 	int i = 0;
 	char *str = ft_strdup("");
@@ -78,7 +78,7 @@ char	*ft_expand(char *line, t_tok *tok)
 	{
 		if (line[i] == '$' && (line[i + 1] == '_' || ft_isalpha(line[i + 1])))
 		{
-			str = ft_dollar(line, tok->env, str, &i, "0");
+			str = ft_dollar(line, env, str, &i, "0");
 		}
 		else{
 			tmp[0] = line[i];
@@ -126,7 +126,9 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 			}
 			if (ft_strcmp(line, delimiter) == 0)
 				break ;
-			line = ft_expand(line, tok);
+			printf("quot => %d\n", tok->quot);
+			if (tok->quot)
+				line = ft_expand(line, env);
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);
 			free(line);

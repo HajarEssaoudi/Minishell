@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/16 08:04:26 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:39:51 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_tok
 	char			**env;
 	char			*pwd;
 	char			*old_pwd;
+	int				quot;
 	unsigned char	exit_status;
 	struct s_tok	*next;
 }					t_tok;
@@ -56,6 +57,7 @@ typedef struct s_lexer
 	char			*args;
 	char			*type;
 	char			*ambg;
+	int				quot;
 	struct s_lexer	*next;
 }					t_lexer;
 

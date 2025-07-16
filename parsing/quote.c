@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:44:31 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/04 18:40:50 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:39:39 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *le
 	vars->start = *index + 1;
 	vars->i = vars->start;
 	vars->str = NULL;
+	lexer->quot = 0;
 	while (input[vars->i] && (input[vars->i] != quot || (input[vars->i] == quot && input[vars->i - 1] == '\\')))
 		vars->i++;
 	if (input[vars->i] == quot)
