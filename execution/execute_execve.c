@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 19:05:06 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/16 22:12:15 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	ft_execve(char *path,char **str, char **env, t_shell *shell)
 
 void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
+	tok = check_cmd(tok, env);
+	if (!tok)
+		exit(EXIT_NOT_FOUND);
 	execute_redirect(tok, env, shell);
 	if (is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);

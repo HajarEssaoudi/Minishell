@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 14:34:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/16 22:17:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,16 @@ void	list_env_variables(t_shell *shell)
 	print_env(env);
 }
 
-static void	compare_end_replace(t_env *new, t_env *old)
+static int	compare_and_replace(t_env *new, t_env *old)
 {
 	if (ft_strcmp(new->key, old->key) == 0)
 	{
+		printf("hi\n");
 		free(old->value);
 		old->value = new->value;
-		return ;
+		return (1);
 	}
+	return (0);
 }
 /*ft_clear before return*/
 
@@ -76,8 +78,10 @@ void	execute_export(t_tok *tok, t_shell *shell)
 	int		i;
 	t_env	*new;
 	t_env	*tmp;
+	int		f;
 
 	i = 1;
+	f = 0;
 	if (!tok->str[i])
 		list_env_variables(shell);
 	while (tok->str[i])
@@ -90,10 +94,11 @@ void	execute_export(t_tok *tok, t_shell *shell)
 			{
 				return ;
 			}
-			compare_end_replace(new, tmp);
+			f = compare_and_replace(new, tmp);
 			tmp = tmp->next;
 		}
-		ft_lstadd_back_env(&shell->env, new);
+		if (f == 0)
+			ft_lstadd_back_env(&shell->env, new);
 		i++;
 	}
 }
