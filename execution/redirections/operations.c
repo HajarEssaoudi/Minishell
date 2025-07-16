@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/15 10:33:14 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:26:13 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 	}
 	if (tok->str && is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
-	else
+	else if (tok->str || tok->execute)
 		execute_with_execve(tok, shell, env);
 	close(fd);
 }
@@ -123,12 +123,15 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 			{
+				shell->exit_status = 130;
 				unlink("./.tmp.txt");
 				g_flag = 0;
 				tok->heredoc_fd = -1;
 				return ;
 			}
 		}
+		else if (WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
 	}
 	fd = open_file("./.tmp.txt");
 	tok->heredoc_fd = fd;

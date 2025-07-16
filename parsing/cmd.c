@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/12 05:47:40 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:13:00 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ char	*check_ext(char *input, char **cp_env)
 	i = 0;
 	j = 0;
 	path = get_env_var(cp_env, "PATH");
-	path_split = ft_split(path, ':');
+	if (path)
+		path_split = ft_split(path, ':');
+	else
+		return (NULL);
 	while (path_split[i])
 	{
 		tmp = ft_strjoin(path_split[i], "/");

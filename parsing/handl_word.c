@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/13 03:54:12 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:54:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,18 @@ char	**ft_splitjoin(char	**split1, char **split2)
 		len_split1++;
 	while (split2 && split2[len_split2])
 		len_split2++;
-	split3 = malloc(sizeof(char *) * (len_split1 + len_split2 + 1));
+	split3 = malloc(sizeof(char *) * (len_split1 + 1));
 	while (i < len_split1)
 	{
 		split3[i] = ft_strdup(split1[i]);
 		i++;
 	}
-	while (j < len_split2)
-	{
-		split3[len_split1 + j] = ft_strdup(split2[j]);
-		j++;
-	}
-	split3[len_split1 + len_split2] = NULL;
+	// while (j < len_split2)
+	// {
+		split3[len_split1 - 1] = ft_strjoin(split3[len_split1 - 1], split2[j]);
+	// 	j++;
+	// }
+	split3[len_split1] = NULL;
 	return(split3);
 }
 
@@ -158,13 +158,9 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		return (NULL);
 	while (input[*i] == '"' || input[*i] == '\'')
 	{
-		k = 0;
 		tmp = ft_str(input, i, cp_env, lexer->flag, lexer);
 		if(!tmp)
 			return (NULL);
-		while (str[k])
-			k++;
-		k--;
 		init_str = ft_splitjoin(str, tmp);
 		// free(str[k]);
 		// free(tmp);
