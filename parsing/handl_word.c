@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/16 11:02:59 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:01:12 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j, char *flag, t_lexer
 
 	sub = ft_substr(input, j, *i - j);
 	var = ft_var(sub, cp_env, input[*i], flag, lexer);
-	// str = ft_strdup(var);
 	free(sub);
-	// free(var);
 	if (input[*i] == '"' || input[*i] == '\'')
 	{
 		quot = ft_str(input, i, cp_env, flag, lexer);
@@ -35,9 +33,7 @@ char	**ft_new_str(char *input, int *i, char **cp_env, int j, char *flag, t_lexer
 				k++;
 			k--;
 			sub = ft_strjoin(var[k], quot[0]);
-			// free(str);
 			var[k] = sub;
-			// free(quot);
 		}
 		else
 			return (NULL);
@@ -70,7 +66,6 @@ char	**ft_add_str(char *str, char *input, int *i, char **cp_env, int j, char *fl
 			return (NULL);
 		else
 			var[k] = ft_strjoin(var[k], new[0]);
-		// free(new);
 	}
 	return (var);
 }
@@ -111,28 +106,20 @@ char	**ft_splitjoin(char	**split1, char **split2)
 	int	i;
 	int	j;
 	int	len_split1;
-	int	len_split2;
 	char	**split3;
 	
 	i = 0;
 	j = 0;
 	len_split1 = 0;
-	len_split2 = 0;
 	while (split1 && split1[len_split1])
 		len_split1++;
-	while (split2 && split2[len_split2])
-		len_split2++;
 	split3 = malloc(sizeof(char *) * (len_split1 + 1));
 	while (i < len_split1)
 	{
 		split3[i] = ft_strdup(split1[i]);
 		i++;
 	}
-	// while (j < len_split2)
-	// {
-		split3[len_split1 - 1] = ft_strjoin(split3[len_split1 - 1], split2[j]);
-	// 	j++;
-	// }
+	split3[len_split1 - 1] = ft_strjoin(split3[len_split1 - 1], split2[j]);
 	split3[len_split1] = NULL;
 	return(split3);
 }
@@ -152,7 +139,6 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		flag = new_lex->flag;
 		new_lex = new_lex->next;
 	}
-	
 	str = ft_str(input, i, cp_env, flag, lexer);
 	if (!str)
 		return (NULL);
@@ -162,18 +148,11 @@ t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
 		if(!tmp)
 			return (NULL);
 		init_str = ft_splitjoin(str, tmp);
-		// free(str[k]);
-		// free(tmp);
-		int l = 0;
-		while (str[l])
-		{
-			free(str[l]);
-			l++;
-		}
-		free(str);
+		free_str(str);
 		str = init_str;
+		free_str(init_str);
+		free_str(tmp);
 	}
-	k = 0;
 	while (str[k])
 	{
 		add_ch(&lexer, "string", str[k]);

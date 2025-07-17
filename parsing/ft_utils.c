@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:06:34 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/16 11:26:41 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/17 08:57:10 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,23 @@ int	skip_space_tab_newline(char *str, int i)
 	return (i);
 }
 
+void	add_lexer(t_lexer *lexer, t_lexer *token)
+{
+
+	t_lexer	*tmp;
+	tmp = lexer;
+	while (tmp->next)
+	{
+		if (!tmp->quot && !tmp->next->next)
+			token->quot = tmp->quot;
+		tmp = tmp->next;
+	}
+	tmp->next = token;
+}
+
 void	add_ch(t_lexer **lexer, char *type, char *input)
 {
 	t_lexer	*token;
-	t_lexer	*tmp;
 
 	token = malloc(sizeof(t_lexer));
 	token->args = ft_strdup(input);
@@ -30,6 +43,7 @@ void	add_ch(t_lexer **lexer, char *type, char *input)
 	token->next = NULL;
 	token->flag = NULL;
 	token->ambg = NULL;
+	token->quot = (*lexer)->quot;
 	if (!*lexer || !(*lexer)->type)
 	{
 		if (*lexer)
@@ -37,17 +51,7 @@ void	add_ch(t_lexer **lexer, char *type, char *input)
 		*lexer = token;
 	}
 	else
-	{
-		tmp = *lexer;
-		while (tmp->next)
-		{
-			token->quot = tmp->quot;
-			// if (!ft_strcmp(tmp->ambg, "3"))
-			// 	token->ambg = tmp->ambg;
-			tmp = tmp->next;
-		}
-		tmp->next = token;
-	}
+		add_lexer(*lexer, token);
 }
 
 char	*ft_special_caract(char *result, char *var)
@@ -56,8 +60,6 @@ char	*ft_special_caract(char *result, char *var)
 
 	tmp = NULL;
 	tmp = ft_strjoin(result, var);
-	// printf("var => %s\n", var);
-	// printf("tmp => %s\n", tmp);
 	free(var);
 	free(result);
 	return (tmp);
