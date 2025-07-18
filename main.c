@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/18 00:26:26 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:43:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,6 @@ void	print_tok(t_tok *tok)
 		index++;
 	}
 }
-#include <stdio.h>
-
-
-
-
 t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 {
 	shell = malloc(sizeof(t_shell));
