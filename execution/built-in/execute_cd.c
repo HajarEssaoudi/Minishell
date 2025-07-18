@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:43:06 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:12:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,19 @@ void	execute_cd(t_tok *tok, t_shell *shell)
 	shell->old_path = get_path();
 	if (shell->old_path == NULL)
 	{
+		// chdir("..");
+		return ;
 	}
 	if (chdir(tok->str[1]) == -1)
 		perror("cd");
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
+	{
 		ft_putstr_fd("cd: error retrieving current directory:"
 			" getcwd: cannot access parent directories:"
 			"No such file or directory\n", 2);
+		// exit(1);
+	}
 	change_old_path(shell);
 	change_new_path(shell);
 }

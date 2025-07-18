@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/11 18:01:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:20:32 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		fd[2];
 	int		prev_fd;
 	pid_t	pid;
+	pid_t	last_pid = -1;
 
 	prev_fd = -1;
 	while (tok)
@@ -78,12 +79,23 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		else if (pid < 0)
 		{
 			perror("fork");
-			exit(EXIT_FAILURE);
+			if (errno == EACCES)
+				exit(EXIT_NO_PERMISSION);
+			else if (errno == ENOENT)
+				exit(EXIT_NOT_FOUND);
+			else
+				exit(EXIT_FAILURE);
 		}
 		else
+		{
+			last_pid = pid;
 			handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
+		}
 		tok = tok->next;
 	}
-	while (wait(NULL) > 0)
-		;
+	while (wait(&shell->exit_status) > 0)
+	{
+		if (WIFEXITED(shell->exit_status) && pid == last_pid)
+			shell->exit_status = WEXITSTATUS(shell->exit_status);
+	}
 }

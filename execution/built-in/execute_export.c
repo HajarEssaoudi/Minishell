@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 22:17:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:50:36 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	compare_and_replace(t_env *new, t_env *old)
 {
 	if (ft_strcmp(new->key, old->key) == 0)
 	{
-		printf("hi\n");
 		free(old->value);
 		old->value = new->value;
 		return (1);

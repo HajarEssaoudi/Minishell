@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/17 08:20:32 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:26:26 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_shell	*initialise_struct(char **env,t_shell *shell,t_tok *tok)
 	shell->env = create_list_env(env);
 	shell->exit_status = 0;
 	shell->line = 0;
+	shell->pwd = NULL;
 	return (shell);
 }
 
@@ -172,18 +173,15 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env);
-		// printf("%c\n", shell->exit_status);
 		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
-			// print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
-			// print_tok(tok);
 			execute_cmd(tok, shell, cp_env);
+			shell->pwd = get_path();
 			cp_env = update_env_arr(shell->env, cp_env);
 		}
-		// printf("exit status:%c\n", shell->exit_status);
 		add_history(prompt);
 		if (tok)
 			free_tok(tok);

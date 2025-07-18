@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 11:29:36 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/17 23:28:36 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	if (tok->str && is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
@@ -45,18 +47,20 @@ void	ft_in(t_tok *tok, char *filename, char **env, t_shell *shell)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	close(fd);
 }
 
-int	open_file(char *path)
+int	open_file(char *path, t_shell *shell)
 {
 	int	fd;
 
@@ -64,6 +68,7 @@ int	open_file(char *path)
 	if (fd == -1)
 	{
 		perror("open for read heredoc");
+		shell->exit_status = EXIT_FAILURE;
 		// ft_clear_exit
 	}
 	return (fd);
@@ -116,13 +121,13 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 			line = readline("> ");
 			if (!line)
 			{
-				ft_putstr_fd("bash: warning: here-document at line ", 2);
+				ft_putstr_fd("minishell: warning: here-document at line ", 2);
 				ft_putnbr_fd(shell->line, 2);
 				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 				ft_putstr_fd(delimiter, 2);
 				ft_putstr_fd("')\n", 2);
 				close(fd);
-				exit(0);
+				exit(EXIT_SUCCESS);
 			}
 			if (ft_strcmp(line, delimiter) == 0)
 				break ;
@@ -136,7 +141,7 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 		if (line)
 			free(line);
 		close(fd);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	else if (pid > 0)
 	{
@@ -158,7 +163,7 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 		else if (WIFEXITED(status))
 			shell->exit_status = WEXITSTATUS(status);
 	}
-	fd = open_file("./.tmp.txt");
+	fd = open_file("./.tmp.txt", shell);
 	tok->heredoc_fd = fd;
 	unlink("./.tmp.txt");
 	g_flag = 0;
@@ -172,13 +177,15 @@ void	ft_append(t_tok *tok, char *filename, char **env, t_shell *shell)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(EXIT_FAILURE);
+		shell->exit_status = EXIT_FAILURE;
+		return ;
 	}
 	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 22:12:15 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:03:22 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,43 @@ extern	int g_flag;
 
 /*a ajouter ft_clear exit*/
 
-void	ft_execve(char *path,char **str, char **env, t_shell *shell)
+void	ft_execve(t_tok *tok, char **env)
 {
-	if (execve(path, str, env) == -1)
+	tok = check_cmd(tok, env);
+	if (!tok)
 	{
-		perror("minishell");
-		exit(EXIT_FAILURE);
+		if (errno == EACCES)
+			exit(EXIT_NO_PERMISSION);
+		else if (errno == ENOENT)
+			exit(EXIT_NOT_FOUND);
+		else
+			exit(EXIT_FAILURE);
+	}
+	if (tok->execute)
+	{
+		if (execve(tok->execute, tok->str, env) == -1)
+		{
+			perror("minishell");
+			if (errno == EACCES)
+				exit(EXIT_NO_PERMISSION);
+			else if (errno == ENOENT)
+				exit(EXIT_NOT_FOUND);
+			else
+				exit(EXIT_FAILURE);
+		}
+	}
+	if (tok->path)
+	{
+		if (execve(tok->path, tok->str, env) == -1)
+		{
+			perror("minishell");
+			if (errno == EACCES)
+				exit(EXIT_NO_PERMISSION);
+			else if (errno == ENOENT)
+				exit(EXIT_NOT_FOUND);
+			else
+				exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -36,10 +67,7 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 		execute_built_in(tok, shell, env);
 	else
 	{
-		if (tok->execute)
-			ft_execve(tok->execute, NULL, env, shell);
-		else if (tok->path)
-			ft_execve(tok->path, tok->str, env, shell);
+		ft_execve(tok, env);
 	}
 	shell->exit_status = EXIT_FAILURE;
 	exit(shell->exit_status);
@@ -64,15 +92,7 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		tok = check_cmd(tok, env);
-		if (!tok)
-		{
-			exit(EXIT_NOT_FOUND);
-		}
-		if (tok->execute)
-			ft_execve(tok->execute, NULL, env, shell);
-		else if (tok->path)
-			ft_execve(tok->path, tok->str, env, shell);
+		ft_execve(tok, env);
 	}
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/16 13:39:51 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:00:09 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 # include "../ft_printf/ft_printf.h"
 
 typedef struct s_rederict

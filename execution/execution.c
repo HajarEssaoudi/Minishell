@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/14 18:06:33 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:26:01 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,12 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	int	saved_stdout;
 	int	saved_stdin;
 
-	saved_stdout = -1;
-	saved_stdin = -1;
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (tok->heredoc_fd != -1)
 	{
 		dup2(tok->heredoc_fd, STDIN_FILENO);
 		close(tok->heredoc_fd);
-	}
-	t_rederict *re = tok->redirect;
-	while (re)
-	{
-		// printf("%s => %s", re->type, re->filename);
-		re = re->next;
 	}
 	if (tok->redirect && tok->heredoc_fd == -1)
 		execute_redirect(tok, env, shell);
