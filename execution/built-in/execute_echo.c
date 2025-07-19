@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:12:14 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:43:30 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:13:53 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,34 @@ void	print_strings(char **str, int i)
 	}
 }
 
+int	check_new_line(char *str)
+{
+	int	i;
+
+	if (!str || str[0] != '-')
+		return (1);
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 void	execute_echo(t_tok *tok)
 {
-	int		i;
+	int	i;
+	int	f;
 
 	i = 1;
-	if (!tok->str[1])
+	f = 0;
+	while (tok->str[i] && check_new_line(tok->str[i]) == 0)
 	{
+		f = 1;
+		i++;
+	}
+	print_strings(tok->str, i);
+	if (!f)
 		printf("\n");
-		return ;
-	}
-	while (tok->str[i])
-	{
-		if (ft_strncmp(tok->str[i], "-n", 2) == 0)
-		{
-			i++;
-		}
-		else
-			break ;
-	}
-	if (i == 1)
-	{
-		print_strings(tok->str, i);
-		printf("\n");
-	}
-	else if (tok->str[i])
-		print_strings(tok->str, i);
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/17 17:50:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 11:39:45 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static int	compare_and_replace(t_env *new, t_env *old)
 }
 /*ft_clear before return*/
 
-void	execute_export(t_tok *tok, t_shell *shell)
+int	execute_export(t_tok *tok, t_shell *shell)
 {
 	int		i;
+	int		f;
 	t_env	*new;
 	t_env	*tmp;
-	int		f;
 
 	i = 1;
 	f = 0;
@@ -88,11 +88,9 @@ void	execute_export(t_tok *tok, t_shell *shell)
 		tmp = shell->env;
 		while (tmp)
 		{
-			new = init_node_env(tok->str[i]);
+			new = init_node_env(tok->str[i], EXPORT);
 			if (!new)
-			{
-				return ;
-			}
+				return (1);
 			f = compare_and_replace(new, tmp);
 			tmp = tmp->next;
 		}
@@ -100,4 +98,5 @@ void	execute_export(t_tok *tok, t_shell *shell)
 			ft_lstadd_back_env(&shell->env, new);
 		i++;
 	}
+	return (0);
 }

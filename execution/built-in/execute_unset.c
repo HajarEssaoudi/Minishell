@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:17:32 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/08 01:55:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 11:00:07 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_prev(t_env *prev, t_env *tmp, t_shell *shell)
 		prev->next = tmp->next;
 }
 
-void	execute_unset(t_tok *tok, t_shell *shell)
+int	execute_unset(t_tok *tok, t_shell *shell)
 {
 	t_env	*tmp;
 	t_env	*prev;
@@ -40,7 +40,7 @@ void	execute_unset(t_tok *tok, t_shell *shell)
 
 	i = 1;
 	if (!tok->str[i])
-		return ;
+		return (0);
 	while (tok->str[i])
 	{
 		tmp = shell->env;
@@ -58,4 +58,5 @@ void	execute_unset(t_tok *tok, t_shell *shell)
 		}
 		i++;
 	}
+	return (0);
 }

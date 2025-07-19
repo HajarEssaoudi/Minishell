@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/17 18:12:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 10:25:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,65 +24,64 @@ char	*get_path(void)
 	return (cwd);
 }
 
-static void	change_old_path(t_shell *shell)
+static void	search_and_change(t_shell *shell, char *key, char *path)
 {
 	t_env	*tmp;
 
+	if (!path)
+		return ;
 	tmp = shell->env;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			free(tmp->value);
-			tmp->value = ft_strdup(shell->old_path);
+			tmp->value = ft_strdup(path);
 			break ;
 		}
 		tmp = tmp->next;
 	}
 }
 
-static void	change_new_path(t_shell *shell)
+static char	*search_in_env(t_shell *shell, char *key)
 {
 	t_env	*tmp;
 
 	tmp = shell->env;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, "PWD") == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
-			if (shell->current_path)
-				tmp->value = ft_strdup(shell->current_path);
-			else
-				return ;
-			break ;
+			return (tmp->value);
 		}
 		tmp = tmp->next;
 	}
+	return (NULL);
 }
 
-/* change pwd and oldpwd in the if*/
-
-void	execute_cd(t_tok *tok, t_shell *shell)
+int	execute_cd(t_tok *tok, t_shell *shell)
 {
-	char	*home_path;
-
 	shell->old_path = get_path();
 	if (shell->old_path == NULL)
 	{
-		// chdir("..");
-		return ;
+		shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
 	}
 	if (chdir(tok->str[1]) == -1)
-		perror("cd");
+	{
+		perror("minishell: cd");
+		return (1);
+	}
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
 	{
-		ft_putstr_fd("cd: error retrieving current directory:"
+		ft_printf(2, "cd: error retrieving current directory:"
 			" getcwd: cannot access parent directories:"
-			"No such file or directory\n", 2);
-		// exit(1);
+			"No such file or directory\n");
+		return (0);
 	}
-	change_old_path(shell);
-	change_new_path(shell);
+	search_and_change(shell, "PWD", shell->current_path);
+	search_and_change(shell, "OLDPWD", shell->old_path);
+	free(shell->old_path);
+	free(shell->current_path);
+	return (0);
 }

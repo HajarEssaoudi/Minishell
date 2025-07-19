@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/18 00:16:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 11:35:55 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define EXIT_FAILURE 1
 # define EXIT_NOT_FOUND 127
 # define EXIT_NO_PERMISSION 126
+# define CREATE_LIST 0
+# define EXPORT 1
 
 typedef struct s_env
 {
@@ -68,7 +70,7 @@ int					ft_str_num(char *str);
 
 /* handle env */
 t_env				*create_list_env(char **arr_env);
-t_env				*init_node_env(char *str_env);
+t_env				*init_node_env(char *str_env, int f);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new);
 
@@ -81,13 +83,13 @@ void				print_env(t_env *env);
 
 /* execute built-in */
 void				execute_built_in(t_tok *tok, t_shell *shell, char **env);
-void				execute_cd(t_tok *tok, t_shell *shell);
-void				execute_pwd(t_shell *shell);
+int					execute_cd(t_tok *tok, t_shell *shell);
+int					execute_pwd(t_shell *shell);
 void				execute_echo(t_tok *tok);
-void				execute_env(char **env);
+int					execute_env(t_tok * tok, char **env);
 void				execute_exit(t_tok *tok, t_shell *shell);
-void				execute_unset(t_tok *tok, t_shell *shell);
-void				execute_export(t_tok *tok, t_shell *shell);
+int				execute_unset(t_tok *tok, t_shell *shell);
+int				execute_export(t_tok *tok, t_shell *shell);
 
 /*freeing*/
 void				free_list_env(t_env *env);

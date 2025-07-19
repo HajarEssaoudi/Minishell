@@ -6,13 +6,31 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 10:39:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 11:56:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-t_env	*init_node_env(char *str_env)
+int	valid_variable_name(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		if (i == 0 && !ft_isalpha(str[i]) && str[i] != '_')
+			return (0);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	if (i == 0)
+		return (0);
+	return (1);
+}
+
+t_env	*init_node_env(char *str_env, int f)
 {
 	t_env	*node_env;
 	char	*equal;
@@ -23,6 +41,11 @@ t_env	*init_node_env(char *str_env)
 		ft_putstr_fd("allocation failed\n", 2);
 		// clear_exit;
 	}
+	if (f == EXPORT && valid_variable_name(str_env) == 0)
+	{
+		ft_printf(2, "minishell: export: %s: not a valid identifier\n", str_env);
+		return (NULL);
+	}
 	equal = ft_strchr(str_env, '=');
 	if (equal)
 	{
@@ -31,9 +54,7 @@ t_env	*init_node_env(char *str_env)
 		node_env->next = NULL;
 	}
 	else
-	{
 		return (NULL);
-	}
 	return (node_env);
 }
 
@@ -49,7 +70,7 @@ t_env	*create_list_env(char **arr_env)
 	tmp = NULL;
 	while (arr_env[i])
 	{
-		new_node = init_node_env(arr_env[i]);
+		new_node = init_node_env(arr_env[i], CREATE_LIST);
 		if (new_node == NULL)
 		{
 			ft_putstr_fd("allocation failed\n", 2);
