@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/18 01:46:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:10:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		prev_fd;
 	pid_t	pid;
 	pid_t	last_pid = -1;
+	int		status;
+	pid_t	w_pid;
 
 	prev_fd = -1;
 	while (tok)
@@ -93,9 +95,13 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		}
 		tok = tok->next;
 	}
-	while (wait(&shell->exit_status) > 0)
+	while ((w_pid = wait(&status)) > 0)
 	{
-		if (WIFEXITED(shell->exit_status) && pid == last_pid)
-			shell->exit_status = WEXITSTATUS(shell->exit_status);
+		if (w_pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				shell->exit_status = WEXITSTATUS(status);
+		}
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 11:35:55 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/19 22:29:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ void				list_env_variables(t_shell *shell);
 void				print_env(t_env *env);
 
 /* execute built-in */
-void				execute_built_in(t_tok *tok, t_shell *shell, char **env);
+int					execute_built_in(t_tok *tok, t_shell *shell, char **env);
 int					execute_cd(t_tok *tok, t_shell *shell);
 int					execute_pwd(t_shell *shell);
-void				execute_echo(t_tok *tok);
+int					execute_echo(t_tok *tok);
 int					execute_env(t_tok * tok, char **env);
-void				execute_exit(t_tok *tok, t_shell *shell);
-int				execute_unset(t_tok *tok, t_shell *shell);
-int				execute_export(t_tok *tok, t_shell *shell);
+int					execute_exit(t_tok *tok, t_shell *shell);
+int					execute_unset(t_tok *tok, t_shell *shell);
+int					execute_export(t_tok *tok, t_shell *shell);
 
 /*freeing*/
 void				free_list_env(t_env *env);

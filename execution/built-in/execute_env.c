@@ -6,13 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:13:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 10:44:40 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:46:39 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	execute_env(t_tok * tok, char **env)
+int	execute_env(t_tok *tok, char **env)
 {
 	int	i;
 

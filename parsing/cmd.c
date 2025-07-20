@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 03:19:07 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 14:09:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 				else if (!ex && !in)
 				{
+					ft_printf(2, "[DEBUG] tok->path before printing: %s\n", tok->path);
 					ft_printf (2, "bash: %s:command not found\n", tok->path);
 					return (NULL);
 				}
@@ -96,6 +97,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 			{
 				if (access(tok->path, F_OK) != 0)
 				{
+					ft_printf(2, "[DEBUG] tok->path before printing: %s\n", tok->path);
 					ft_printf (2, "Minishell: command not found: %s\n", tok->path);
 					return (NULL);
 				}
@@ -105,3 +107,4 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	}
 	return (tmp);
 }
+	
