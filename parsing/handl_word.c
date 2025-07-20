@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 18:24:37 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 19:32:56 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,10 @@ while(fin_split)
 			{  
 				if (final)  
 				{  
-					tmp = ft_strjoin(final, final_split[j - 1]);  
+					add_ch(&lexer, "string", final, amg); 
+					// tmp = ft_strjoin(final, final_split[j - 1]);  
 					free(final);  
-					final = tmp;  
+					final = ft_strdup(final_split[j - 1]);  
 				}  
 				else  
 				{  
