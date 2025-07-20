@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 19:32:56 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 23:55:24 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,17 +254,17 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 				{
 					if (var_qout[k] == '$' && (ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] == '_') && ft_strcmp(flag, "1"))
 					{
-						int start = k;
-						while (start > 0 && var_qout[start - 1] != '$')
-							start--;
+						// int start = k;
+						// while (start > 0 && var_qout[start - 1] != '$')
+						// 	start--;
 
-						if (start < k)
-						{
-							tmp2 = ft_substr(var_qout, start, k - start);
-							tmp = ft_strjoin(tmp1, tmp2);
-							free(tmp1);
-							tmp1 = tmp;
-						}
+						// if (start < k)
+						// {
+						// 	tmp2 = ft_substr(var_qout, start, k - start);
+						// 	tmp = ft_strjoin(tmp1, tmp2);
+						// 	free(tmp1);
+						// 	tmp1 = tmp;
+						// }
 						k++;
 						int var_start = k;
 						while (var_qout[k] && (ft_isalnum(var_qout[k]) || var_qout[k] == '_'))
@@ -285,7 +285,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 							else
 								k++;
 						}
-							k++;
+							// k++;
 						tmp2 = ft_substr(var_qout, start, k - start);
 						tmp = ft_strjoin(tmp1, tmp2);
 						free(tmp1); free(tmp2);
@@ -334,7 +334,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 						else
 							k++;
 					}
-					k++;
+					// k++;
 					tmp2 = ft_substr(var, start, k - start);
 					tmp = ft_strjoin(tmp1, tmp2);
 					free(tmp1); free(tmp2);
