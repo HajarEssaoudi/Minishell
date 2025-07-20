@@ -68,8 +68,6 @@ fin_split = split;
 final = NULL;  
 while(fin_split)  
 {
-	if (!ft_strcmp(fin_split->flag, "1"))
-		amg = "1";
 	if (fin_split->quoted)  
 	{  
 		if (final)  
@@ -87,7 +85,15 @@ while(fin_split)
 	}
 	else  
 	{  
-		final_split = ft_split(fin_split->str, ' ');   
+		final_split = ft_split(fin_split->str, ' ');
+		if (!fin_split->quoted && !ft_strcmp(fin_split->flag, "2"))
+		{
+			int count = 0;
+			while (final_split[count])
+				count++;
+			if (count > 1)
+				amg = "3";
+		}  
 		if (fin_split->first_space && fin_split->last_space)  
 		{ 
 			if(final)  
@@ -274,7 +280,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 						int start = k;
 						while (var_qout[k] && var_qout[k] != '$')
 						{
-							if (var_qout[k] == '$' && (!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_'))
+							if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
 								k++;
 							else
 								k++;
@@ -322,7 +328,13 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 				{
 					int start = k;
 					while (var[k] && var[k] != '$')
-						k++;
+					{
+						if (var[k] == '$' && ((!ft_isalpha(var[k + 1]) || var[k + 1] != '_') || !ft_strcmp(flag, "1")))
+							k++;
+						else
+							k++;
+					}
+					k++;
 					tmp2 = ft_substr(var, start, k - start);
 					tmp = ft_strjoin(tmp1, tmp2);
 					free(tmp1); free(tmp2);
