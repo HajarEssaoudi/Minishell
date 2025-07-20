@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/18 17:55:45 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 18:23:29 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env);
 		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
+		print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;

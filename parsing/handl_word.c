@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 16:40:13 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 18:24:37 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ if (final)
 	add_ch(&lexer, "string", final, amg);
 	free(final);
 }  
-if (final)  
-	free(final);  
+// if (final)  
+// 	free(final);  
   
 return lexer;
 

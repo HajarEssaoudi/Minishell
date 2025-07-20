@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 09:12:53 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 18:20:51 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 # include "../ft_printf/ft_printf.h"
 
 typedef struct s_rederict
