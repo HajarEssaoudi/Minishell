@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:12:14 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 11:46:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:42:12 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_strings(char **str, int i)
 		ft_putstr_fd(str[i], 1);
 		i++;
 		if (str[i])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	}
 }
 

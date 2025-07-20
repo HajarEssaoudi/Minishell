@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 19:29:35 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:56:07 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env);
 		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
-		// print_tok(tok);
+		print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;

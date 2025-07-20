@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/15 09:37:04 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:46:49 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 		// printf("filename => %s\n", tmp->type);
 		// if (tmp->flag)
 			// printf("tmp->flag %s\n", tmp->flag);
-		if (!ft_strcmp(tmp->flag, "1") || !tmp->filename)
+		if (!ft_strcmp(tmp->flag, "1") || !tmp->filename || !tmp->filename[0])
 		{
 				ft_printf(2, "minishell : ambiguous redirect\n");
 				return ;

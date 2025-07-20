@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:37:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:03:33 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ extern	int g_flag;
 
 void	ft_execve(t_tok *tok, char **env)
 {
-	tok = check_cmd(tok, env);
-	if (!tok)
-	{
-		if (errno == EACCES)
-			exit(EXIT_NO_PERMISSION);
-		else if (errno == ENOENT)
-			exit(EXIT_NOT_FOUND);
-		else
-			exit(EXIT_FAILURE);
-	}
 	if (tok->execute)
 	{
 		if (execve(tok->execute, tok->str, env) == -1)
@@ -60,6 +50,7 @@ void	ft_execve(t_tok *tok, char **env)
 void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
 	tok = check_cmd(tok, env);
+	printf("hhhh\n");
 	if (!tok)
 		exit(EXIT_NOT_FOUND);
 	execute_redirect(tok, env, shell);
@@ -93,6 +84,16 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		tok = check_cmd(tok, env);
+		if (!tok)
+		{
+			if (errno == EACCES)
+				exit(EXIT_NO_PERMISSION);
+			else if (errno == ENOENT)
+				exit(EXIT_NOT_FOUND);
+			else
+				exit(EXIT_FAILURE);
+		}
 		ft_execve(tok, env);
 	}
 	else
