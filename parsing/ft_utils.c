@@ -33,7 +33,7 @@ void	add_lexer(t_lexer *lexer, t_lexer *token)
 	tmp->next = token;
 }
 
-void	add_ch(t_lexer **lexer, char *type, char *input)
+void	add_ch(t_lexer **lexer, char *type, char *input, char *ambg)
 {
 	t_lexer	*token;
 

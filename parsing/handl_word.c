@@ -23,7 +23,7 @@ void	add_split2(t_split *split, t_split *new_split)
 	tmp->next = new_split;
 }
 
-void	add_split(t_split **split, char *str, int quoted)
+void	add_split(t_split **split, char *str, int quoted, char *flag)
 {
 	t_split	*tmp;
 	int l;
@@ -37,6 +37,7 @@ void	add_split(t_split **split, char *str, int quoted)
 	tmp->quoted = quoted;
 	tmp->first_space = 0;
 	tmp->last_space = 0;
+	tmp->flag = flag;
 	tmp->next = NULL;
 	if (str)
 	{
@@ -58,6 +59,7 @@ t_lexer	*ft_final(t_lexer *lexer, t_split *split)
 {
 char *final;
 char *tmp;
+char *amg = "0";
 char **final_split;
 int i;
 t_split	*fin_split;
@@ -65,7 +67,9 @@ t_split	*fin_split;
 fin_split = split;  
 final = NULL;  
 while(fin_split)  
-{  
+{
+	if (!ft_strcmp(fin_split->flag, "1"))
+		amg = "1";
 	if (fin_split->quoted)  
 	{  
 		if (final)  
@@ -85,17 +89,17 @@ while(fin_split)
 	{  
 		final_split = ft_split(fin_split->str, ' ');   
 		if (fin_split->first_space && fin_split->last_space)  
-		{  
+		{ 
 			if(final)  
 			{  
-				add_ch(&lexer, "string", final);  
+				add_ch(&lexer, "string", final, amg);  
 				free(final); 
 				final = ft_strdup("");
 			}
 			i = 0;
 			while(final_split[i])  
 			{
-				add_ch(&lexer, "string", final_split[i]);  
+				add_ch(&lexer, "string", final_split[i], amg);  
 				i++;  
 			}  
 			free_str(final_split);  
@@ -105,19 +109,19 @@ while(fin_split)
 			if (final)  
 			{  
 				tmp = ft_strjoin(final, final_split[0]);  
-				add_ch(&lexer, "string", tmp);  
+				add_ch(&lexer, "string", tmp, amg);  
 				free(final);  
 				free(tmp);  
 				final = ft_strdup("");
 			}  
 			else if (final_split[0])  
 			{  
-				add_ch(&lexer, "string", final_split[0]);  
+				add_ch(&lexer, "string", final_split[0], amg);  
 			}  
 			i = 1;  
 			while(final_split[i])  
 			{  
-				add_ch(&lexer, "string", final_split[i]);  
+				add_ch(&lexer, "string", final_split[i], amg);  
 				i++;  
 			}  
 			free_str(final_split);  
@@ -126,7 +130,7 @@ while(fin_split)
 		{  
 			if(final)  
 			{  
-				add_ch(&lexer, "string", final);  
+				add_ch(&lexer, "string", final, amg);  
 				free(final);  
 				final = ft_strdup("");
 			}  
@@ -136,7 +140,7 @@ while(fin_split)
 			i = 0;  
 			while(final_split[i] && i < j - 1)  
 			{  
-				add_ch(&lexer, "string", final_split[i]);  
+				add_ch(&lexer, "string", final_split[i], amg);  
 				i++;  
 			}  
 			if (j > 0 && final_split[j - 1])  
@@ -168,7 +172,7 @@ while(fin_split)
 			i = 1;  
 			while(final_split[i] && i < j - 1)  
 			{  
-				add_ch(&lexer, "string", final_split[i]);  
+				add_ch(&lexer, "string", final_split[i], amg);  
 				i++;  
 			}
 			if (j > 1 && final_split[j - 1])  
@@ -194,7 +198,8 @@ while(fin_split)
  
 if (final)  
 {
-	add_ch(&lexer, "string", final);  
+	add_ch(&lexer, "string", final, amg);
+	free(final);
 }  
 if (final)  
 	free(final);  
@@ -202,11 +207,11 @@ if (final)
 return lexer;
 
 }
-t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
+
+t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 {
 	int i = 0;
 	t_split *split = NULL;
-	char	*flag;
 	char *tmp1 = NULL;
 	char *tmp2 = NULL;
 	char *tmp = NULL;
@@ -240,7 +245,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
 				k = 0;
 				while (var_qout[k])
 				{
-					if (var_qout[k] == '$' && (ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] == '_'))
+					if (var_qout[k] == '$' && (ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] == '_') && ft_strcmp(flag, "1"))
 					{
 						int start = k;
 						while (start > 0 && var_qout[start - 1] != '$')
@@ -280,12 +285,12 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
 						tmp1 = tmp;
 					}
 				}
-				add_split(&split, tmp1, 1);
+				add_split(&split, tmp1, 1, flag);
 				free(tmp1); free(var_qout);
 			}
 			else
 			{
-				add_split(&split, var_qout, 1);
+				add_split(&split, var_qout, 1, flag);
 				free(var_qout);
 			}
 		}
@@ -298,7 +303,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
 			k = 0;
 			while (var[k])
 			{
-				if (var[k] == '$' && (ft_isalpha(var[k + 1]) || var[k + 1] == '_'))
+				if (var[k] == '$' && (ft_isalpha(var[k + 1]) || var[k + 1] == '_') && ft_strcmp(flag, "1"))
 				{
 					int start = k;
 					k++;
@@ -324,7 +329,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
 				}
 			}
 			// printf("tmp1 ===> %s\n", tmp1);
-			add_split(&split, tmp1, 0);
+			add_split(&split, tmp1, 0, flag);
 			free(tmp1); free(var);
 		}
 	}

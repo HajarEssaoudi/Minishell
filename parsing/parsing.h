@@ -75,6 +75,7 @@ typedef struct s_split
 	int first_space;
 	int	last_space;
 	int	quoted;
+	char *flag;
 	struct s_split *next;
 }	t_split;
 
@@ -85,9 +86,9 @@ int					skip_space_tab_newline(char *str, int i);
 t_lexer				*ft_operator(char *input, int *i, t_lexer *lexer);
 int					check_redirect1(char *input);
 int					check_redirect2(char *input);
-t_lexer				*get_str(char *input, t_lexer *lexer, char **cp_env);
+t_lexer				*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag);
 char	**ft_str(char *input, int *i, char **cp_env, char *flag, t_lexer *lexer);
-void				add_ch(t_lexer **lexer, char *type, char *input);
+void				add_ch(t_lexer **lexer, char *type, char *input, char *ambg);
 char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *lexer);
 char	*ft_var(char *str, char **cp_env);
 t_lexer				*handle_pip(char *input, int *i, t_lexer *div);

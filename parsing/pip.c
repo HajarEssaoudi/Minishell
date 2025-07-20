@@ -69,7 +69,7 @@ t_lexer	*handle_pip(char *input, int *i, t_lexer *div)
 {
 	if (!check_pip(input))
 	{
-		add_ch(&div, "pip", "|");
+		add_ch(&div, "pip", "|", "0");
 		(*i)++;
 	}
 	else

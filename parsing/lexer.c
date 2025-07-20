@@ -72,7 +72,14 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 		}
 		char *sub = ft_substr(input, j, *i - j);
 		// printf("sub => %s\n", sub);
-		lexer = get_str(sub, lexer, env);
+		t_lexer *tmp = lexer;
+		char *flag = NULL;
+		while (tmp)
+		{
+			flag = tmp->flag;
+			tmp = tmp->next;
+		}
+		lexer = get_str(sub, lexer, env, flag);
 		if (!lexer)
 		{
 			free_lexer(lexer);

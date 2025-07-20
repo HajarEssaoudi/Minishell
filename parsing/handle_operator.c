@@ -16,7 +16,7 @@ t_lexer	*handle_redirect_output(char *input, int *i, t_lexer *lexer)
 {
 	if (!check_redirect1(input))
 	{
-		add_ch(&lexer, "output", ">");
+		add_ch(&lexer, "output", ">", "0");
 		(*i)++;
 	}
 	else
@@ -28,7 +28,7 @@ t_lexer	*handle_redirect_input(char *input, int *i, t_lexer *lexer)
 {
 	if (!check_redirect1(input))
 	{
-		add_ch(&lexer, "input", "<");
+		add_ch(&lexer, "input", "<", "0");
 		(*i)++;
 	}
 	else
@@ -40,7 +40,7 @@ t_lexer	*handle_redirect_append(char *input, int *i, t_lexer *lexer)
 {
 	if (!check_redirect2(input))
 	{
-		add_ch(&lexer, "append", ">>");
+		add_ch(&lexer, "append", ">>", "0");
 		(*i) += 2;
 	}
 	else
@@ -52,7 +52,7 @@ t_lexer	*handle_redirect_heredoc(char *input, int *i, t_lexer *lexer)
 {
 	if (!check_redirect2(input))
 	{
-		add_ch(&lexer, "heredoc", "<<");
+		add_ch(&lexer, "heredoc", "<<", "0");
 		(*i) += 2;
 	}
 	else
