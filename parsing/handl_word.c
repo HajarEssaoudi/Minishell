@@ -6,158 +6,335 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/17 09:01:12 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/20 16:40:13 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "parsing.h"
 
-char	**ft_new_str(char *input, int *i, char **cp_env, int j, char *flag, t_lexer *lexer)
+void	add_split2(t_split *split, t_split *new_split)
 {
-	char	*sub;
-	char	**var;
-	char	*str;
-	char	**quot;
 
-	sub = ft_substr(input, j, *i - j);
-	var = ft_var(sub, cp_env, input[*i], flag, lexer);
-	free(sub);
-	if (input[*i] == '"' || input[*i] == '\'')
-	{
-		quot = ft_str(input, i, cp_env, flag, lexer);
-		if (quot && quot[0])
-		{
-			int k = 0;
-			while (var[k])
-				k++;
-			k--;
-			sub = ft_strjoin(var[k], quot[0]);
-			var[k] = sub;
-		}
-		else
-			return (NULL);
-	}
-	return (var);
+	t_split	*tmp;
+	tmp = split;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_split;
 }
 
-char	**ft_add_str(char *str, char *input, int *i, char **cp_env, int j, char *flag, t_lexer *lexer)
+void	add_split(t_split **split, char *str, int quoted)
 {
-	char	*sub;
-	char	**var;
-	char	*s;
-	char	**new;
+	t_split	*tmp;
+	int l;
 
-	sub = ft_substr(input, j, *i - j);
-	var = ft_var(sub, cp_env, input[*i], flag, lexer);
-	s = ft_strjoin(str, var[0]);
-	free(str);
-	free(sub);
-	free(var[0]);
-	var[0] = s;
-	if (input[*i] == '"' || input[*i] == '\'')
+	tmp = malloc(sizeof(t_split));
+	l = 0;
+	if (str)
+		tmp->str = ft_strdup(str);
+	else
+		tmp->str = ft_strdup("");
+	tmp->quoted = quoted;
+	tmp->first_space = 0;
+	tmp->last_space = 0;
+	tmp->next = NULL;
+	if (str)
 	{
-		int k = 0;
-		while (var[k])
-			k++;
-		k--;
-		new = ft_str(input, i, cp_env, flag, lexer);
-		if (!new)
-			return (NULL);
-		else
-			var[k] = ft_strjoin(var[k], new[0]);
+		l = ft_strlen(str);
+		if (str[0] == ' ' && !quoted)
+			tmp->first_space = 1;
+		if (str[l - 1] == ' ' && !quoted)
+			tmp->last_space = 1;
 	}
-	return (var);
+	if (!*split || !split)
+	{
+		*split = tmp;
+	}
+	else
+		add_split2(*split, tmp);
 }
 
-char	**ft_str(char *input, int *i, char **cp_env, char *flag, t_lexer *lexer)
+t_lexer	*ft_final(t_lexer *lexer, t_split *split)
 {
-	char	**str;
-	int		j;
+char *final;
+char *tmp;
+char **final_split;
+int i;
+t_split	*fin_split;
 
-	str = NULL;
-	if (input[*i] == '"' || input[*i] == '\'')
-	{
-		str = check_quot(input, i, input[*i], cp_env, lexer);
-		if (!str || !str[0])
-			return (NULL);
+fin_split = split;  
+final = NULL;  
+while(fin_split)  
+{  
+	if (fin_split->quoted)  
+	{  
+		if (final)  
+		{  
+			tmp = ft_strjoin(final, fin_split->str);  
+			free(final);  
+			final = tmp;  
+		}  
+		else  
+		{  
+			if (final)  
+				free(final);  
+			final = ft_strdup(fin_split->str);  
+		}  
 	}
-	j = *i;
-	while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
-		&& input[*i] != ' ' && input[*i] != '\t' && input[*i] != '\n' && input[*i] != '"' && input[*i] != '\'')
-		(*i)++;
-	if (j != *i)
-	{
-		if (str)
-		{
-			int k = 0;
-			while (str[k])
-				k++;
-			str = ft_add_str(str[k - 1], input, i, cp_env, j, flag, lexer);
-		}
-		else
-			str = ft_new_str(input, i, cp_env, j, flag, lexer);
-	}
-	return (str);
+	else  
+	{  
+		final_split = ft_split(fin_split->str, ' ');   
+		if (fin_split->first_space && fin_split->last_space)  
+		{  
+			if(final)  
+			{  
+				add_ch(&lexer, "string", final);  
+				free(final); 
+				final = ft_strdup("");
+			}
+			i = 0;
+			while(final_split[i])  
+			{
+				add_ch(&lexer, "string", final_split[i]);  
+				i++;  
+			}  
+			free_str(final_split);  
+		}  
+		else if (!fin_split->first_space && fin_split->last_space)  
+		{  
+			if (final)  
+			{  
+				tmp = ft_strjoin(final, final_split[0]);  
+				add_ch(&lexer, "string", tmp);  
+				free(final);  
+				free(tmp);  
+				final = ft_strdup("");
+			}  
+			else if (final_split[0])  
+			{  
+				add_ch(&lexer, "string", final_split[0]);  
+			}  
+			i = 1;  
+			while(final_split[i])  
+			{  
+				add_ch(&lexer, "string", final_split[i]);  
+				i++;  
+			}  
+			free_str(final_split);  
+		}  
+		else if (fin_split->first_space && !fin_split->last_space)  
+		{  
+			if(final)  
+			{  
+				add_ch(&lexer, "string", final);  
+				free(final);  
+				final = ft_strdup("");
+			}  
+			int j = 0;  
+			while(final_split[j])  
+				j++;  
+			i = 0;  
+			while(final_split[i] && i < j - 1)  
+			{  
+				add_ch(&lexer, "string", final_split[i]);  
+				i++;  
+			}  
+			if (j > 0 && final_split[j - 1])  
+			{  
+				if (final)  
+					free(final);  
+				final = ft_strdup(final_split[j - 1]);  
+			}  
+			free_str(final_split);  
+		}  
+		else  
+		{  
+			if (final && final_split[0])  
+			{  
+				tmp = ft_strjoin(final, final_split[0]);  
+				free(final);  
+				final = tmp;  
+			}  
+			else if (final_split[0])
+			{  
+				if (final)  
+					free(final);  
+				final = ft_strdup(final_split[0]);  
+			}  
+			  
+			int j = 0;  
+			while(final_split[j])  
+				j++;  
+			i = 1;  
+			while(final_split[i] && i < j - 1)  
+			{  
+				add_ch(&lexer, "string", final_split[i]);  
+				i++;  
+			}
+			if (j > 1 && final_split[j - 1])  
+			{  
+				if (final)  
+				{  
+					tmp = ft_strjoin(final, final_split[j - 1]);  
+					free(final);  
+					final = tmp;  
+				}  
+				else  
+				{  
+					if (final)  
+						free(final);  
+					final = ft_strdup(final_split[j - 1]);  
+				}  
+			}  
+			free_str(final_split);  
+		}  
+	}  
+	fin_split = fin_split->next;  
+}  
+ 
+if (final)  
+{
+	add_ch(&lexer, "string", final);  
+}  
+if (final)  
+	free(final);  
+  
+return lexer;
+
 }
-
-char	**ft_splitjoin(char	**split1, char **split2)
+t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env)
 {
-	int	i;
-	int	j;
-	int	len_split1;
-	char	**split3;
-	
-	i = 0;
-	j = 0;
-	len_split1 = 0;
-	while (split1 && split1[len_split1])
-		len_split1++;
-	split3 = malloc(sizeof(char *) * (len_split1 + 1));
-	while (i < len_split1)
-	{
-		split3[i] = ft_strdup(split1[i]);
-		i++;
-	}
-	split3[len_split1 - 1] = ft_strjoin(split3[len_split1 - 1], split2[j]);
-	split3[len_split1] = NULL;
-	return(split3);
-}
-
-t_lexer	*get_str(char *input, int *i, t_lexer *lexer, char **cp_env)
-{
-	char	**str;
-	char	**tmp;
-	char	**init_str;
-	t_lexer	*new_lex;
+	int i = 0;
+	t_split *split = NULL;
 	char	*flag;
+	char *tmp1 = NULL;
+	char *tmp2 = NULL;
+	char *tmp = NULL;
+	char *var_qout = NULL;
+	char *var = NULL;
 	int k = 0;
+	int j;
+	char quot;
+
+	// printf("input => %s\n", input);
+	while (input[i])
+	{
+		j = i;
+		if (input[i] == '"' || input[i] == '\'')
+		{
+			quot = input[i];
+			i++;
+			j = i;
+			while (input[i] && input[i] != quot)
+				i++;
+			if (!input[i])
+			{
+				printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
+				return NULL;
+			}
+			var_qout = ft_substr(input, j, i - j);
+			i++;
+			if (quot == '"')
+			{
+				tmp1 = ft_strdup("");
+				k = 0;
+				while (var_qout[k])
+				{
+					if (var_qout[k] == '$' && (ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] == '_'))
+					{
+						int start = k;
+						while (start > 0 && var_qout[start - 1] != '$')
+							start--;
+
+						if (start < k)
+						{
+							tmp2 = ft_substr(var_qout, start, k - start);
+							tmp = ft_strjoin(tmp1, tmp2);
+							free(tmp1);
+							tmp1 = tmp;
+						}
+						k++;
+						int var_start = k;
+						while (var_qout[k] && (ft_isalnum(var_qout[k]) || var_qout[k] == '_'))
+							k++;
+						char *varname = ft_substr(var_qout, var_start, k - var_start);
+						char *val = ft_var(varname, cp_env);
+						tmp = ft_strjoin(tmp1, val);
+						free(tmp1);
+						tmp1 = tmp;
+					}
+					else
+					{
+						int start = k;
+						while (var_qout[k] && var_qout[k] != '$')
+						{
+							if (var_qout[k] == '$' && (!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_'))
+								k++;
+							else
+								k++;
+						}
+							k++;
+						tmp2 = ft_substr(var_qout, start, k - start);
+						tmp = ft_strjoin(tmp1, tmp2);
+						free(tmp1); free(tmp2);
+						tmp1 = tmp;
+					}
+				}
+				add_split(&split, tmp1, 1);
+				free(tmp1); free(var_qout);
+			}
+			else
+			{
+				add_split(&split, var_qout, 1);
+				free(var_qout);
+			}
+		}
+		else
+		{
+			while (input[i] && input[i] != '"' && input[i] != '\'')
+				i++;
+			var = ft_substr(input, j, i - j);
+			tmp1 = ft_strdup("");
+			k = 0;
+			while (var[k])
+			{
+				if (var[k] == '$' && (ft_isalpha(var[k + 1]) || var[k + 1] == '_'))
+				{
+					int start = k;
+					k++;
+					int var_start = k;
+					while (var[k] && (ft_isalnum(var[k]) || var[k] == '_'))
+						k++;
+					tmp2 = ft_substr(var, var_start, k - var_start);
+					char *val = ft_var(tmp2, cp_env);
+					tmp = ft_strjoin(tmp1, val);
+					free(tmp1);
+					tmp1 = tmp;
+					// free(tmp2);
+				}
+				else
+				{
+					int start = k;
+					while (var[k] && var[k] != '$')
+						k++;
+					tmp2 = ft_substr(var, start, k - start);
+					tmp = ft_strjoin(tmp1, tmp2);
+					free(tmp1); free(tmp2);
+					tmp1 = tmp;
+				}
+			}
+			// printf("tmp1 ===> %s\n", tmp1);
+			add_split(&split, tmp1, 0);
+			free(tmp1); free(var);
+		}
+	}
+	// t_split *spl = split;
+	// while (spl)
+	// {
+	// 	printf("spl->str ==> %s\n", spl->str);
+	// 	spl = spl->next;
+	// }
 	
-	new_lex = lexer;
-	while (new_lex)
-	{
-		flag = new_lex->flag;
-		new_lex = new_lex->next;
-	}
-	str = ft_str(input, i, cp_env, flag, lexer);
-	if (!str)
-		return (NULL);
-	while (input[*i] == '"' || input[*i] == '\'')
-	{
-		tmp = ft_str(input, i, cp_env, lexer->flag, lexer);
-		if(!tmp)
-			return (NULL);
-		init_str = ft_splitjoin(str, tmp);
-		free_str(str);
-		str = init_str;
-		free_str(init_str);
-		free_str(tmp);
-	}
-	while (str[k])
-	{
-		add_ch(&lexer, "string", str[k]);
-		k++;
-	}
-	free_str(str);
-	return (lexer);
+	lexer = ft_final(lexer, split);
+	return lexer;
 }

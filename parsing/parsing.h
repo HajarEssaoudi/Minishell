@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/18 01:00:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/20 09:12:53 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <string.h>
 # include <sys/wait.h>
 #include <signal.h>
-#include <errno.h>
 # include "../ft_printf/ft_printf.h"
 
 typedef struct s_rederict
@@ -70,6 +69,15 @@ typedef struct s_quot
 	char			*sub;
 }					t_quot;
 
+typedef struct s_split
+{
+	char *str;
+	int first_space;
+	int	last_space;
+	int	quoted;
+	struct s_split *next;
+}	t_split;
+
 char				**copy_env(char **env);
 void				free_str(char **str);
 void				free_lexer(t_lexer *lexer);
@@ -77,12 +85,11 @@ int					skip_space_tab_newline(char *str, int i);
 t_lexer				*ft_operator(char *input, int *i, t_lexer *lexer);
 int					check_redirect1(char *input);
 int					check_redirect2(char *input);
-t_lexer				*get_str(char *input, int *i, t_lexer *lexer,
-						char **cp_env);
+t_lexer				*get_str(char *input, t_lexer *lexer, char **cp_env);
 char	**ft_str(char *input, int *i, char **cp_env, char *flag, t_lexer *lexer);
 void				add_ch(t_lexer **lexer, char *type, char *input);
 char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *lexer);
-char	**ft_var(char *str, char **cp_env, char input, char *flag, t_lexer *lexer);
+char	*ft_var(char *str, char **cp_env);
 t_lexer				*handle_pip(char *input, int *i, t_lexer *div);
 char	*cv_var(char *str, int *i);
 t_lexer				*ft_lexer(char *input, char **env);
