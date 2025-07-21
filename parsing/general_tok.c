@@ -47,8 +47,11 @@ void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 	// printf("lexer->ambg => %s\n", lexer->ambg);
 	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))
 	{
+		printf("quot :: %d\n", lexer->quot);
 		if (!ft_strcmp(lexer->ambg, "3"))
 			flag = "1";
+		else if (lexer->quot == 0 && ft_strcmp(lexer->ambg, "3"))
+			flag = "2";
 		// printf("lexer->ambg2 => %s\n", lexer->ambg);
 		if (!(ft_strncmp(type, "output", ft_strlen("output"))))
 			add_rederict(&tmp->redirect, ">", lexer->args, flag);

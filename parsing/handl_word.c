@@ -68,8 +68,9 @@ fin_split = split;
 final = NULL;  
 while(fin_split)  
 {
+	// lexer->quot = fin_split->quoted;
 	if (fin_split->quoted)  
-	{  
+	{
 		if (final)  
 		{  
 			tmp = ft_strjoin(final, fin_split->str);  
@@ -84,7 +85,7 @@ while(fin_split)
 		}  
 	}
 	else  
-	{  
+	{
 		final_split = ft_split(fin_split->str, ' ');
 		if (!fin_split->quoted && !ft_strcmp(fin_split->flag, "2"))
 		{
@@ -207,7 +208,8 @@ if (final)
 {
 	add_ch(&lexer, "string", final, amg);
 	free(final);
-}  
+}
+// lexer->quot = 1;
 // if (final)  
 // 	free(final);  
   

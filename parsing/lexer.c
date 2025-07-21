@@ -50,12 +50,14 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	{
 		int j = *i;
 		char quot;
+		int is_quoted = 0;
 		while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
 		&& input[*i] != ' ' && input[*i] != '\t' && input[*i] != '\n')
 		{
 			if (input[*i] == '"' || input[*i] == '\'')
 			{
 				quot = input[*i];
+				is_quoted = 1;
 				(*i)++;
 				// j = *i;
 				while (input[*i] && input[*i] != quot)
@@ -87,6 +89,16 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 		}
 		if (lexer->flag)
 			free(lexer->flag);
+		t_lexer *last = lexer;
+		while (last->next)
+			last = last->next;
+		if (last && last->type && !ft_strcmp(last->type, "string")) {
+			t_lexer *prev = lexer;
+			while (prev && prev->next != last)
+				prev = prev->next;
+			if (prev && prev->type && !ft_strcmp(prev->type, "heredoc"))
+				last->quot = is_quoted;
+		}
 		lexer->flag = ft_strdup("0");
 	}
 	return (lexer);
@@ -104,7 +116,7 @@ t_lexer *ft_lexer(char *input, char **env)
 	lexer->next = NULL;
 	lexer->type = NULL;
 	lexer->ambg = NULL;
-	lexer->quot = 1;
+	lexer->quot = 0;
 
 	while (input[i])
 	{

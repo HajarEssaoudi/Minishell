@@ -77,27 +77,49 @@ int	open_file(char *path, t_shell *shell)
 
 char	*ft_expand(char *line, char **env)
 {
-	int i = 0;
-	char *str = ft_strdup("");
-	char  tmp[2];
-	while (line[i])
-	{
-		if (line[i] == '$' && (line[i + 1] == '_' || ft_isalpha(line[i + 1])))
-		{
-			str = ft_dollar(line, env, str, &i, "0");
-		}
-		else{
-			tmp[0] = line[i];
-			tmp[1] = '\0';
-			str = ft_strjoin(str, tmp);
-			i++;
-		}
-	}
-	free(line);
-	return str;
+	char	*tmp1;
+	char	*tmp2;
+	char	*tmp;
+	int		k;
+
+	tmp1 = ft_strdup("");
+	k = 0;
+	while (line[k])
+			{
+				if (line[k] == '$' && (ft_isalpha(line[k + 1]) || line[k + 1] == '_'))
+				{
+					k++;
+					int var_start = k;
+					while (line[k] && (ft_isalnum(line[k]) || line[k] == '_'))
+						k++;
+					tmp2 = ft_substr(line, var_start, k - var_start);
+					char *val = ft_var(tmp2, env);
+					tmp = ft_strjoin(tmp1, val);
+					free(tmp1);
+					tmp1 = tmp;
+					// free(tmp2);
+				}
+				else
+				{
+					int start = k;
+					while (line[k] && line[k] != '$')
+					{
+						if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k + 1] != '_'))
+							k++;
+						else
+							k++;
+					}
+					// k++;
+					tmp2 = ft_substr(line, start, k - start);
+					tmp = ft_strjoin(tmp1, tmp2);
+					free(tmp1); free(tmp2);
+					tmp1 = tmp;
+				}
+			}
+		return (tmp1);
 }
 
-void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
+void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 {
 	char	*line;
 	int		fd;
@@ -125,15 +147,15 @@ void	ft_herdoc(t_tok *tok, char *delimiter, char **env, t_shell *shell)
 				ft_putstr_fd("minishell: warning: here-document at line ", 2);
 				ft_putnbr_fd(shell->line, 2);
 				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-				ft_putstr_fd(delimiter, 2);
+				ft_putstr_fd(redir->filename, 2);
 				ft_putstr_fd("')\n", 2);
 				close(fd);
 				exit(EXIT_SUCCESS);
 			}
-			if (ft_strcmp(line, delimiter) == 0)
+			if (ft_strcmp(line, redir->filename) == 0)
 				break ;
 			printf("quot => %d\n", tok->quot);
-			if (tok->quot)
+			if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 				line = ft_expand(line, env);
 			ft_putstr_fd(line, fd);
 			ft_putstr_fd("\n", fd);

@@ -58,7 +58,7 @@ void				ft_out(t_tok *tok, char *filename, char **env,
 						t_shell *shell);
 void				ft_in(t_tok *tok, char *filename, char **env,
 						t_shell *shell);
-void				ft_herdoc(t_tok *tok, char *delimiter, char **env,
+void				ft_herdoc(t_tok *tok, t_rederict *redir, char **env,
 						t_shell *shell);
 void				ft_append(t_tok *tok, char *filename, char **env,
 						t_shell *shell);

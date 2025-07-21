@@ -167,14 +167,17 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (!prompt[0])
 			continue ;
+		// printf("avant exit status\n");
 		tok = get_tok(prompt, cp_env);
 		if (tok && tok->str)
 			tok->str = ft_exit_status(tok->str, shell->exit_status);
-		print_tok(tok);
+		// printf("apres exit status\n");
+		// print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
 			execute_cmd(tok, shell, cp_env);
+			// printf("Retour du execute_cmd\n");
 			shell->pwd = get_path();
 			cp_env = update_env_arr(shell->env, cp_env);
 		}

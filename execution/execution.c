@@ -49,7 +49,7 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 		while (redir)
 		{
 			if (ft_strcmp(redir->type, "<<") == 0)
-				ft_herdoc(tmp, redir->filename, env, shell);
+				ft_herdoc(tmp, redir, env, shell);
 			redir = redir->next;
 		}
 		tmp = tmp->next;
