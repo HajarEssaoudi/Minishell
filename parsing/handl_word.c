@@ -279,19 +279,24 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 					}
 					else
 					{
-						int start = k;
-						while (var_qout[k] && var_qout[k] != '$')
+						if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
 						{
-							if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
-								k++;
-							else
-								k++;
+							tmp2 = ft_substr(var_qout, k, 2);
+							tmp = ft_strjoin(tmp1, tmp2);
+							free(tmp1); free(tmp2);
+							tmp1 = tmp;
+							k += 2;
 						}
-							// k++;
-						tmp2 = ft_substr(var_qout, start, k - start);
-						tmp = ft_strjoin(tmp1, tmp2);
-						free(tmp1); free(tmp2);
-						tmp1 = tmp;
+						else
+						{
+							int start = k;
+							while (var_qout[k] && var_qout[k] != '$')
+								  k++;
+							tmp2 = ft_substr(var_qout, start, k - start);
+							tmp = ft_strjoin(tmp1, tmp2);
+							free(tmp1); free(tmp2);
+							tmp1 = tmp;
+						}
 					}
 				}
 				add_split(&split, tmp1, 1, flag);
@@ -328,19 +333,24 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 				}
 				else
 				{
-					int start = k;
-					while (var[k] && var[k] != '$')
+					if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
 					{
-						if (var[k] == '$' && ((!ft_isalpha(var[k + 1]) || var[k + 1] != '_') || !ft_strcmp(flag, "1")))
-							k++;
-						else
-							k++;
+						tmp2 = ft_substr(var_qout, k, 2);
+						tmp = ft_strjoin(tmp1, tmp2);
+						free(tmp1); free(tmp2);
+						tmp1 = tmp;
+						k += 2;
 					}
-					// k++;
-					tmp2 = ft_substr(var, start, k - start);
-					tmp = ft_strjoin(tmp1, tmp2);
-					free(tmp1); free(tmp2);
-					tmp1 = tmp;
+					else
+					{
+						int start = k;
+						while (var_qout[k] && var_qout[k] != '$')
+								k++;
+						tmp2 = ft_substr(var_qout, start, k - start);
+						tmp = ft_strjoin(tmp1, tmp2);
+						free(tmp1); free(tmp2);
+						tmp1 = tmp;
+					}
 				}
 			}
 			// printf("tmp1 ===> %s\n", tmp1);
