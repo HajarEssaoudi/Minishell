@@ -48,58 +48,12 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	}
 	else if (input[*i])
 	{
-		int j = *i;
-		char quot;
-		int is_quoted = 0;
-		while (input[*i] && input[*i] != '>' && input[*i] != '<' && input[*i] != '|'
-		&& input[*i] != ' ' && input[*i] != '\t' && input[*i] != '\n')
-		{
-			if (input[*i] == '"' || input[*i] == '\'')
-			{
-				quot = input[*i];
-				is_quoted = 1;
-				(*i)++;
-				// j = *i;
-				while (input[*i] && input[*i] != quot)
-					(*i)++;
-				if (!input[*i])
-				{
-					printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
-					return NULL;
-				}
-				(*i)++;
-			}
-			else
-				(*i)++;
-		}
-		char *sub = ft_substr(input, j, *i - j);
-		// printf("sub => %s\n", sub);
-		t_lexer *tmp = lexer;
-		char *flag = NULL;
-		while (tmp)
-		{
-			flag = tmp->flag;
-			tmp = tmp->next;
-		}
-		lexer = get_str(sub, lexer, env, flag);
+		lexer = ft_word(lexer, input, i, env);
 		if (!lexer)
 		{
 			free_lexer(lexer);
 			return (NULL);
 		}
-		if (lexer->flag)
-			free(lexer->flag);
-		t_lexer *last = lexer;
-		while (last->next)
-			last = last->next;
-		if (last && last->type && !ft_strcmp(last->type, "string")) {
-			t_lexer *prev = lexer;
-			while (prev && prev->next != last)
-				prev = prev->next;
-			if (prev && prev->type && !ft_strcmp(prev->type, "heredoc"))
-				last->quot = is_quoted;
-		}
-		lexer->flag = ft_strdup("0");
 	}
 	return (lexer);
 }
