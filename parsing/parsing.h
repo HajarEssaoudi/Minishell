@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 19:23:19 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:27:08 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_lexer
 	char			*type;
 	char			*ambg;
 	int				quot;
+	int				exit_status;
 	struct s_lexer	*next;
 }					t_lexer;
 
@@ -95,11 +96,11 @@ char	**check_quot(char *input, int *index, char quot, char **cp_env, t_lexer *le
 char	*ft_var(char *str, char **cp_env);
 t_lexer				*handle_pip(char *input, int *i, t_lexer *div);
 char	*cv_var(char *str, int *i);
-t_lexer				*ft_lexer(char *input, char **env);
+t_lexer *ft_lexer(char *input, char **env, int exit_status);
 char				*ft_dollar(char *str, char **cp_env, char *result, int *i, char *flag);
 char				*get_env_var(char **cp_env, char *var);
 void				ft_type(t_lexer *lexer);
-t_tok				*get_tok(char *prompt, char **env);
+t_tok	*get_tok(char *prompt, char **env, int exit_status);
 char				*ft_special_caract(char *result, char *var);
 char				**ft_argv(char **argv, char *arg);
 char				**ft_red(char **argv, char *arg);

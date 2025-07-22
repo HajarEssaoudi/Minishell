@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/13 03:19:58 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:48:10 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    ft_handl(int sig)
     {
         printf("\n");
         rl_on_new_line();
-        // rl_replace_line("", 0);
+        rl_replace_line("", 0);
         rl_redisplay();
     }
 }

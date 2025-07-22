@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:04:37 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 16:40:33 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:45:59 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,8 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	return (lexer);
 }
 
-t_lexer *ft_lexer(char *input, char **env)
+t_lexer *init_lexer(t_lexer *lexer, int exit_status)
 {
-	int i;
-	t_lexer *lexer;
-
-	i = 0;
 	lexer = malloc(sizeof(t_lexer));
 	lexer->args = NULL;
 	lexer->flag = NULL;
@@ -71,9 +67,20 @@ t_lexer *ft_lexer(char *input, char **env)
 	lexer->type = NULL;
 	lexer->ambg = NULL;
 	lexer->quot = 0;
+	lexer->exit_status = exit_status;
+	return (lexer);
+}
 
+t_lexer *ft_lexer(char *input, char **env, int exit_status)
+{
+	int i;
+	t_lexer *lexer;
+
+	i = 0;
+	lexer = init_lexer(lexer, exit_status);
 	while (input[i])
 	{
+		lexer->exit_status = exit_status;
 		i = skip_space_tab_newline(input, i);
 		if (!ft_strlen(input) && !input[i])
 			return (NULL);

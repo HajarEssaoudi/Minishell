@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 19:32:10 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:46:28 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,13 @@ void print_lexer(t_lexer *lexer)
     }
 }
 
-t_tok	*get_tok(char *prompt, char **env)
+t_tok	*get_tok(char *prompt, char **env, int exit_status)
 {
 	t_tok	*tok;
 	t_lexer	*lexer;
 
 	tok = NULL;
-	lexer = ft_lexer(prompt, env);
+	lexer = ft_lexer(prompt, env, exit_status);
 	// print_lexer(lexer);
 	if (lexer)
 	{

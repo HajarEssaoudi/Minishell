@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/20 23:55:24 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:45:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 	int k = 0;
 	int j;
 	char quot;
+	int start = 0;
 
 
 	while (input[i])
@@ -270,15 +271,23 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 					{
 						if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
 						{
-							tmp2 = ft_substr(var_qout, k, 2);
-							tmp = ft_strjoin(tmp1, tmp2);
+							if (var_qout[k + 1] == '?' && ft_strcmp(flag, "1"))
+							{
+								tmp2 = ft_itoa(lexer->exit_status);
+								tmp = ft_strjoin(tmp1, tmp2);
+							}
+							else
+							{
+								tmp2 = ft_substr(var_qout, k, 2);
+								tmp = ft_strjoin(tmp1, tmp2);
+							}
 							free(tmp1); free(tmp2);
 							tmp1 = tmp;
 							k += 2;
 						}
 						else
 						{
-							int start = k;
+							start = k;
 							while (var_qout[k] && var_qout[k] != '$')
 								  k++;
 							tmp2 = ft_substr(var_qout, start, k - start);
@@ -322,8 +331,16 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 				{
 					if (var[k] == '$' && ((!ft_isalpha(var[k + 1]) || var[k + 1] != '_') || !ft_strcmp(flag, "1")))
 					{
-						tmp2 = ft_substr(var, k, 2);
-						tmp = ft_strjoin(tmp1, tmp2);
+						if (var[k + 1] == '?' && ft_strcmp(flag, "1"))
+						{
+							tmp2 = ft_itoa(lexer->exit_status);
+							tmp = ft_strjoin(tmp1, tmp2);
+						}
+						else
+						{
+							tmp2 = ft_substr(var, k, 2);
+							tmp = ft_strjoin(tmp1, tmp2);
+						}
 						free(tmp1); free(tmp2);
 						tmp1 = tmp;
 						k += 2;
@@ -362,12 +379,12 @@ int	pars_word(char *input, int *i, int *is_quoted)
 
 	j = *i;
 	quot = 0;
-	while (is_word(input[*i]))
+	while (input[*i] && is_word(input[*i]))
 	{
 		if (input[*i] == '"' || input[*i] == '\'')
 		{
 			quot = input[*i];
-			is_quoted = 1;
+			*is_quoted = 1;
 			(*i)++;
 			while (input[*i] && input[*i] != quot)
 				(*i)++;
@@ -444,4 +461,5 @@ t_lexer *ft_word(t_lexer *lexer, char *input, int *i, char **env)
 		free(lexer->flag);
 	herdoc_quot(lexer, is_quoted);
 	lexer->flag = ft_strdup("0");
+	return lexer;
 }
