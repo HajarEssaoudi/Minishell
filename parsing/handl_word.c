@@ -230,7 +230,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 	int j;
 	char quot;
 
-	// printf("input => %s\n", input);
+
 	while (input[i])
 	{
 		j = i;
@@ -256,17 +256,6 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 				{
 					if (var_qout[k] == '$' && (ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] == '_') && ft_strcmp(flag, "1"))
 					{
-						// int start = k;
-						// while (start > 0 && var_qout[start - 1] != '$')
-						// 	start--;
-
-						// if (start < k)
-						// {
-						// 	tmp2 = ft_substr(var_qout, start, k - start);
-						// 	tmp = ft_strjoin(tmp1, tmp2);
-						// 	free(tmp1);
-						// 	tmp1 = tmp;
-						// }
 						k++;
 						int var_start = k;
 						while (var_qout[k] && (ft_isalnum(var_qout[k]) || var_qout[k] == '_'))
@@ -319,7 +308,6 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 			{
 				if (var[k] == '$' && (ft_isalpha(var[k + 1]) || var[k + 1] == '_') && ft_strcmp(flag, "1"))
 				{
-					int start = k;
 					k++;
 					int var_start = k;
 					while (var[k] && (ft_isalnum(var[k]) || var[k] == '_'))
@@ -329,13 +317,12 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 					tmp = ft_strjoin(tmp1, val);
 					free(tmp1);
 					tmp1 = tmp;
-					// free(tmp2);
 				}
 				else
 				{
-					if (var_qout[k] == '$' && ((!ft_isalpha(var_qout[k + 1]) || var_qout[k + 1] != '_') || !ft_strcmp(flag, "1")))
+					if (var[k] == '$' && ((!ft_isalpha(var[k + 1]) || var[k + 1] != '_') || !ft_strcmp(flag, "1")))
 					{
-						tmp2 = ft_substr(var_qout, k, 2);
+						tmp2 = ft_substr(var, k, 2);
 						tmp = ft_strjoin(tmp1, tmp2);
 						free(tmp1); free(tmp2);
 						tmp1 = tmp;
@@ -344,27 +331,19 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 					else
 					{
 						int start = k;
-						while (var_qout[k] && var_qout[k] != '$')
+						while (var[k] && var[k] != '$')
 								k++;
-						tmp2 = ft_substr(var_qout, start, k - start);
+						tmp2 = ft_substr(var, start, k - start);
 						tmp = ft_strjoin(tmp1, tmp2);
 						free(tmp1); free(tmp2);
 						tmp1 = tmp;
 					}
 				}
 			}
-			// printf("tmp1 ===> %s\n", tmp1);
 			add_split(&split, tmp1, 0, flag);
 			free(tmp1); free(var);
 		}
 	}
-	// t_split *spl = split;
-	// while (spl)
-	// {
-	// 	printf("spl->str ==> %s\n", spl->str);
-	// 	spl = spl->next;
-	// }
-	
 	lexer = ft_final(lexer, split);
 	return lexer;
 }

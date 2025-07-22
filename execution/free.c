@@ -36,6 +36,6 @@ void	ft_clear(char **cp_env,t_shell *shell,t_tok *tok)
 		if (shell->env)
 			free_list_env(shell->env);
 		// free(shell->exit_status);
-		free(shell);
+		// free(shell);
 	}
 }

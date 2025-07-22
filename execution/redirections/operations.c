@@ -154,7 +154,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			}
 			if (ft_strcmp(line, redir->filename) == 0)
 				break ;
-			printf("quot => %d\n", tok->quot);
+			// printf("quot => %d\n", tok->quot);
 			if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 				line = ft_expand(line, env);
 			ft_putstr_fd(line, fd);
