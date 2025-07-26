@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 02:01:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:04:07 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char	*relative_path(t_tok *tok, char **cp_env)
 	}
 	else if (!ex && !in)
 	{
+		free(tok->path);
 		write(2, "Minishell:command not found\n",
 			ft_strlen("Minishell:command not found\n"));
 		return (NULL);
@@ -99,18 +100,18 @@ char	*relative_path(t_tok *tok, char **cp_env)
 
 t_tok	*check_cmd(t_tok *tok, char **cp_env)
 {
-	t_tok	*tmp;
-
-	tmp = tok;
-	while (tok)
-	{
+	// while (tok)
+	// {
 		if (tok->path)
 		{
 			if (tok->path[0] != '/')
 			{
 				tok->path = relative_path(tok, cp_env);
 				if (!tok->path)
+				{
+					free_tok(tok);
 					return (NULL);
+				}
 			}
 			else
 			{
@@ -122,7 +123,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 				}
 			}
 		}
-		tok = tok->next;
-	}
-	return (tmp);
+		// tok = tok->next;
+	// }
+	return (tok);
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 02:48:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:06:40 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,23 @@ void	ft_execve(t_tok *tok, char **env)
 
 void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
-	tok = check_cmd(tok, env);
+	if (tok->path)
+		tok = check_cmd(tok, env);
 	if (!tok)
-		exit(EXIT_NOT_FOUND);
-	execute_redirect(tok, env, shell);
-	if (is_built_in(tok->str[0], env))
+	{
+		ft_clear(env, shell, tok);
+		if (errno == EACCES)
+			exit(EXIT_NO_PERMISSION);
+		else if (errno == ENOENT)
+			exit(EXIT_NOT_FOUND);
+		else
+			exit(EXIT_FAILURE);
+	}
+	if (!execute_redirect(tok, env, shell))
+	{
+		exit(EXIT_FAILURE);
+	}
+	if (tok->str && is_built_in(tok->str[0], env))
 	{
 		shell->exit_status = execute_built_in(tok, shell, env);
 		exit(shell->exit_status);

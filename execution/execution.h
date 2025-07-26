@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 02:47:03 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 04:33:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_tok				*check_cmd(t_tok *tok, char **cp_env);
 
 /*shell's operations*/
 
-void				execute_redirect(t_tok *tok, char **env, t_shell *shell);
+int					execute_redirect(t_tok *tok, char **env, t_shell *shell);
 void				ft_out(t_tok *tok, char *filename, char **env,
 						t_shell *shell);
 void				ft_in(t_tok *tok, char *filename, char **env,

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 01:12:25 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/26 04:35:28 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
+int	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 {
 	t_rederict	*tmp;
 	char		*last_out;
@@ -28,8 +28,9 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 	{
 		if (!ft_strcmp(tmp->flag, "1") || !tmp->filename || !tmp->filename[0])
 		{
-				ft_printf(2, "minishell : ambiguous redirect\n");
-				return ;
+			ft_printf(2, "Minishell : ambiguous redirect\n");
+			shell->exit_status = EXIT_FAILURE;
+			return (0);
 		}
 		if (ft_strcmp(tmp->type, ">") == 0)
 		{
@@ -37,8 +38,13 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			if (fd < 0)
 			{
 				perror("open");
-				shell->exit_status = EXIT_FAILURE;
-				return ;
+				if (errno == EACCES)
+					shell->exit_status = EXIT_NO_PERMISSION;
+				else if (errno == ENOENT)
+					shell->exit_status = EXIT_NOT_FOUND;
+				else
+					shell->exit_status = EXIT_FAILURE;
+				return (0);
 			}
 			last_out = tmp->filename;
 		}
@@ -48,8 +54,13 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			if (fd < 0)
 			{
 				perror("open");
-				shell->exit_status = EXIT_FAILURE;
-				return ;
+				if (errno == EACCES)
+					shell->exit_status = EXIT_NO_PERMISSION;
+				else if (errno == ENOENT)
+					shell->exit_status = EXIT_NOT_FOUND;
+				else
+					shell->exit_status = EXIT_FAILURE;
+				return (0);
 			}
 			last_in = tmp->filename;
 		}
@@ -59,8 +70,13 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			if (fd < 0)
 			{
 				perror("open");
-				shell->exit_status = EXIT_FAILURE;
-				return ;
+				if (errno == EACCES)
+					shell->exit_status = EXIT_NO_PERMISSION;
+				else if (errno == ENOENT)
+					shell->exit_status = EXIT_NOT_FOUND;
+				else
+					shell->exit_status = EXIT_FAILURE;
+				return (0);
 			}
 			last_append = tmp->filename;
 		}
@@ -72,4 +88,5 @@ void	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 		ft_out(tok, last_out, env, shell);
 	if (last_append)
 		ft_append(tok, last_append, env, shell);
+	return (1);
 }

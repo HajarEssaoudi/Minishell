@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:19:13 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 01:29:50 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 00:07:22 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ft_clear(char **cp_env,t_shell *shell,t_tok *tok)
 			free_list_env(shell->env);
 		if (shell->pwd)
 		{
-			printf("OUPS\n");
 			free(shell->pwd);
 		}
 		// if (shell->current_path)

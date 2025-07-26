@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 11:39:45 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 00:22:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ int	execute_export(t_tok *tok, t_shell *shell)
 	f = 0;
 	if (!tok->str[i])
 		list_env_variables(shell);
+	if (!shell->env)
+	{
+		ft_lstadd_back_env(&shell->env, new);
+		return (0);
+	}
 	while (tok->str[i])
 	{
 		tmp = shell->env;
