@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../parsing.h"
 
 static int	check_out(int *k, char *input)
 {

@@ -6,11 +6,18 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:06:34 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/17 08:57:10 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/25 02:18:36 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../parsing.h"
+
+int	is_word(char c)
+{
+	if (c != ' ' && c != '\t' && c != '\n' && c != '|' && c != '<' && c != '>')
+		return (1);
+	return (0);
+}
 
 int	skip_space_tab_newline(char *str, int i)
 {
@@ -21,8 +28,8 @@ int	skip_space_tab_newline(char *str, int i)
 
 void	add_lexer(t_lexer *lexer, t_lexer *token)
 {
-
 	t_lexer	*tmp;
+
 	tmp = lexer;
 	while (tmp->next)
 	{
@@ -42,7 +49,7 @@ void	add_ch(t_lexer **lexer, char *type, char *input, char *ambg)
 	token->type = ft_strdup(type);
 	token->next = NULL;
 	token->flag = NULL;
-	token->ambg = NULL;
+	token->ambg = ft_strdup(ambg);
 	token->quot = (*lexer)->quot;
 	if (!*lexer || !(*lexer)->type)
 	{
@@ -52,15 +59,4 @@ void	add_ch(t_lexer **lexer, char *type, char *input, char *ambg)
 	}
 	else
 		add_lexer(*lexer, token);
-}
-
-char	*ft_special_caract(char *result, char *var)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	tmp = ft_strjoin(result, var);
-	free(var);
-	free(result);
-	return (tmp);
 }

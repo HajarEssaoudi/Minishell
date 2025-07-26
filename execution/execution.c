@@ -28,7 +28,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		execute_redirect(tok, env, shell);
 	else if (tok->str && is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
-	else
+	else if (tok->str || tok->execute)
 		execute_with_execve(tok, shell, env);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);

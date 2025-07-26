@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:47:09 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/09 10:39:24 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:53:47 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../parsing.h"
 
 char	**ft_red(char **argv, char *arg)
 {
@@ -54,6 +54,6 @@ char	**ft_argv(char **argv, char *arg)
 	argv2[i] = ft_strdup(arg);
 	argv2[i + 1] = NULL;
 	if (argv)
-		free(argv);
+		free_str(argv);
 	return (argv2);
 }

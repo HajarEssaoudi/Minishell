@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../parsing.h"
 
-void ft_ambiguous(t_lexer *tmp)
+void	ft_ambiguous(t_lexer *tmp)
 {
 	while (tmp)
 	{
@@ -32,9 +32,10 @@ void ft_ambiguous(t_lexer *tmp)
 	}
 }
 
-t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
+t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
+
 	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 	{
 		lexer = ft_operator(input, i, lexer);
@@ -58,7 +59,7 @@ t_lexer *ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 	return (lexer);
 }
 
-t_lexer *init_lexer(t_lexer *lexer, int exit_status)
+t_lexer	*init_lexer(t_lexer *lexer, int exit_status)
 {
 	lexer = malloc(sizeof(t_lexer));
 	lexer->args = NULL;
@@ -71,12 +72,13 @@ t_lexer *init_lexer(t_lexer *lexer, int exit_status)
 	return (lexer);
 }
 
-t_lexer *ft_lexer(char *input, char **env, int exit_status)
+t_lexer	*ft_lexer(char *input, char **env, int exit_status)
 {
-	int i;
-	t_lexer *lexer;
+	int		i;
+	t_lexer	*lexer;
 
 	i = 0;
+	lexer = NULL;
 	lexer = init_lexer(lexer, exit_status);
 	while (input[i])
 	{

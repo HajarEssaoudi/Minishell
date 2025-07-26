@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 21:44:47 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/25 02:41:01 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		printf("hi\n");
 		perror("open");
 		shell->exit_status = EXIT_FAILURE;
 		return ;

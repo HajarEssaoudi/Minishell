@@ -49,6 +49,7 @@ void				ft_execve(t_tok *tok, char **env);
 void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
+t_tok	*check_cmd(t_tok *tok, char **cp_env);
 // void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/

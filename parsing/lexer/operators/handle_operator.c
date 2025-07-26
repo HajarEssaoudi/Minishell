@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../parsing.h"
 
 t_lexer	*handle_redirect_output(char *input, int *i, t_lexer *lexer)
 {

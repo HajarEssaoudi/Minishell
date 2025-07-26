@@ -3,26 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 21:55:03 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:01:19 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*check_ext(char *input, char **cp_env)
+char	*get_dir(char *input, char *path)
 {
-	int		i;
-	int		j;
-	char	*path;
-	char	**path_split;
 	char	*cmd;
 	char	*tmp;
 
+	tmp = ft_strjoin(path, "/");
+	cmd = ft_strjoin(tmp, input);
+	free(tmp);
+	return (cmd);
+}
+
+char	*check_ext(char *input, char **cp_env)
+{
+	int		i;
+	char	*path;
+	char	**path_split;
+	char	*cmd;
+
 	i = 0;
-	j = 0;
 	path = get_env_var(cp_env, "PATH");
 	if (path)
 		path_split = ft_split(path, ':');
@@ -30,9 +38,7 @@ char	*check_ext(char *input, char **cp_env)
 		return (NULL);
 	while (path_split[i])
 	{
-		tmp = ft_strjoin(path_split[i], "/");
-		cmd = ft_strjoin(tmp, input);
-		free(tmp);
+		cmd = get_dir(input, path_split[i]);
 		if (access(cmd, F_OK) == 0)
 		{
 			free_str(path_split);
@@ -45,7 +51,7 @@ char	*check_ext(char *input, char **cp_env)
 	return (NULL);
 }
 
-static char	*is_built_in(char *input, char **cp_env)
+static char	*is_built_in(char *input)
 {
 	char	*cmd[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit",
 			NULL};
@@ -63,9 +69,38 @@ static char	*is_built_in(char *input, char **cp_env)
 	return (NULL);
 }
 
+char	*relative_path(t_tok *tok, char **cp_env)
+{
+	char	*in;
+	char	*ex;
+
+	in = is_built_in(tok->path);
+	if (!in)
+		ex = check_ext(tok->path, cp_env);
+	if (in)
+	{
+		free(tok->path);
+		tok->path = ft_strdup(in);
+	}
+	else if (ex)
+	{
+		free(tok->path);
+		tok->path = ft_strdup(ex);
+		free(ex);
+	}
+	else if (!ex && !in)
+	{
+		write(2, "Minishell:command not found\n",
+			ft_strlen("Minishell:command not found\n"));
+		return (NULL);
+	}
+	return (tok->path);
+}
+
 t_tok	*check_cmd(t_tok *tok, char **cp_env)
 {
 	t_tok	*tmp;
+
 	tmp = tok;
 	while (tok)
 	{
@@ -73,33 +108,16 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 		{
 			if (tok->path[0] != '/')
 			{
-				char *in = is_built_in(tok->path, cp_env);
-				char *ex = check_ext(tok->path, cp_env);
-				if (in)
-				{
-					free(tok->path);
-					tok->path = ft_strdup(in);
-				}
-				else if (ex)
-				{
-					free(tok->path);
-					tok->path = ft_strdup(ex);
-					free(ex);
-				}
-				else if (!ex && !in)
-				{
-					// ft_printf(2, "[DEBUG] tok->path before printing: %s\n", tok->path);
-					// ft_printf (2, "bash: %s:command not found\n", tok->path);
-					write (2,  "bash1:command not found\n", ft_strlen("bash1:command not found\n"));
+				tok->path = relative_path(tok, cp_env);
+				if (!tok->path)
 					return (NULL);
-				}
 			}
 			else
 			{
 				if (access(tok->path, F_OK) != 0)
 				{
-					// ft_printf(2, "[DEBUG] tok->path before printing: %s\n", tok->path);
-					ft_printf (2, "Minishell: command not found: %s\n", tok->path);
+					ft_printf(2, "Minishell: command not found: %s\n",
+						tok->path);
 					return (NULL);
 				}
 			}
@@ -108,4 +126,3 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	}
 	return (tmp);
 }
-	

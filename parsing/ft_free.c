@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/16 08:06:34 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/25 02:16:21 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,50 @@ void	free_lexer(t_lexer *lexer)
 			free(lexer->type);
 		if (lexer->flag)
 			free(lexer->flag);
+		if (lexer->ambg)
+			free(lexer->ambg);
 		free(lexer);
 		lexer = tmp;
 	}
 }
 
+void	free_red(t_rederict *redir)
+{
+	t_rederict	*tmp_redir;
+
+	while (redir)
+	{
+		tmp_redir = redir->next;
+		if (redir->filename)
+			free(redir->filename);
+		if (redir->flag)
+			free(redir->flag);
+		if (redir->type)
+			free(redir->type);
+		free(redir);
+		redir = tmp_redir;
+	}
+}
+
 void	free_tok(t_tok *tok)
 {
-	if (tok->redirect)
+	t_tok		*tmp_tok;
+	t_rederict	*redir;
+
+	while (tok)
 	{
-		while (tok->redirect)
-		{
-			if (tok->redirect->filename)
-				free(tok->redirect->filename);
-			if (tok->redirect->flag)
-				free(tok->redirect->flag);
-			if (tok->redirect->type)
-				free(tok->redirect->type);
-			tok->redirect = tok->redirect->next;
-		}
+		redir = tok->redirect;
+		free_red(redir);
+		if (tok->execute)
+			free(tok->execute);
+		if (tok->path)
+			free(tok->path);
+		if (tok->pip)
+			free(tok->pip);
+		if (tok->str)
+			free_str(tok->str);
+		tmp_tok = tok->next;
+		free(tok);
+		tok = tmp_tok;
 	}
-	if(tok->execute)
-		free(tok->execute);
-	if (tok->path)
-		free(tok->path);
-	if (tok->pip)
-		free(tok->pip);
-	if (tok->str)
-		free_str(tok->str);
-	free(tok);
 }
