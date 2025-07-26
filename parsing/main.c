@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 01:56:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:47:12 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	}
 	shell->env = create_list_env(env);
 	shell->exit_status = 0;
+	shell->saved_stdout = 0;
+	shell->saved_stdin = 0;
 	shell->line = 0;
 	shell->pwd = NULL;
 	return (shell);

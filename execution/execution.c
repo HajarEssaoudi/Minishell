@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 18:15:13 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:47:35 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
+	shell->saved_stdout = dup(STDOUT_FILENO);
+	shell->saved_stdin = dup(STDIN_FILENO);
 	if (tok->heredoc_fd != -1)
 	{
 		dup2(tok->heredoc_fd, STDIN_FILENO);
@@ -30,10 +27,10 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		execute_built_in(tok, shell, env);
 	else if (tok->str || tok->execute)
 		execute_with_execve(tok, shell, env);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
+	dup2(shell->saved_stdout, STDOUT_FILENO);
+	dup2(shell->saved_stdin, STDIN_FILENO);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 }
 
 void	execute_cmd(t_tok *tok, t_shell *shell, char **env)

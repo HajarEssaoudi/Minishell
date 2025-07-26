@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/25 02:41:01 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:48:28 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			line = readline("> ");
 			if (!line)
 			{
-				ft_putstr_fd("minishell: warning: here-document at line ", 2);
+				ft_putstr_fd("Minishell: warning: here-document at line ", 2);
 				ft_putnbr_fd(shell->line, 2);
 				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 				ft_putstr_fd(redir->filename, 2);

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 01:27:53 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:48:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	g_flag = 1;
 	pid = fork();
 	if (pid < 0)
-	{
 		perror("fork");
-	}
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -86,6 +84,9 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 		tok = check_cmd(tok, env);
 		if (!tok)
 		{
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
+			ft_clear(env, shell, tok);
 			if (errno == EACCES)
 				exit(EXIT_NO_PERMISSION);
 			else if (errno == ENOENT)

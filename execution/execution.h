@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:29:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:47:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_shell
 	char			*pwd;
 	int				exit_status;
 	int				line;
+	int				saved_stdout;
+	int				saved_stdin;
 	struct s_env	*env;
 }					t_shell;
 
@@ -46,10 +48,10 @@ void				print_tok(t_tok *tok);
 
 void				execute_cmd(t_tok *tok, t_shell *shell, char **env);
 void				ft_execve(t_tok *tok, char **env);
-void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
+void				execute_with_execve(t_tok *tok, t_shell *shell ,char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
-t_tok	*check_cmd(t_tok *tok, char **cp_env);
+t_tok				*check_cmd(t_tok *tok, char **cp_env);
 // void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/
