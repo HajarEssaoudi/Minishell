@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 22:37:45 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/27 23:45:27 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
-	if (tok->str && is_built_in(tok->str[0], env))
-		execute_built_in(tok, shell, env);
-	else if (tok->str || tok->execute)
-		execute_with_execve(tok, shell, env);
 	close(fd);
 }
 
@@ -57,10 +53,6 @@ void	ft_in(t_tok *tok, char *filename, char **env, t_shell *shell)
 		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
-	if (tok->str && is_built_in(tok->str[0], env))
-		execute_built_in(tok, shell, env);
-	else if (tok->str || tok->execute)
-		execute_with_execve(tok, shell, env);
 	close(fd);
 }
 
@@ -211,9 +203,5 @@ void	ft_append(t_tok *tok, char *filename, char **env, t_shell *shell)
 		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
-	if (tok->str && is_built_in(tok->str[0], env))
-		execute_built_in(tok, shell, env);
-	else if (tok->str || tok->execute)
-		execute_with_execve(tok, shell, env);
 	close(fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 22:23:01 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/27 23:48:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ void	ft_execve(t_tok *tok, char **env)
 
 void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
-	if (tok->path)
-		tok = check_cmd(tok, env);
+	int	status;
+
+	tok = check_cmd(tok, env);
 	if (!tok)
 	{
 		ft_clear(env, shell, tok);
+		free_tok(tok);
 		if (errno == EACCES)
 			exit(EXIT_NO_PERMISSION);
 		else if (errno == ENOENT)
@@ -63,19 +65,20 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	}
 	if (!execute_redirect(tok, env, shell))
 	{
+		ft_clear(env, shell, tok);
+		free_tok(tok);
 		exit(EXIT_FAILURE);
 	}
 	if (tok->str && is_built_in(tok->str[0], env))
 	{
-		shell->exit_status = execute_built_in(tok, shell, env);
-		int ex = shell->exit_status;
+		status = execute_built_in(tok, shell, env);
 		free_tok(tok);
 		ft_clear(env, shell, tok);
-		exit(ex);
+		exit(status);
 	}
 	else
 	{
-		ft_execve(tok, env);
+		ft_execve(tok, shell);
 	}
 }
 /*a corriger {if (!tok) return; } */
