@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 18:51:42 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 00:42:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	execute_export(t_tok *tok, t_shell *shell)
 	{
 		new = init_node_env(tok->str[i], EXPORT);
 		if (!new)
-			return (1);
+			return (0);
 		tmp = shell->env;
 		f = 0;
 		while (tmp)
