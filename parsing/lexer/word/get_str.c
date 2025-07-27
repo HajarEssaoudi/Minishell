@@ -84,7 +84,7 @@ int	handl_unquote(char *input, int i, t_split **split, t_str_list *str_list)
 		i++;
 	var = ft_substr(input, j, i - j);
 	result = norm_variable_word(var, str_list);
-	if (result && result[0] != '\0')
+	if (result && (result[0] != '\0' || (result[0] == '\0' && !ft_strcmp(str_list->flag, "2"))))
 		add_split(split, result, 1, str_list->flag);
 	free(result);
 	free(var);
