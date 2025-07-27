@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 02:48:28 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 22:37:45 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ void	ft_in(t_tok *tok, char *filename, char **env, t_shell *shell)
 		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
+	if (tok->str && is_built_in(tok->str[0], env))
+		execute_built_in(tok, shell, env);
+	else if (tok->str || tok->execute)
+		execute_with_execve(tok, shell, env);
 	close(fd);
 }
 
@@ -96,7 +100,6 @@ char	*ft_expand(char *line, char **env)
 					tmp = ft_strjoin(tmp1, val);
 					free(tmp1);
 					tmp1 = tmp;
-					// free(tmp2);
 				}
 				else
 				{
@@ -108,7 +111,6 @@ char	*ft_expand(char *line, char **env)
 						else
 							k++;
 					}
-					// k++;
 					tmp2 = ft_substr(line, start, k - start);
 					tmp = ft_strjoin(tmp1, tmp2);
 					free(tmp1); free(tmp2);
@@ -209,5 +211,9 @@ void	ft_append(t_tok *tok, char *filename, char **env, t_shell *shell)
 		shell->exit_status = EXIT_FAILURE;
 		return ;
 	}
+	if (tok->str && is_built_in(tok->str[0], env))
+		execute_built_in(tok, shell, env);
+	else if (tok->str || tok->execute)
+		execute_with_execve(tok, shell, env);
 	close(fd);
 }

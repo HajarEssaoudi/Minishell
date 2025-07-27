@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 23:06:40 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 22:23:01 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	if (tok->str && is_built_in(tok->str[0], env))
 	{
 		shell->exit_status = execute_built_in(tok, shell, env);
-		exit(shell->exit_status);
+		int ex = shell->exit_status;
+		free_tok(tok);
+		ft_clear(env, shell, tok);
+		exit(ex);
 	}
 	else
 	{

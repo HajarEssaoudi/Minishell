@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 04:33:37 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:07:25 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ typedef struct s_shell
 	int				saved_stdin;
 	struct s_env	*env;
 }					t_shell;
+
+typedef struct s_redir
+{
+	char		*last_out;
+	char		*last_in;
+	char		*last_append;
+}	t_redir;
 
 /*to be deleted */
 void				print_tok(t_tok *tok);
