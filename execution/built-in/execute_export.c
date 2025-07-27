@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 00:22:19 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:51:42 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	compare_and_replace(t_env *new, t_env *old)
 	}
 	return (0);
 }
+
 /*ft_clear before return*/
 
 int	execute_export(t_tok *tok, t_shell *shell)
@@ -83,20 +84,18 @@ int	execute_export(t_tok *tok, t_shell *shell)
 	f = 0;
 	if (!tok->str[i])
 		list_env_variables(shell);
-	if (!shell->env)
-	{
-		ft_lstadd_back_env(&shell->env, new);
-		return (0);
-	}
 	while (tok->str[i])
 	{
+		new = init_node_env(tok->str[i], EXPORT);
+		if (!new)
+			return (1);
 		tmp = shell->env;
+		f = 0;
 		while (tmp)
 		{
-			new = init_node_env(tok->str[i], EXPORT);
-			if (!new)
-				return (1);
 			f = compare_and_replace(new, tmp);
+			if (f)
+				break;
 			tmp = tmp->next;
 		}
 		if (f == 0)
