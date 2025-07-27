@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 23:56:03 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 00:09:53 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	}
 	else
 	{
-		ft_execve(tok, shell);
+		ft_execve(tok, env);
 	}
 }
 /*a corriger {if (!tok) return; } */

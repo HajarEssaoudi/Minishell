@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 23:49:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 00:30:41 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,16 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		close(tok->heredoc_fd);
 	}
 	if (tok->redirect && tok->heredoc_fd == -1)
-		execute_redirect(tok, env, shell);
+	{
+		if (!execute_redirect(tok, env, shell))
+		{
+			dup2(shell->saved_stdout, STDOUT_FILENO);
+			dup2(shell->saved_stdin, STDIN_FILENO);
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
+			return ;
+		}
+	}
 	if (tok->str && is_built_in(tok->str[0], env))
 		execute_built_in(tok, shell, env);
 	else if (tok->str || tok->execute)
