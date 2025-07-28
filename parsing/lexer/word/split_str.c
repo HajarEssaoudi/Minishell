@@ -54,9 +54,9 @@ void	add_split(t_split **split, char *str, int quoted, char *flag)
 	if (str)
 	{
 		l = ft_strlen(str);
-		if (str[0] == ' ' && !quoted)
+		if ((str[0] == ' ' || str[0] == '\t') && !quoted)
 			tmp->first_space = 1;
-		if (l > 0 && str[l - 1] == ' ' && !quoted)
+		if (l > 0 && (str[l - 1] == ' ' || str[l - 1] == '\t') && !quoted)
 			tmp->last_space = 1;
 	}
 	if (!*split || !split)

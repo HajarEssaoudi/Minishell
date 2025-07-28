@@ -94,7 +94,7 @@ typedef struct s_lexer_final
 }						t_lexer_final;
 
 t_lexer					*ft_lexer(char *input, char **env, int exit_status);
-
+char	**ft_split_final(char const *s);
 int						is_word(char c);
 char					**copy_env(char **env);
 char					*get_env_var(char **cp_env, char *var);

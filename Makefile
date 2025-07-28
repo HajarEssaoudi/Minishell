@@ -25,6 +25,7 @@ SRC         = \
               $(LEXER_DIR)/lexer.c \
               $(LEXER_DIR)/ft_utils.c \
               $(WORD_DIR)/expand.c \
+              $(WORD_DIR)/ft_split_final.c \
               $(WORD_DIR)/get_variable.c \
               $(WORD_DIR)/ft_utils_word.c \
               $(WORD_DIR)/fin_lexer.c \

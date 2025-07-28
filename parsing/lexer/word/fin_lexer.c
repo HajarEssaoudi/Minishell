@@ -53,7 +53,7 @@ char	*handl_fin_split(char *final, t_split *fin_split,
 			final = final_quot(final, fin_split);
 		else
 		{
-			lexer_final->final_split = ft_split(fin_split->str, ' ');
+			lexer_final->final_split = ft_split_final(fin_split->str);
 			if (!fin_split->quoted && !ft_strcmp(fin_split->flag, "2"))
 				lexer_final->amg = final_amg(lexer_final->amg,
 						lexer_final->final_split);
