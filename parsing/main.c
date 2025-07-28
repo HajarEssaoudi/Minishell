@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 22:30:17 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:24:31 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,27 @@ int	main(int argc, char **argv, char **env)
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
+			int is_pipeline = 0;
+            t_tok *tmp = tok;
+            while (tmp)
+            {
+                if (tmp->pip && tmp->pip[0] == '|')
+                {
+                    is_pipeline = 1;
+                    break;
+                }
+                tmp = tmp->next;
+            }
 			execute_cmd(tok, shell, cp_env);
+			if (shell->pwd)
+				free(shell->pwd);
 			shell->pwd = get_path();
 			cp_env = update_env_arr(shell->env, cp_env);
+			if (!is_pipeline)
+				free_tok(tok);
 		}
 		add_history(prompt);
 		free(prompt);
-		if (tok)
-			free_tok(tok);
 	}
 	// ft_clear(cp_env, shell, 0);
 	return (0);

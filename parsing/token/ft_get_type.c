@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:03:52 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/15 09:48:24 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:19:20 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	ft_add_type(t_lexer *lexer, char *type, int *st, int new_st)
 
 void	ft_get_type(t_lexer *lexer, int *st)
 {
-	if (!(ft_strncmp(lexer->args, "./", ft_strlen("./"))) && (!*st || *st == 3))
-		ft_add_type(lexer, "execute", st, 5);
-	else if (!(ft_strncmp(lexer->type, "string", ft_strlen("string")))
+	if (!(ft_strncmp(lexer->type, "string", ft_strlen("string")))
 		&& (!*st))
 		ft_add_type(lexer, "cmd", st, 1);
 	else if ((*st == 1 || *st == 2 || *st == 3) && !(ft_strncmp(lexer->type,

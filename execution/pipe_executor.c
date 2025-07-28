@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 22:54:38 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:24:01 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,12 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		{
 			last_pid = pid;
 			handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
+			t_tok *tmp = tok;
+			tok = tok->next;
+			tmp->next = NULL;
+			free_tok(tmp);
 		}
-		tok = tok->next;
+		// tok = tok->next;
 	}
 	while ((w_pid = wait(&status)) > 0)
 	{

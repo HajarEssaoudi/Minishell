@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 23:04:07 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 06:19:46 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	// {
 		if (tok->path)
 		{
-			if (tok->path[0] != '/')
+			if (!ft_strchr(tok->path, '/'))
 			{
 				tok->path = relative_path(tok, cp_env);
 				if (!tok->path)
