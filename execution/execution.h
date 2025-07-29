@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 18:07:25 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:38:06 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ typedef struct s_shell
 
 typedef struct s_redir
 {
-	char		*last_out;
-	char		*last_in;
-	char		*last_append;
-}	t_redir;
+	char			*last_out;
+	char			*last_in;
+	char			*last_append;
+}					t_redir;
 
 /*to be deleted */
 void				print_tok(t_tok *tok);
@@ -55,7 +55,7 @@ void				print_tok(t_tok *tok);
 
 void				execute_cmd(t_tok *tok, t_shell *shell, char **env);
 void				ft_execve(t_tok *tok, char **env);
-void				execute_with_execve(t_tok *tok, t_shell *shell ,char **env);
+void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 t_tok				*check_cmd(t_tok *tok, char **cp_env);
@@ -79,8 +79,8 @@ char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
 
 /* handle env */
-t_env				*create_list_env(char **arr_env);
-t_env				*init_node_env(char *str_env, int f);
+t_env				*create_list_env(char **arr_env, t_shell *shell);
+t_env				*init_node_env(char *str_env, t_shell *shell, int f);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new);
 
@@ -96,7 +96,7 @@ int					execute_built_in(t_tok *tok, t_shell *shell, char **env);
 int					execute_cd(t_tok *tok, t_shell *shell);
 int					execute_pwd(t_shell *shell);
 int					execute_echo(t_tok *tok);
-int					execute_env(t_tok * tok, char **env);
+int					execute_env(t_tok *tok, char **env);
 int					execute_exit(t_tok *tok, t_shell *shell);
 int					execute_unset(t_tok *tok, t_shell *shell);
 int					execute_export(t_tok *tok, t_shell *shell);

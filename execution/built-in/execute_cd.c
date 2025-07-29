@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 10:25:33 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:17:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,21 @@ static char	*search_in_env(t_shell *shell, char *key)
 	return (NULL);
 }
 
+void	free_paths(t_shell *shell)
+{
+	free(shell->old_path);
+	free(shell->current_path);
+}
+
 int	execute_cd(t_tok *tok, t_shell *shell)
 {
 	shell->old_path = get_path();
 	if (shell->old_path == NULL)
-	{
 		shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
+	if (tok->str[2])
+	{
+		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+		return (1);
 	}
 	if (chdir(tok->str[1]) == -1)
 	{
@@ -74,14 +83,13 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 	shell->current_path = get_path();
 	if (shell->current_path == NULL)
 	{
-		ft_printf(2, "cd: error retrieving current directory:"
+		ft_putstr_fd("cd: error retrieving current directory:"
 			" getcwd: cannot access parent directories:"
-			"No such file or directory\n");
+			"No such file or directory\n", 2);
 		return (0);
 	}
 	search_and_change(shell, "PWD", shell->current_path);
 	search_and_change(shell, "OLDPWD", shell->old_path);
-	free(shell->old_path);
-	free(shell->current_path);
+	free_paths(shell);
 	return (0);
 }

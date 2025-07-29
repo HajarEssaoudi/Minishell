@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:02:08 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:34:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ static int	valid_variable_name(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (i == 0 && !ft_isalpha(str[i]) && str[i] != '_')
-			return (0);
+			return (1);
 		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
+			return (1);
 		i++;
 	}
-	if (i == 0)
-		return (0);
-	return (1);
+	if (i == 0 && str[i] == '=')
+		return (1);
+	return (0);
 }
 
-t_env	*init_node_env(char *str_env, int f)
+t_env	*init_node_env(char *str_env,t_shell *shell, int f)
 {
 	t_env	*node_env;
 	char	*equal;
@@ -39,12 +39,17 @@ t_env	*init_node_env(char *str_env, int f)
 	if (!node_env)
 	{
 		ft_putstr_fd("allocation failed\n", 2);
+		shell->exit_status = EXIT_FAILURE;
 		// clear_exit;
 	}
-	if (f == EXPORT && valid_variable_name(str_env) == 0)
+	if (f == EXPORT)
 	{
-		ft_printf(2, "minishell: export: %s: not a valid identifier\n", str_env);
-		return (NULL);
+		shell->exit_status = valid_variable_name(str_env);
+		if (shell->exit_status == 1)
+		{
+			ft_printf(2, "minishell: export: %s: not a valid identifier\n", str_env);
+			return (NULL);
+		}
 	}
 	equal = ft_strchr(str_env, '=');
 	if (equal)
@@ -54,11 +59,16 @@ t_env	*init_node_env(char *str_env, int f)
 		node_env->next = NULL;
 	}
 	else
-		return (NULL);
+	{
+
+		node_env->key = ft_substr(str_env, 0, (equal - str_env));
+		node_env->value = ft_strdup(NULL);
+		node_env->next = NULL;
+	}
 	return (node_env);
 }
 
-t_env	*create_list_env(char **arr_env)
+t_env	*create_list_env(char **arr_env, t_shell *shell)
 {
 	t_env	*head;
 	t_env	*tmp;
@@ -70,7 +80,7 @@ t_env	*create_list_env(char **arr_env)
 	tmp = NULL;
 	while (arr_env[i])
 	{
-		new_node = init_node_env(arr_env[i], CREATE_LIST);
+		new_node = init_node_env(arr_env[i],shell, CREATE_LIST);
 		if (new_node == NULL)
 		{
 			ft_putstr_fd("allocation failed\n", 2);
@@ -154,7 +164,10 @@ void	print_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		if (tmp->value)
+			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		else if (!tmp->value)
+			printf("declare -x %s\n", tmp->key);
 		tmp = tmp->next;
 	}
 }

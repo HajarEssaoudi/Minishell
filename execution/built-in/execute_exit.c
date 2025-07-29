@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:16:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/20 11:46:50 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:24:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	execute_exit(t_tok *tok, t_shell *shell)
 {
 	shell->exit_status = 0;
 	if (tok->str[1])
+	{
 		handle_exit_args(tok, shell);
+		return (shell->exit_status);
+	}
 	else
 	{
 		// ft_clear(shell);
