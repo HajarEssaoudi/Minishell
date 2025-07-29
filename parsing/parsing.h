@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/24 01:56:13 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 02:51:05 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 typedef struct s_rederict
 {

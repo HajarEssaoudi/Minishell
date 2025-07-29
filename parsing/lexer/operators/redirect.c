@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:45:32 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:50:20 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/29 03:10:37 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_out(int *k, char *input)
 {
-	if (input[*k + 1] != '>')
+	if (input[*k + 1] != '>' && input[*k] == '>')
 	{
 		printf("Minishell: syntax error near unexpected token `>'\n");
 		return (1);
@@ -64,7 +64,7 @@ static int	check_last(int i, char *input)
 	k = ++i;
 	while (input[k] == ' ')
 		k++;
-	if (input[k] == '>')
+	if (input[k] == '>' || input[k] == '|')
 		return (check_out(&k, input));
 	else if (input[k] == '<')
 		return (check_in(input, &k));

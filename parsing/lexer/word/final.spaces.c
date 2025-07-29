@@ -92,17 +92,18 @@ char	*fin_first_space(char *final, t_lexer_final *lexer_final)
 
 char	*last_split(char *final, int j, t_lexer_final *lexer_final)
 {
-	add_middel_split(lexer_final, j);
 	if (j > 1 && lexer_final->final_split[j - 1])
 	{
 		if (final)
 		{
 			add_ch(lexer_final->lexer, "string", final, lexer_final->amg);
 			free(final);
+			add_middel_split(lexer_final, j);
 			final = ft_strdup(lexer_final->final_split[j - 1]);
 		}
 		else
 		{
+			add_middel_split(lexer_final, j);
 			if (final)
 				free(final);
 			final = ft_strdup(lexer_final->final_split[j - 1]);

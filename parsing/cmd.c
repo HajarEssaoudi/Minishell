@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 06:19:46 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 02:53:30 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,16 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 	// {
 		if (tok->path)
 		{
+			struct stat dr;
+			mode_t mode;
+			stat(tok->path, &dr);
+			mode = dr.st_mode;
+			if (S_ISDIR(mode))
+			{
+				ft_printf(2, "Minishell: Is a directory: %s\n",
+						tok->path);
+				return (NULL);
+			}
 			if (!ft_strchr(tok->path, '/'))
 			{
 				tok->path = relative_path(tok, cp_env);
