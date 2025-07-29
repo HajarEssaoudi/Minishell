@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 02:53:30 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 03:20:39 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_tok	*check_cmd(t_tok *tok, char **cp_env)
 			{
 				ft_printf(2, "Minishell: Is a directory: %s\n",
 						tok->path);
+				free_tok(tok);
 				return (NULL);
 			}
 			if (!ft_strchr(tok->path, '/'))

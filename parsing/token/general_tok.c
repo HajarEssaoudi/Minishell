@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/25 00:54:51 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 03:47:10 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 		else if (!(ft_strncmp(type, "append", ft_strlen("append"))))
 			add_rederict(&tmp->redirect, ">>", lexer->args, flag);
 		else if (!(ft_strncmp(type, "heredoc", ft_strlen("heredoc"))))
-			add_rederict(&tmp->redirect, "<<", lexer->args, NULL);
+			add_rederict(&tmp->redirect, "<<", lexer->args, flag);
 	}
 }
 

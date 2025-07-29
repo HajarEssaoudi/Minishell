@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 00:16:34 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/29 03:29:44 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*ft_expand(char *line, char **env)
 					tmp2 = ft_substr(line, var_start, k - var_start);
 					char *val = ft_var(tmp2, env);
 					tmp = ft_strjoin(tmp1, val);
-					free(tmp1);
+					free(tmp1); free(tmp2);;
 					tmp1 = tmp;
 				}
 				else
