@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 00:09:53 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:51:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,6 @@ extern	int g_flag;
 
 void	ft_execve(t_tok *tok, char **env)
 {
-	if (tok->execute)
-	{
-		if (execve(tok->execute, tok->str, env) == -1)
-		{
-			perror("minishell");
-			if (errno == EACCES)
-				exit(EXIT_NO_PERMISSION);
-			else if (errno == ENOENT)
-				exit(EXIT_NOT_FOUND);
-			else
-				exit(EXIT_FAILURE);
-		}
-	}
 	if (tok->path)
 	{
 		if (execve(tok->path, tok->str, env) == -1)
@@ -49,19 +36,15 @@ void	ft_execve(t_tok *tok, char **env)
 
 void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
-	int	status;
+	int	exit_status;
 
-	tok = check_cmd(tok, env);
+	tok = check_cmd(tok, shell, env);
 	if (!tok)
 	{
+		exit_status = shell->exit_status;
 		ft_clear(env, shell, tok);
 		free_tok(tok);
-		if (errno == EACCES)
-			exit(EXIT_NO_PERMISSION);
-		else if (errno == ENOENT)
-			exit(EXIT_NOT_FOUND);
-		else
-			exit(EXIT_FAILURE);
+		exit(exit_status);
 	}
 	if (!execute_redirect(tok, env, shell))
 	{
@@ -71,25 +54,33 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	}
 	if (tok->str && is_built_in(tok->str[0], env))
 	{
-		status = execute_built_in(tok, shell, env);
+		exit_status = execute_built_in(tok, shell, env);
 		free_tok(tok);
 		ft_clear(env, shell, tok);
-		exit(status);
+		exit(exit_status);
 	}
 	else
-	{
 		ft_execve(tok, env);
-	}
 }
-/*a corriger {if (!tok) return; } */
-/*add ft_clear_exits so that check_cmd dont return NULL*/
-/*mais exits directement*/
+
+void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
+{
+	int		exit_status;
+
+	exit_status = shell->exit_status;
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
+	ft_clear(env, shell, tok);
+	exit(exit_status);
+}
+
 
 void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 {
 	pid_t	pid;
 	int		status;
 	int		sig;
+
 
 	g_flag = 1;
 	pid = fork();
@@ -99,19 +90,9 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		tok = check_cmd(tok, env);
+		tok = check_cmd(tok, shell, env);
 		if (!tok)
-		{
-			close(shell->saved_stdin);
-			close(shell->saved_stdout);
-			ft_clear(env, shell, tok);
-			if (errno == EACCES)
-				exit(EXIT_NO_PERMISSION);
-			else if (errno == ENOENT)
-				exit(EXIT_NOT_FOUND);
-			else
-				exit(EXIT_FAILURE);
-		}
+			tok_error_handling(tok, shell, env);
 		ft_execve(tok, env);
 	}
 	else

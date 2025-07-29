@@ -6,14 +6,14 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 21:38:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:55:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "../execution/execution.h"
+#include "parsing.h"
 
-int	g_flag = 0;
+int		g_flag = 0;
 
 void	print_str_array(char **arr)
 {
@@ -35,6 +35,7 @@ void	print_str_array(char **arr)
 void	print_tok(t_tok *tok)
 {
 	int	index;
+	int	j;
 
 	index = 0;
 	while (tok)
@@ -44,12 +45,13 @@ void	print_tok(t_tok *tok)
 		printf(" path: %s\n", tok->path ? tok->path : "(null)");
 		print_str_array(tok->str);
 		printf("herdoc_fd == %d\n", tok->heredoc_fd);
-		printf ("quot => %d\n", tok->quot);
-		int j = 0;
+		printf("quot => %d\n", tok->quot);
+		j = 0;
 		while (tok->redirect)
 		{
 			printf("redirect #%d\n", j);
-			printf("%s %s %s\n", tok->redirect->type, tok->redirect->filename, tok->redirect->flag);
+			printf("%s %s %s\n", tok->redirect->type, tok->redirect->filename,
+				tok->redirect->flag);
 			tok->redirect = tok->redirect->next;
 			j++;
 		}
@@ -82,10 +84,13 @@ int	main(int argc, char **argv, char **env)
 	char	*prompt;
 	char	**cp_env;
 	t_tok	*tok;
+	t_shell	*shell;
+	int		status;
+	int		is_pipeline;
+	t_tok	*tmp;
+
 	(void)argc;
 	(void)argv;
-	t_shell	*shell;
-
 	signal(SIGINT, ft_handl);
 	signal(SIGQUIT, SIG_IGN);
 	cp_env = copy_env(env);
@@ -100,7 +105,7 @@ int	main(int argc, char **argv, char **env)
 		shell->line++;
 		if (!prompt)
 		{
-			int	status = shell->exit_status;
+			status = shell->exit_status;
 			ft_clear(cp_env, shell, tok);
 			ft_printf(2, "exit\n");
 			exit(status);
@@ -114,17 +119,17 @@ int	main(int argc, char **argv, char **env)
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
-			int is_pipeline = 0;
-            t_tok *tmp = tok;
-            while (tmp)
-            {
-                if (tmp->pip && tmp->pip[0] == '|')
-                {
-                    is_pipeline = 1;
-                    break;
-                }
-                tmp = tmp->next;
-            }
+			is_pipeline = 0;
+			tmp = tok;
+			while (tmp)
+			{
+				if (tmp->pip && tmp->pip[0] == '|')
+				{
+					is_pipeline = 1;
+					break ;
+				}
+				tmp = tmp->next;
+			}
 			execute_cmd(tok, shell, cp_env);
 			if (shell->pwd)
 				free(shell->pwd);

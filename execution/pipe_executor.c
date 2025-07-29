@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 06:24:01 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:47:51 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,17 @@ static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 	}
 }
 
+void	fork_error()
+{
+	perror("fork");
+	if (errno == EACCES)
+		exit(EXIT_NO_PERMISSION);
+	else if (errno == ENOENT)
+		exit(EXIT_NOT_FOUND);
+	else
+		exit(EXIT_FAILURE);
+}
+
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	int		fd[2];
@@ -79,15 +90,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 			execute_cases(tok, shell, env);
 		}
 		else if (pid < 0)
-		{
-			perror("fork");
-			if (errno == EACCES)
-				exit(EXIT_NO_PERMISSION);
-			else if (errno == ENOENT)
-				exit(EXIT_NOT_FOUND);
-			else
-				exit(EXIT_FAILURE);
-		}
+			fork_error();
 		else
 		{
 			last_pid = pid;
