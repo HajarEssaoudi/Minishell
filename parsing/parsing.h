@@ -24,8 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 typedef struct s_rederict
 {
@@ -95,7 +95,7 @@ typedef struct s_lexer_final
 }						t_lexer_final;
 
 t_lexer					*ft_lexer(char *input, char **env, int exit_status);
-char	**ft_split_final(char const *s);
+char					**ft_split_final(char const *s);
 int						is_word(char c);
 char					**copy_env(char **env);
 char					*get_env_var(char **cp_env, char *var);

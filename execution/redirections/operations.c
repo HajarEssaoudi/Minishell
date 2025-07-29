@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 03:29:44 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:07:55 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,16 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 				ft_putstr_fd(redir->filename, 2);
 				ft_putstr_fd("')\n", 2);
 				close(fd);
+				free_tok(tok);
+				ft_clear(env, shell, tok);
 				exit(EXIT_SUCCESS);
 			}
 			if (ft_strcmp(line, redir->filename) == 0)
+			{
+				free_tok(tok);
+				ft_clear(env, shell, tok);
 				break ;
+			}
 			// printf("quot => %d\n", tok->quot);
 			if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 				line = ft_expand(line, env);

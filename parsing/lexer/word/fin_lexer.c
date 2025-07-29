@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 14:18:45 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/29 03:43:05 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:16:27 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ char	*handl_fin_split(char *final, t_split *fin_split,
 
 void	free_split(t_split *split)
 {
-	t_split *tmp;
-	while(split)
+	t_split	*tmp;
+
+	while (split)
 	{
 		tmp = split->next;
 		free(split->str);
-		// free(split->flag);
 		free(split);
 		split = tmp;
 	}

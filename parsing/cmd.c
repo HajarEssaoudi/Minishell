@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 22:40:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:13:20 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "../execution/execution.h"
+#include "parsing.h"
 
 char	*get_dir(char *input, char *path)
 {
@@ -52,24 +52,6 @@ char	*check_ext(char *input, char **cp_env)
 	return (NULL);
 }
 
-// static char	*is_built_in(char *input)
-// {
-// 	char	*cmd[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit",
-// 			NULL};
-// 	int		i;
-
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-// 		if (ft_strncmp(input, cmd[i], ft_strlen(input)) == 0)
-// 		{
-// 			return (cmd[i]);
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
 char	*relative_path(t_tok *tok, char **cp_env)
 {
 	char	*ex;
@@ -91,47 +73,44 @@ char	*relative_path(t_tok *tok, char **cp_env)
 	return (tok->path);
 }
 
+int	absolut_path(t_tok *tok, t_shell *shell)
+{
+	struct stat	dir;
+
+	dir.st_mode = 0;
+	stat(tok->path, &dir);
+	if (S_ISDIR(dir.st_mode))
+	{
+		ft_putstr_fd("Minishell: Is a directory\n", 2);
+		shell->exit_status = EXIT_NO_PERMISSION;
+		return (1);
+	}
+	else if (access(tok->path, F_OK) != 0)
+	{
+		ft_printf(2, "Minishell: %s: No such file or directory\n", tok->path);
+		shell->exit_status = EXIT_NOT_FOUND;
+		free_tok(tok);
+		return (1);
+	}
+	return (0);
+}
+
 t_tok	*check_cmd(t_tok *tok, t_shell *shell, char **cp_env)
 {
-	// while (tok)
-	// {
-		if (tok->path)
+	if (tok->path)
+	{
+		if (!ft_strchr(tok->path, '/'))
 		{
-			
-			if (!ft_strchr(tok->path, '/'))
+			tok->path = relative_path(tok, cp_env);
+			if (!tok->path)
 			{
-				tok->path = relative_path(tok, cp_env);
-				if (!tok->path)
-				{
-					free_tok(tok);
-					shell->exit_status = EXIT_NOT_FOUND;
-					return (NULL);
-				}
-			}
-			else
-			{
-				struct stat dir;
-				// mode_t mode;
-				dir.st_mode = 0;
-				stat(tok->path, &dir);
-				// mode = dr.st_mode;
-				if (S_ISDIR(dir.st_mode))
-				{
-					ft_putstr_fd("Minishell: Is a directory\n", 2);
-					shell->exit_status = EXIT_NO_PERMISSION;
-					return (NULL);
-				}
-				else if (access(tok->path, F_OK) != 0)
-				{
-					ft_printf(2, "Minishell: command not found: %s\n",
-						tok->path);
-					shell->exit_status = EXIT_NOT_FOUND;
-					free_tok(tok);
-					return (NULL);
-				}
+				free_tok(tok);
+				shell->exit_status = EXIT_NOT_FOUND;
+				return (NULL);
 			}
 		}
-		// tok = tok->next;
-	// }
+		else if (absolut_path(tok, shell))
+			return (NULL);
+	}
 	return (tok);
 }

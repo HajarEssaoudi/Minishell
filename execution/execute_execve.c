@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 22:51:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:07:14 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 		{
 			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
+			{
 				ft_printf(2, "Quit (core dumped)\n");
+				shell->exit_status = 131;
+			}
 			else if (sig == SIGINT)
 				printf("\n");
 		}

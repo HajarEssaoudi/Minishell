@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_final.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhaqmarouan <abdelhaqmarouan@student.42.fr>  #+#  +:+       +#+  */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-28 22:02:16 by abdelhaqmarouan   #+#    #+#             */
-/*   Updated: 2025-07-28 22:02:16 by abdelhaqmarouan  ###   ########.fr       */
+/*   Created: 2025/07/28 22:02:16 by abdelhaqmar       #+#    #+#             */
+/*   Updated: 2025/07/30 00:16:19 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	countword(char const *s)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] != ' ' && s[i] != '\t' && (i == 0 || s[i - 1] == ' ' || s[i - 1] == '\t'))
+		if (s[i] != ' ' && s[i] != '\t' && (i == 0 || s[i - 1] == ' ' || s[i
+					- 1] == '\t'))
 			count++;
 		i++;
 	}
