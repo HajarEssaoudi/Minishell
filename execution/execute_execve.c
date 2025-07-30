@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 00:07:14 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:02:10 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "execution.h"
 
-extern	int g_flag;
+extern int	g_flag;
 
 /*a ajouter ft_clear exit*/
 
@@ -65,7 +64,7 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 
 void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
 {
-	int		exit_status;
+	int	exit_status;
 
 	exit_status = shell->exit_status;
 	close(shell->saved_stdin);
@@ -74,13 +73,11 @@ void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
 	exit(exit_status);
 }
 
-
-void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
+void	execute_with_execve(t_tok *tok, t_shell *shell, char **env)
 {
 	pid_t	pid;
 	int		status;
 	int		sig;
-
 
 	g_flag = 1;
 	pid = fork();

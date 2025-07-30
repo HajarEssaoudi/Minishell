@@ -6,11 +6,17 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 00:30:41 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 21:32:18 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+static void	close_fds(int fd1, int fd2)
+{
+	close(fd1);
+	close(fd2);
+}
 
 void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 {
@@ -27,8 +33,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		{
 			dup2(shell->saved_stdout, STDOUT_FILENO);
 			dup2(shell->saved_stdin, STDIN_FILENO);
-			close(shell->saved_stdin);
-			close(shell->saved_stdout);
+			close_fds(shell->saved_stdin, shell->saved_stdout);
 			return ;
 		}
 	}
@@ -38,8 +43,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		execute_with_execve(tok, shell, env);
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	close_fds(shell->saved_stdin, shell->saved_stdout);
 }
 
 void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
