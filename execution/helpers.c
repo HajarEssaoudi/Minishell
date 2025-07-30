@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:00:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/16 03:23:41 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:24:29 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,12 @@ char	*ft_strjoin_env(char const *s1, char const *s2, char sep)
 
 	i = 0;
 	j = 0;
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	// printf("s2 => %s\n", s2);
+	else if (!s1)
+		return (ft_strdup(s2));
+	else if (!s2)
+		return(ft_strdup(s1));
 	p = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1 + 1);
 	if (!p)
 		return (NULL);

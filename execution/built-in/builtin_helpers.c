@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 15:34:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:20:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_env	*init_node_env(char *str_env,t_shell *shell, int f)
 	node_env = malloc(sizeof(t_env));
 	if (!node_env)
 	{
-		ft_putstr_fd("allocation failed\n", 2);
+		ft_putstr_fd("allocation failed1\n", 2);
 		shell->exit_status = EXIT_FAILURE;
 		// clear_exit;
 	}
@@ -83,7 +83,7 @@ t_env	*create_list_env(char **arr_env, t_shell *shell)
 		new_node = init_node_env(arr_env[i],shell, CREATE_LIST);
 		if (new_node == NULL)
 		{
-			ft_putstr_fd("allocation failed\n", 2);
+			ft_putstr_fd("allocation failed2\n", 2);
 			// clear_exit
 		}
 		if (!head)
@@ -122,7 +122,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 	arr_env = malloc(sizeof(char *) * (ft_lst_size(lst_env) + 1));
 	if (!arr_env)
 	{
-		ft_putstr_fd("allocation failed\n", 2);
+		ft_putstr_fd("allocation failed3\n", 2);
 		// ft_clear and exit
 	}
 	while (lst_env)
@@ -130,7 +130,7 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 		arr_env[i] = ft_strjoin_env(lst_env->key, lst_env->value, '=');
 		if (!arr_env[i])
 		{
-			ft_putstr_fd("allocation failed\n", 2);
+			ft_putstr_fd("allocation failed4\n", 2);
 			// ft_clear and exit
 		}
 		i++;

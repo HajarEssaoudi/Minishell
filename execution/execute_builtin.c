@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:28:02 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/26 02:30:43 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:57:05 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_built_in(t_tok *tok, t_shell *shell, char **env)
 	else if (ft_strcmp("env", tok->str[0]) == 0)
 		shell->exit_status = execute_env(tok, env);
 	else if (ft_strcmp("exit", tok->str[0]) == 0)
-		shell->exit_status = execute_exit(tok, shell);
+		shell->exit_status = execute_exit(tok, shell, env);
 	else if (ft_strcmp("unset", tok->str[0]) == 0)
 		shell->exit_status = execute_unset(tok, shell);
 	else if (ft_strcmp("export", tok->str[0]) == 0)

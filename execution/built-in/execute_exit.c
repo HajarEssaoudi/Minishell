@@ -6,36 +6,36 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:16:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 10:24:47 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:02:23 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-static void	exit_with_error(t_tok *tok, t_shell *shell)
+static void	exit_with_error(t_tok *tok, t_shell *shell, char **env)
 {
 	shell->exit_status = 2;
 	ft_putstr_fd("exit\n", 1);
-	// ft_clear(shell);
 	ft_printf(2, "Minishell: exit: %s: numeric argument required\n",
 		tok->str[1]);
-	exit(shell->exit_status);
+	free_tok(tok);
+	tok_error_handling(tok, shell, env);
 }
 
-static void	exit_with_value(t_tok *tok, t_shell *shell)
+static void	exit_with_value(t_tok *tok, t_shell *shell, char **env)
 {
 	shell->exit_status = (unsigned char)ft_atoi(tok->str[1]);
 	ft_putstr_fd("exit\n", 1);
-	// ft_clear(shell);
-	exit(shell->exit_status);
+	free_tok(tok);
+	tok_error_handling(tok, shell, env);
 }
 
-static void	handle_exit_args(t_tok *tok, t_shell *shell)
+static void	handle_exit_args(t_tok *tok, t_shell *shell, char **env)
 {
 	if (ft_atoi(tok->str[1]) >= __LONG_LONG_MAX__)
-		exit_with_error(tok, shell);
+		exit_with_error(tok, shell, env);
 	if (!ft_str_num(tok->str[1]))
-		exit_with_error(tok, shell);
+		exit_with_error(tok, shell, env);
 	if (tok->str[2])
 	{
 		ft_putstr_fd("exit\n", 1);
@@ -43,22 +43,22 @@ static void	handle_exit_args(t_tok *tok, t_shell *shell)
 		ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 	}
 	else
-		exit_with_value(tok, shell);
+		exit_with_value(tok, shell, env);
 }
 
-int	execute_exit(t_tok *tok, t_shell *shell)
+int	execute_exit(t_tok *tok, t_shell *shell, char **env)
 {
 	shell->exit_status = 0;
 	if (tok->str[1])
 	{
-		handle_exit_args(tok, shell);
+		handle_exit_args(tok, shell, env);
 		return (shell->exit_status);
 	}
 	else
 	{
-		// ft_clear(shell);
 		printf("exit\n");
-		exit(shell->exit_status);
+		free_tok(tok);
+		tok_error_handling(tok, shell, env);
 	}
 	return (0);
 }

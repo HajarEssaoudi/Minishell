@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/29 22:01:05 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:51:56 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void				ft_execve(t_tok *tok, char **env);
 void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
-t_tok				*check_cmd(t_tok *tok,t_shell *shell, char **cp_env);
+t_tok				*check_cmd(t_tok *tok, t_shell *shell, char **cp_env);
+void				tok_error_handling(t_tok *tok, t_shell *shell, char **env);
 // void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/
@@ -97,7 +98,7 @@ int					execute_cd(t_tok *tok, t_shell *shell);
 int					execute_pwd(t_shell *shell);
 int					execute_echo(t_tok *tok);
 int					execute_env(t_tok *tok, char **env);
-int					execute_exit(t_tok *tok, t_shell *shell);
+int					execute_exit(t_tok *tok, t_shell *shell, char **env);
 int					execute_unset(t_tok *tok, t_shell *shell);
 int					execute_export(t_tok *tok, t_shell *shell);
 
