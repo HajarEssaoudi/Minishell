@@ -6,13 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:59:43 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 22:00:44 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:05:13 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	open_pipe(t_tok *tok, int *fd)
+void	open_pipe(t_tok *tok, int *fd)
 {
 	if (tok->pip && tok->pip[0] == '|' && pipe(fd) == -1)
 	{
@@ -21,7 +21,7 @@ static void	open_pipe(t_tok *tok, int *fd)
 	}
 }
 
-static void	check_herdoc_fd(t_tok *tok)
+void	check_herdoc_fd(t_tok *tok)
 {
 	if (tok->heredoc_fd != -1)
 	{
@@ -30,7 +30,7 @@ static void	check_herdoc_fd(t_tok *tok)
 	}
 }
 
-static void	fork_error(void)
+void	fork_error(void)
 {
 	perror("fork");
 	if (errno == EACCES)
