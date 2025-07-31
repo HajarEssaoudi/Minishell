@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 21:28:25 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:31:06 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_env	*sort_var(t_shell *shell)
 	return (head);
 }
 
-static void	list_env_variables(t_shell *shell)
+void	list_env_variables(t_shell *shell)
 {
 	t_env	*env;
 
@@ -71,17 +71,21 @@ static int	compare_and_replace(t_env *new, t_env *old)
 	return (0);
 }
 
+/*ft_clear before return*/
+
 int	execute_export(t_tok *tok, t_shell *shell)
 {
+	int		i;
+	int		f;
 	t_env	*new;
 	t_env	*tmp;
 
-	int (f), i = 1;
+	i = 1;
 	if (!tok->str[i])
 		list_env_variables(shell);
 	while (tok->str[i])
 	{
-		new = add_to_env(tok->str[i], shell);
+		new = init_node_env(tok->str[i], shell, EXPORT);
 		if (!new)
 			return (shell->exit_status);
 		tmp = shell->env;

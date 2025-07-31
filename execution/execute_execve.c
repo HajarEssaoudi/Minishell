@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 22:02:10 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 04:27:45 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "execution.h"
 
-extern int	g_flag;
+extern	int g_flag;
 
 /*a ajouter ft_clear exit*/
 
@@ -37,7 +38,8 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
 	int	exit_status;
 
-	tok = check_cmd(tok, shell, env);
+	if (tok->str && !is_built_in(tok->str[0], env))
+		tok = check_cmd(tok, shell, env);
 	if (!tok)
 	{
 		exit_status = shell->exit_status;
@@ -64,7 +66,7 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 
 void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
 {
-	int	exit_status;
+	int		exit_status;
 
 	exit_status = shell->exit_status;
 	close(shell->saved_stdin);
@@ -73,11 +75,13 @@ void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
 	exit(exit_status);
 }
 
-void	execute_with_execve(t_tok *tok, t_shell *shell, char **env)
+
+void	execute_with_execve(t_tok *tok, t_shell *shell ,char **env)
 {
 	pid_t	pid;
 	int		status;
 	int		sig;
+
 
 	g_flag = 1;
 	pid = fork();
@@ -104,7 +108,10 @@ void	execute_with_execve(t_tok *tok, t_shell *shell, char **env)
 				shell->exit_status = 131;
 			}
 			else if (sig == SIGINT)
-				printf("\n");
+			{
+				write(1, "\n", 1);
+				shell->exit_status = 130;
+			}
 		}
 		else if (WIFEXITED(status))
 			shell->exit_status = WEXITSTATUS(status);

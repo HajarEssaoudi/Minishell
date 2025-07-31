@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 21:29:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:02:48 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-extern int	g_flag;
+extern int g_flag;
 
 void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 {
@@ -76,47 +76,40 @@ char	*ft_expand(char *line, char **env)
 	char	*tmp2;
 	char	*tmp;
 	int		k;
-	int		var_start;
-	char	*val;
-	int		start;
 
 	tmp1 = ft_strdup("");
 	k = 0;
 	while (line[k])
-	{
-		if (line[k] == '$' && (ft_isalpha(line[k + 1]) || line[k + 1] == '_'))
-		{
-			k++;
-			var_start = k;
-			while (line[k] && (ft_isalnum(line[k]) || line[k] == '_'))
-				k++;
-			tmp2 = ft_substr(line, var_start, k - var_start);
-			val = ft_var(tmp2, env);
-			tmp = ft_strjoin(tmp1, val);
-			free(tmp1);
-			free(tmp2);
-			;
-			tmp1 = tmp;
-		}
-		else
-		{
-			start = k;
-			while (line[k] && line[k] != '$')
 			{
-				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k
-						+ 1] != '_'))
+				if (line[k] == '$' && (ft_isalpha(line[k + 1]) || line[k + 1] == '_'))
+				{
 					k++;
+					int var_start = k;
+					while (line[k] && (ft_isalnum(line[k]) || line[k] == '_'))
+						k++;
+					tmp2 = ft_substr(line, var_start, k - var_start);
+					char *val = ft_var(tmp2, env);
+					tmp = ft_strjoin(tmp1, val);
+					free(tmp1); free(tmp2);;
+					tmp1 = tmp;
+				}
 				else
-					k++;
+				{
+					int start = k;
+					while (line[k] && line[k] != '$')
+					{
+						if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k + 1] != '_'))
+							k++;
+						else
+							k++;
+					}
+					tmp2 = ft_substr(line, start, k - start);
+					tmp = ft_strjoin(tmp1, tmp2);
+					free(tmp1); free(tmp2);
+					tmp1 = tmp;
+				}
 			}
-			tmp2 = ft_substr(line, start, k - start);
-			tmp = ft_strjoin(tmp1, tmp2);
-			free(tmp1);
-			free(tmp2);
-			tmp1 = tmp;
-		}
-	}
-	return (tmp1);
+		return (tmp1);
 }
 
 void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
@@ -145,7 +138,6 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			if (!line)
 			{
 				ft_putstr_fd("Minishell: warning: here-document at line ", 2);
-				ft_putnbr_fd(shell->line, 2);
 				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 				ft_putstr_fd(redir->filename, 2);
 				ft_putstr_fd("')\n", 2);
@@ -186,7 +178,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 				unlink("./.tmp.txt");
 				g_flag = 0;
 				tok->heredoc_fd = -1;
-				return ;
+				
 			}
 		}
 		else if (WIFEXITED(status))

@@ -6,15 +6,34 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 14:17:35 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:29:29 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+extern	int g_flag;
+
+static void	open_pipe(t_tok *tok, int *fd)
+{
+	if (tok->pip && tok->pip[0] == '|' && pipe(fd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void	check_herdoc_fd(t_tok *tok)
+{
+	if (tok->heredoc_fd != -1)
+	{
+		dup2(tok->heredoc_fd, STDIN_FILENO);
+		close(tok->heredoc_fd);
+	}
+}
+
 static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 {
-
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	if (tok->pip && tok->pip[0] == '|')
@@ -24,7 +43,6 @@ static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 	}
 	else
 		*prev_fd = -1;
-	
 }
 
 static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
@@ -43,19 +61,15 @@ static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 	}
 }
 
-static void	wait_for_children(pid_t last_pid, t_shell *shell)
+void	fork_error()
 {
-	int		status;
-	pid_t	w_pid;
-
-	while (1)
-	{
-		w_pid = wait(&status);
-		if (w_pid <= 0)
-			break ;
-		if (w_pid == last_pid && WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
-	}
+	perror("fork");
+	if (errno == EACCES)
+		exit(EXIT_NO_PERMISSION);
+	else if (errno == ENOENT)
+		exit(EXIT_NOT_FOUND);
+	else
+		exit(EXIT_FAILURE);
 }
 
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
@@ -63,10 +77,13 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		fd[2];
 	int		prev_fd;
 	pid_t	pid;
-	pid_t	last_pid;
-	t_tok	*tmp;
+	pid_t	last_pid = -1;
+	int		status;
+	pid_t	w_pid;
+	int		sig;
 
 	prev_fd = -1;
+	g_flag = 1;
 	while (tok)
 	{
 		if (tok->path || tok->redirect)
@@ -75,8 +92,11 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
 				handle_child_fds(tok, &prev_fd, fd[1], fd[0]);
 				execute_cases(tok, shell, env);
+				exit(shell->exit_status);
 			}
 			else if (pid < 0)
 				fork_error();
@@ -86,10 +106,35 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 				handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
 			}
 		}
-		tmp = tok;
+		
+		t_tok *tmp = tok;
 		tok = tok->next;
 		tmp->next = NULL;
 		free_tok(tmp);
+		// tok = tok->next;
 	}
-	wait_for_children(last_pid, shell);
+	while ((w_pid = wait(&status)) > 0)
+	{
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+			{
+				ft_printf(2, "Quit (core dumped)\n");
+				shell->exit_status = 131;
+			}
+			else if (sig == SIGINT)
+			{
+				write(1, "\n", 1);
+				shell->exit_status = 130;
+			}
+		}
+		else if (w_pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				shell->exit_status = WEXITSTATUS(status);
+		}
+	}
+	g_flag = 0;
 }
+

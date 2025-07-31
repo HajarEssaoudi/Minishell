@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 21:52:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:29:22 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,14 @@ t_tok	*check_cmd(t_tok *tok, t_shell *shell, char **cp_env)
 {
 	if (tok->path)
 	{
+		if (!tok->path || !tok->path[0])
+		{
+			write(2, "Minishell:command not found\n",
+			ft_strlen("Minishell:command not found\n"));
+			free_tok(tok);
+			shell->exit_status = EXIT_NOT_FOUND;
+			return (NULL);
+		}
 		if (!ft_strchr(tok->path, '/'))
 		{
 			tok->path = relative_path(tok, cp_env);

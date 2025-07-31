@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minishell Comprehensive Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            margin: 20px 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #56ab2f, #a8e6cf);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .test-category {
+            border: 1px solid #e9ecef;
+            margin: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-header:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+        }
+
+        .category-header h3 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .category-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .status-pass {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-fail {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status-crash {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .category-content {
+            display: none;
+            padding: 25px;
+            background: #fdfdfd;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        .test-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin: 15px 0;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .test-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .test-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .test-command {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #495057;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .test-description {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .test-notes {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .summary {
+            margin: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .summary h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .pass { color: #28a745; }
+        .fail { color: #dc3545; }
+        .crash { color: #6f42c1; }
+        .pending { color: #ffc107; }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .test-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Minishell Comprehensive Tester</h1>
+            <p>In-depth testing suite for minishell evaluation - 100 points total</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runAllTests()">Run All Tests</button>
+            <button class="btn btn-success" onclick="markAllPass()">Mark All Pass</button>
+            <button class="btn btn-warning" onclick="resetAllTests()">Reset All</button>
+            <button class="btn btn-info" onclick="exportResults()">Export Results</button>
+        </div>
+
+        <div class="progress-container" style="padding: 0 20px;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div style="text-align: center; color: #6c757d; font-size: 14px;">
+                <span id="progressText">0/20 categories completed</span>
+            </div>
+        </div>
+
+        <div id="testCategories"></div>
+
+        <div class="summary">
+            <h3>📊 Test Summary</h3>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <span class="stat-number pass" id="passCount">0</span>
+                    <span class="stat-label">Passed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number fail" id="failCount">0</span>
+                    <span class="stat-label">Failed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number crash" id="crashCount">0</span>
+                    <span class="stat-label">Crashed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number pending" id="pendingCount">20</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalScore" style="color: #2c3e50;">0/100</span>
+                    <span class="stat-label">Score</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const testCategories = [
+            {
+                name: "Simple Command & Global Variables",
+                points: 5,
+                tests: [
+                    {
+                        title: "Execute simple command with absolute path",
+                        commands: ["/bin/ls", "/bin/pwd", "/bin/date", "/usr/bin/whoami"],
+                        description: "Test basic command execution with absolute paths without any options.",
+                        notes: "Should execute without errors and display appropriate output."
+                    },
+                    {
+                        title: "Global variables analysis",
+                        commands: ["Check global variable count"],
+                        description: "Verify the number of global variables used and their purpose.",
+                        notes: "Ask student to explain why global variables are necessary. Only signal-related globals should be present."
+                    },
+                    {
+                        title: "Global variable signal restriction",
+                        commands: ["Verify global variable usage"],
+                        description: "Ensure global variables only store signal information, no other data.",
+                        notes: "Global variables should not provide access to other information or data."
+                    },
+                    {
+                        title: "Empty command test",
+                        commands: ["", "   ", "\t"],
+                        description: "Test behavior with empty commands and whitespace-only input.",
+                        notes: "Should display new prompt without errors or crashes."
+                    }
+                ]
+            },
+            {
+                name: "Arguments",
+                points: 5,
+                tests: [
+                    {
+                        title: "Commands with arguments (no quotes)",
+                        commands: ["/bin/ls -l", "/bin/cat /etc/passwd", "/usr/bin/head -n 5 /etc/hosts"],
+                        description: "Execute commands with various arguments but without quotes.",
+                        notes: "Test multiple combinations of commands and arguments."
+                    },
+                    {
+                        title: "Multiple argument variations",
+                        commands: ["/bin/grep root /etc/passwd", "/bin/ls -la /tmp", "/usr/bin/sort /etc/hosts"],
+                        description: "Repeat tests with different commands and argument patterns.",
+                        notes: "Ensure consistent behavior across different argument structures."
+                    }
+                ]
+            },
+            {
+                name: "echo Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Basic echo functionality",
+                        commands: ["echo", "echo hello", "echo hello world"],
+                        description: "Test echo command with and without arguments.",
+                        notes: "Should output arguments separated by spaces with newline."
+                    },
+                    {
+                        title: "echo with -n option",
+                        commands: ["echo -n hello", "echo -n hello world", "echo -n"],
+                        description: "Test echo command with -n option (no trailing newline).",
+                        notes: "Should output without trailing newline when -n is used."
+                    },
+                    {
+                        title: "echo variations",
+                        commands: ["echo test123", "echo multiple words here", "echo 42"],
+                        description: "Test echo with various argument types and patterns.",
+                        notes: "Test with numbers, text, and multiple words."
+                    }
+                ]
+            },
+            {
+                name: "exit Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Basic exit functionality",
+                        commands: ["exit", "exit 0", "exit 1"],
+                        description: "Test exit command with and without arguments.",
+                        notes: "Should terminate minishell. Remember to relaunch for further tests."
+                    },
+                    {
+                        title: "exit with various codes",
+                        commands: ["exit 42", "exit 255", "exit -1"],
+                        description: "Test exit with different exit codes.",
+                        notes: "Should exit with specified code. Verify with echo $? in parent shell."
+                    },
+                    {
+                        title: "exit error handling",
+                        commands: ["exit abc", "exit 999999", "exit 1 2 3"],
+                        description: "Test exit with invalid arguments.",
+                        notes: "Should handle invalid arguments appropriately."
+                    }
+                ]
+            },
+            {
+                name: "Return Value of Process",
+                points: 5,
+                tests: [
+                    {
+                        title: "Successful command return value",
+                        commands: ["/bin/ls", "echo $?"],
+                        description: "Execute successful command and check return value with echo $?",
+                        notes: "Should return 0 for successful commands."
+                    },
+                    {
+                        title: "Failed command return value",
+                        commands: ["/bin/ls filethatdoesntexist", "echo $?"],
+                        description: "Execute failing command and check return value.",
+                        notes: "Should return non-zero value for failed commands."
+                    },
+                    {
+                        title: "Return value expressions",
+                        commands: ["expr $? + $?", "/bin/false", "echo $?", "/bin/true", "echo $?"],
+                        description: "Test return value in expressions and with true/false commands.",
+                        notes: "Compare results with bash behavior for consistency."
+                    }
+                ]
+            },
+            {
+                name: "Signals",
+                points: 5,
+                tests: [
+                    {
+                        title: "ctrl-C in empty prompt",
+                        commands: ["Press ctrl-C in empty prompt"],
+                        description: "Test ctrl-C behavior when prompt is empty.",
+                        notes: "Should display new line with new prompt, no termination."
+                    },
+                    {
+                        title: "ctrl-\\ in empty prompt",
+                        commands: ["Press ctrl-\\ in empty prompt"],
+                        description: "Test ctrl-\\ (SIGQUIT) behavior when prompt is empty.",
+                        notes: "Should not do anything."
+                    },
+                    {
+                        title: "ctrl-D in empty prompt",
+                        commands: ["Press ctrl-D in empty prompt"],
+                        description: "Test ctrl-D (EOF) behavior when prompt is empty.",
+                        notes: "Should quit minishell. RELAUNCH after test!"
+                    },
+                    {
+                        title: "Signals with text in buffer",
+                        commands: ["Type text, then ctrl-C", "Type text, then ctrl-D", "Type text, then ctrl-\\"],
+                        description: "Test signal behavior with text already typed.",
+                        notes: "ctrl-C should clear buffer and show new prompt. ctrl-D and ctrl-\\ should not do anything."
+                    },
+                    {
+                        title: "Signals with blocking commands",
+                        commands: ["cat", "Press ctrl-C", "grep something", "Press ctrl-\\", "cat", "Press ctrl-D"],
+                        description: "Test signals while running blocking commands like cat or grep.",
+                        notes: "Should properly interrupt blocking commands and return to prompt."
+                    }
+                ]
+            },
+            {
+                name: "Double Quotes",
+                points: 5,
+                tests: [
+                    {
+                        title: "Commands with double quotes",
+                        commands: ['echo "hello world"', '/bin/ls "file name with spaces"', 'echo "test 123"'],
+                        description: "Execute commands with double-quoted arguments including whitespaces.",
+                        notes: "Should preserve spaces within quotes as single arguments."
+                    },
+                    {
+                        title: "Complex double quote test",
+                        commands: ['echo "cat lol.c | cat > lol.c"'],
+                        description: "Test specific case with pipes and redirections in quotes.",
+                        notes: "Should treat the entire quoted string as literal text, not execute the pipe."
+                    },
+                    {
+                        title: "Double quotes with special characters",
+                        commands: ['echo "hello; world"', 'echo "test && test"', 'echo "pipes | here"'],
+                        description: "Test double quotes with various special characters (except $).",
+                        notes: "Special characters should be treated literally within double quotes."
+                    }
+                ]
+            },
+            {
+                name: "Single Quotes",
+                points: 5,
+                tests: [
+                    {
+                        title: "Commands with single quotes",
+                        commands: ["echo 'hello world'", "echo 'test 123'", "/bin/ls 'file name'"],
+                        description: "Execute commands with single-quoted arguments.",
+                        notes: "Should preserve everything literally within single quotes."
+                    },
+                    {
+                        title: "Empty single quotes",
+                        commands: ["echo ''", "echo 'hello' '' 'world'"],
+                        description: "Test behavior with empty single-quoted arguments.",
+                        notes: "Should handle empty strings correctly."
+                    },
+                    {
+                        title: "Single quotes with special content",
+                        commands: ["echo '  whitespaces  '", "echo 'pipes | here'", "echo 'redirect > here'"],
+                        description: "Test single quotes with whitespaces, pipes, and redirections.",
+                        notes: "Everything should be interpreted literally."
+                    },
+                    {
+                        title: "Environment variables in single quotes",
+                        commands: ["echo '$USER'", "echo '$HOME'", "echo '$PATH'"],
+                        description: "Test that environment variables are NOT expanded in single quotes.",
+                        notes: "Should print literal '$USER', not the actual username."
+                    }
+                ]
+            },
+            {
+                name: "env Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Display environment variables",
+                        commands: ["env"],
+                        description: "Check if env command displays current environment variables.",
+                        notes: "Should display all environment variables in KEY=VALUE format."
+                    },
+                    {
+                        title: "Environment verification",
+                        commands: ["env | grep USER", "env | grep PATH", "env | grep HOME"],
+                        description: "Verify specific environment variables are present.",
+                        notes: "Common environment variables should be accessible."
+                    }
+                ]
+            },
+            {
+                name: "export Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Export new variables",
+                        commands: ["export TESTVAR=hello", "env | grep TESTVAR"],
+                        description: "Create new environment variables with export.",
+                        notes: "New variables should appear in environment and be accessible."
+                    },
+                    {
+                        title: "Replace existing variables",
+                        commands: ["export USER=testuser", "env | grep USER", "echo $USER"],
+                        description: "Replace existing environment variables.",
+                        notes: "Should update existing variables with new values."
+                    },
+                    {
+                        title: "Export without value",
+                        commands: ["export EMPTYVAR", "env | grep EMPTYVAR"],
+                        description: "Test export command without assigning value.",
+                        notes: "Should create variable with empty value or mark for export."
+                    }
+                ]
+            },
+            {
+                name: "unset Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Unset existing variables",
+                        commands: ["export TESTVAR2=world", "unset TESTVAR2", "env | grep TESTVAR2"],
+                        description: "Remove environment variables with unset.",
+                        notes: "Variables should be removed from environment after unset."
+                    },
+                    {
+                        title: "Unset multiple variables",
+                        commands: ["export VAR1=a VAR2=b", "unset VAR1 VAR2", "env | grep VAR"],
+                        description: "Remove multiple variables at once.",
+                        notes: "Should handle multiple variable removal in single command."
+                    },
+                    {
+                        title: "Unset non-existent variables",
+                        commands: ["unset NONEXISTENT", "unset ANOTHER_FAKE_VAR"],
+                        description: "Test unsetting variables that don't exist.",
+                        notes: "Should not cause errors when unsetting non-existent variables."
+                    }
+                ]
+            },
+            {
+                name: "cd Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Change to different directories",
+                        commands: ["cd /tmp", "/bin/ls", "cd /", "/bin/ls"],
+                        description: "Use cd to move between directories and verify with ls.",
+                        notes: "Should successfully change working directory."
+                    },
+                    {
+                        title: "cd with relative paths",
+                        commands: ["cd .", "/bin/pwd", "cd ..", "/bin/pwd"],
+                        description: "Test cd with current directory (.) and parent directory (..) arguments.",
+                        notes: "Should handle relative directory references correctly."
+                    },
+                    {
+                        title: "cd error handling",
+                        commands: ["cd /nonexistent/directory", "cd /root/secret"],
+                        description: "Test cd with non-existent or inaccessible directories.",
+                        notes: "Should display appropriate error messages for invalid directories."
+                    },
+                    {
+                        title: "cd without arguments",
+                        commands: ["cd", "/bin/pwd"],
+                        description: "Test cd command without any arguments.",
+                        notes: "Should change to home directory (behavior may vary)."
+                    }
+                ]
+            },
+            {
+                name: "pwd Command",
+                points: 5,
+                tests: [
+                    {
+                        title: "Print working directory",
+                        commands: ["pwd"],
+                        description: "Test pwd command to display current working directory.",
+                        notes: "Should print absolute path of current directory."
+                    },
+                    {
+                        title: "pwd in different directories",
+                        commands: ["cd /tmp", "pwd", "cd /", "pwd", "cd /usr", "pwd"],
+                        description: "Test pwd in various directories after cd commands.",
+                        notes: "Should accurately reflect current directory after each cd."
+                    }
+                ]
+            },
+            {
+                name: "Relative Path",
+                points: 5,
+                tests: [
+                    {
+                        title: "Execute with relative paths",
+                        commands: ["./minishell", "../bin/ls", "../../usr/bin/whoami"],
+                        description: "Execute commands using relative paths instead of absolute.",
+                        notes: "Should correctly resolve and execute relative paths."
+                    },
+                    {
+                        title: "Complex relative paths",
+                        commands: ["cd /usr/bin", "../../bin/ls", "../etc/../bin/pwd"],
+                        description: "Test complex relative paths with multiple .. components.",
+                        notes: "Should handle complex path resolution correctly."
+                    },
+                    {
+                        title: "Relative paths in different directories",
+                        commands: ["cd /", "./bin/ls", "cd /usr", "./bin/whoami"],
+                        description: "Test relative path execution from different working directories.",
+                        notes: "Should work correctly regardless of current directory."
+                    }
+                ]
+            },
+            {
+                name: "Environment Path",
+                points: 5,
+                tests: [
+                    {
+                        title: "Commands without path",
+                        commands: ["ls", "pwd", "whoami", "cat /etc/passwd"],
+                        description: "Execute commands without specifying full path.",
+                        notes: "Should find commands using PATH environment variable."
+                    },
+                    {
+                        title: "Unset PATH test",
+                        commands: ["unset PATH", "ls", "pwd"],
+                        description: "Test command execution after unsetting PATH variable.",
+                        notes: "Commands should fail when PATH is not set."
+                    },
+                    {
+                        title: "Multiple directory PATH",
+                        commands: ["export PATH=/bin:/usr/bin", "ls", "whoami"],
+                        description: "Set PATH to multiple directories and test command resolution.",
+                        notes: "Should search directories in left-to-right order."
+                    },
+                    {
+                        title: "PATH order verification",
+                        commands: ["export PATH=/usr/bin:/bin", "which ls", "which pwd"],
+                        description: "Verify that PATH directories are checked in correct order.",
+                        notes: "Should find commands in first matching directory in PATH."
+                    }
+                ]
+            },
+            {
+                name: "Redirection",
+                points: 5,
+                tests: [
+                    {
+                        title: "Output redirection (>)",
+                        commands: ["echo hello > testfile", "cat testfile", "ls -l > listing.txt"],
+                        description: "Test output redirection to files.",
+                        notes: "Should create files and write command output to them."
+                    },
+                    {
+                        title: "Input redirection (<)",
+                        commands: ["cat < /etc/passwd", "wc -l < /etc/hosts"],
+                        description: "Test input redirection from files.",
+                        notes: "Should read input from specified files."
+                    },
+                    {
+                        title: "Append redirection (>>)",
+                        commands: ["echo line1 > append.txt", "echo line2 >> append.txt", "cat append.txt"],
+                        description: "Test append redirection to files.",
+                        notes: "Should append to files instead of overwriting."
+                    },
+                    {
+                        title: "Here document (<<)",
+                        commands: ["cat << EOF\nHello\nWorld\nEOF"],
+                        description: "Test here document redirection.",
+                        notes: "Should read input until delimiter is found. Doesn't need to update history."
+                    },
+                    {
+                        title: "Multiple redirections",
+                        commands: ["cat < /etc/passwd > output.txt", "wc -l < /etc/hosts >> counts.txt"],
+                        description: "Test combining multiple redirection operators.",
+                        notes: "Should handle multiple redirections in single command."
+                    }
+                ]
+            },
+            {
+                name: "Pipes",
+                points: 5,
+                tests: [
+                    {
+                        title: "Basic pipe functionality",
+                        commands: ["cat /etc/passwd | grep root", "ls -l | wc -l"],
+                        description: "Test basic pipe functionality between commands.",
+                        notes: "Should pass output of first command as input to second."
+                    },
+                    {
+                        title: "Multiple pipes",
+                        commands: ["cat /etc/passwd | grep bash | wc -l", "ls -la | grep ^d | sort"],
+                        description: "Test chaining multiple commands with pipes.",
+                        notes: "Should correctly chain multiple commands together."
+                    },
+                    {
+                        title: "Pipes with errors",
+                        commands: ["ls filethatdoesntexist | grep something | wc -l"],
+                        description: "Test pipe behavior when early command fails.",
+                        notes: "Should handle errors in pipeline appropriately."
+                    },
+                    {
+                        title: "Pipes with redirections",
+                        commands: ["cat /etc/passwd | grep root > users.txt", "ls | sort > sorted.txt"],
+                        description: "Test combining pipes with redirections.",
+                        notes: "Should correctly combine pipes and redirections."
+                    }
+                ]
+            },
+            {
+                name: "Go Crazy and History",
+                points: 5,
+                tests: [
+                    {
+                        title: "Buffer cleanup after ctrl-C",
+                        commands: ["Type: 'some command' then ctrl-C, then Enter"],
+                        description: "Test that buffer is clean after ctrl-C interruption.",
+                        notes: "Nothing should execute after ctrl-C + Enter combination."
+                    },
+                    {
+                        title: "History navigation",
+                        commands: ["Use Up/Down arrows to navigate history"],
+                        description: "Test history navigation with arrow keys.",
+                        notes: "Should be able to recall and rerun previous commands."
+                    },
+                    {
+                        title: "Invalid command handling",
+                        commands: ["dsbksdgbksdghsd", "invalidcommand123", "fakecmd"],
+                        description: "Test execution of non-existent commands.",
+                        notes: "Should display error messages without crashing minishell."
+                    },
+                    {
+                        title: "Complex pipe behavior",
+                        commands: ["cat | cat | ls"],
+                        description: "Test unusual but valid pipe combinations.",
+                        notes: "Should behave normally, similar to bash behavior."
+                    },
+                    {
+                        title: "Long commands with many arguments",
+                        commands: ["echo arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11 arg12 arg13 arg14 arg15"],
+                        description: "Test execution of commands with numerous arguments.",
+                        notes: "Should handle long command lines without issues."
+                    },
+                    {
+                        title: "Stress testing",
+                        commands: ["Multiple complex commands in sequence"],
+                        description: "Have fun testing edge cases and complex scenarios!",
+                        notes: "Enjoy exploring the minishell capabilities and limitations."
+                    }
+                ]
+            },
+            {
+                name: "Environment Variables",
+                points: 5,
+                tests: [
+                    {
+                        title: "Basic variable expansion",
+                        commands: ["echo $USER", "echo $HOME", "echo $PATH"],
+                        description: "Test basic environment variable expansion with $.",
+                        notes: "Should expand variables to their values."
+                    },
+                    {
+                        title: "Variable expansion in double quotes",
+                        commands: ['echo "Hello $USER"', 'echo "Your home is $HOME"'],
+                        description: "Test that $ is interpolated within double quotes.",
+                        notes: "Variables should be expanded even within double quotes."
+                    },
+                    {
+                        title: "USER variable verification",
+                        commands: ["echo $USER", "env | grep USER"],
+                        description: "Check that USER environment variable exists and is accessible.",
+                        notes: "USER should exist, set it if not present for testing."
+                    },
+                    {
+                        title: "Variable in single quotes (no expansion)",
+                        commands: ["echo '$USER'", "echo '$HOME'"],
+                        description: "Verify variables are NOT expanded in single quotes.",
+                        notes: "Should print literal '$USER', not the username."
+                    },
+                    {
+                        title: "Mixed quote variable tests",
+                        commands: ['echo "$USER says \'hello\'"', "echo '$USER says \"hello\"'"],
+                        description: "Test variable expansion with mixed quote types.",
+                        notes: "Should handle nested quotes and expansion correctly."
+                    },
+                    {
+                        title: "Undefined variable expansion",
+                        commands: ["echo $UNDEFINED_VAR", "echo $FAKE_VARIABLE"],
+                        description: "Test expansion of non-existent variables.",
+                        notes: "Should expand to empty string or handle gracefully."
+                    }
+                ]
+            }
+        ];
+
+        let testResults = {};
+
+        function initializeTests() {
+            const container = document.getElementById('testCategories');
+            container.innerHTML = '';
+            
+            testCategories.forEach((category, categoryIndex) => {
+                testResults[categoryIndex] = { status: 'pending', tests: {} };
+                
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'test-category';
+                categoryDiv.innerHTML = `
+                    <div class="category-header" onclick="toggleCategory(${categoryIndex})">
+                        <h3>${category.name}</h3>
+                        <div class="category-status">
+                            <span class="status-badge status-pending" id="status-${categoryIndex}">Pending</span>
+                            <span style="color: #6c757d; font-weight: 600;">${category.points} pts</span>
+                            <span style="font-size: 1.2rem;">▼</span>
+                        </div>
+                    </div>
+                    <div class="category-content" id="content-${categoryIndex}">
+                        ${category.tests.map((test, testIndex) => `
+                            <div class="test-item">
+                                <div class="test-header">
+                                    <div class="test-title">${test.title}</div>
+                                    <div class="test-controls">
+                                        <button class="btn btn-success btn-sm" onclick="markTest(${categoryIndex}, ${testIndex}, 'pass')">Pass</button>
+                                        <button class="btn btn-warning btn-sm" onclick="markTest(${categoryIndex}, ${testIndex}, 'fail')">Fail</button>
+                                        <button class="btn btn-sm" style="background: #6f42c1; color: white;" onclick="markTest(${categoryIndex}, ${testIndex}, 'crash')">Crash</button>
+                                    </div>
+                                </div>
+                                <div class="test-description">${test.description}</div>
+                                ${test.commands.map(cmd => `
+                                    <div class="test-command">
+                                        <button class="copy-btn" onclick="copyToClipboard('${cmd.replace(/'/g, "\\'")}')">Copy</button>
+                                        ${cmd}
+                                    </div>
+                                `).join('')}
+                                <div class="test-notes">💡 ${test.notes}</div>
+                                <div class="status-badge status-pending" id="test-status-${categoryIndex}-${testIndex}">Pending</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(categoryDiv);
+            });
+            updateProgress();
+        }
+
+        function toggleCategory(categoryIndex) {
+            const content = document.getElementById(`content-${categoryIndex}`);
+            const header = content.previousElementSibling;
+            const arrow = header.querySelector('span:last-child');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            }
+        }
+
+        function markTest(categoryIndex, testIndex, status) {
+            if (!testResults[categoryIndex].tests) {
+                testResults[categoryIndex].tests = {};
+            }
+            testResults[categoryIndex].tests[testIndex] = status;
+            
+            const testStatusElement = document.getElementById(`test-status-${categoryIndex}-${testIndex}`);
+            testStatusElement.className = `status-badge status-${status}`;
+            testStatusElement.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            
+            updateCategoryStatus(categoryIndex);
+            updateProgress();
+        }
+
+        function updateCategoryStatus(categoryIndex) {
+            const category = testCategories[categoryIndex];
+            const results = testResults[categoryIndex];
+            const statusElement = document.getElementById(`status-${categoryIndex}`);
+            
+            const testStatuses = Object.values(results.tests || {});
+            const totalTests = category.tests.length;
+            const completedTests = testStatuses.length;
+            
+            if (completedTests === 0) {
+                results.status = 'pending';
+                statusElement.className = 'status-badge status-pending';
+                statusElement.textContent = 'Pending';
+            } else if (completedTests === totalTests) {
+                if (testStatuses.every(status => status === 'pass')) {
+                    results.status = 'pass';
+                    statusElement.className = 'status-badge status-pass';
+                    statusElement.textContent = 'Pass';
+                } else if (testStatuses.some(status => status === 'crash')) {
+                    results.status = 'crash';
+                    statusElement.className = 'status-badge status-crash';
+                    statusElement.textContent = 'Crash';
+                } else {
+                    results.status = 'fail';
+                    statusElement.className = 'status-badge status-fail';
+                    statusElement.textContent = 'Fail';
+                }
+            } else {
+                results.status = 'partial';
+                statusElement.className = 'status-badge status-warning';
+                statusElement.textContent = `${completedTests}/${totalTests}`;
+            }
+        }
+
+        function updateProgress() {
+            const totalCategories = testCategories.length;
+            const completedCategories = Object.values(testResults).filter(result => 
+                result.status !== 'pending' && result.status !== 'partial'
+            ).length;
+            
+            const progressPercentage = (completedCategories / totalCategories) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+            document.getElementById('progressText').textContent = `${completedCategories}/${totalCategories} categories completed`;
+            
+            // Update summary statistics
+            let passCount = 0, failCount = 0, crashCount = 0, pendingCount = 0, totalScore = 0;
+            
+            Object.keys(testResults).forEach(categoryIndex => {
+                const result = testResults[categoryIndex];
+                const points = testCategories[categoryIndex].points;
+                
+                switch (result.status) {
+                    case 'pass':
+                        passCount++;
+                        totalScore += points;
+                        break;
+                    case 'fail':
+                        failCount++;
+                        break;
+                    case 'crash':
+                        crashCount++;
+                        break;
+                    default:
+                        pendingCount++;
+                }
+            });
+            
+            document.getElementById('passCount').textContent = passCount;
+            document.getElementById('failCount').textContent = failCount;
+            document.getElementById('crashCount').textContent = crashCount;
+            document.getElementById('pendingCount').textContent = pendingCount;
+            document.getElementById('totalScore').textContent = `${totalScore}/100`;
+        }
+
+        function runAllTests() {
+            alert('🚀 Ready to test all categories!\n\nThis will guide you through each test systematically. Make sure your minishell is compiled and ready to run.\n\nClick OK to begin!');
+            
+            // Expand all categories for easier testing
+            testCategories.forEach((_, index) => {
+                const content = document.getElementById(`content-${index}`);
+                const header = content.previousElementSibling;
+                const arrow = header.querySelector('span:last-child');
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            });
+        }
+
+        function markAllPass() {
+            if (confirm('⚠️ Are you sure you want to mark ALL tests as PASSED?\n\nThis should only be used if you have thoroughly tested everything manually.')) {
+                testCategories.forEach((category, categoryIndex) => {
+                    category.tests.forEach((_, testIndex) => {
+                        markTest(categoryIndex, testIndex, 'pass');
+                    });
+                });
+                alert('✅ All tests marked as PASSED!\nTotal Score: 100/100');
+            }
+        }
+
+        function resetAllTests() {
+            if (confirm('🔄 Are you sure you want to reset ALL test results?\n\nThis will clear all current progress.')) {
+                testResults = {};
+                initializeTests();
+                alert('🔄 All tests have been reset!');
+            }
+        }
+
+        function exportResults() {
+            const results = {
+                timestamp: new Date().toISOString(),
+                totalScore: document.getElementById('totalScore').textContent,
+                summary: {
+                    passed: parseInt(document.getElementById('passCount').textContent),
+                    failed: parseInt(document.getElementById('failCount').textContent),
+                    crashed: parseInt(document.getElementById('crashCount').textContent),
+                    pending: parseInt(document.getElementById('pendingCount').textContent)
+                },
+                detailedResults: testCategories.map((category, index) => ({
+                    category: category.name,
+                    points: category.points,
+                    status: testResults[index]?.status || 'pending',
+                    tests: category.tests.map((test, testIndex) => ({
+                        title: test.title,
+                        status: testResults[index]?.tests?.[testIndex] || 'pending'
+                    }))
+                }))
+            };
+            
+            const jsonStr = JSON.stringify(results, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `minishell_test_results_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('📊 Test results exported successfully!\nFile saved as: minishell_test_results_[date].json');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                event.target.textContent = 'Copied!';
+                event.target.style.background = '#28a745';
+                setTimeout(() => {
+                    event.target.textContent = 'Copy';
+                    event.target.style.background = '#6c757d';
+                }, 1000);
+            }).catch(() => {
+                alert('Copy failed. Please copy manually:\n' + text);
+            });
+        }
+
+        // Initialize the tester when page loads
+        document.addEventListener('DOMContentLoaded', initializeTests);
+    </script>
+</body>
+</html>

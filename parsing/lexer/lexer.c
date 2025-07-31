@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:04:37 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/22 20:45:59 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 09:02:06 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 {
 	t_lexer	*tmp;
 
+	tmp = lexer;
 	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 	{
 		lexer = ft_operator(input, i, lexer);
 		if (!lexer)
 		{
-			free_lexer(lexer);
+			free_lexer(tmp);
 			return (NULL);
 		}
 		tmp = lexer;
@@ -52,7 +53,6 @@ t_lexer	*ft_get_lexer(char *input, t_lexer *lexer, int *i, char **env)
 		lexer = ft_word(lexer, input, i, env);
 		if (!lexer)
 		{
-			free_lexer(lexer);
 			return (NULL);
 		}
 	}

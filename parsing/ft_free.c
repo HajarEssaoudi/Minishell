@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/25 02:16:21 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 08:59:40 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	free_lexer(t_lexer *lexer)
 {
 	t_lexer	*tmp;
 
+	if (!lexer)
+		return;
 	while (lexer)
 	{
 		tmp = lexer->next;

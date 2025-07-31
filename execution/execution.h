@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 22:06:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:51:56 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 t_tok				*check_cmd(t_tok *tok, t_shell *shell, char **cp_env);
 void				tok_error_handling(t_tok *tok, t_shell *shell, char **env);
+// void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/
 
@@ -77,24 +78,19 @@ void				ft_append(t_tok *tok, char *filename, char **env,
 int					is_built_in(char *input, char **cp_env);
 char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
-void				open_pipe(t_tok *tok, int *fd);
-void				check_herdoc_fd(t_tok *tok);
-void				fork_error(void);
 
 /* handle env */
-t_env				*create_list_env(char **arr_env, t_tok *tok,
-						t_shell *shell);
+t_env				*create_list_env(char **arr_env, t_shell *shell);
 t_env				*init_node_env(char *str_env, t_shell *shell, int f);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new);
 
 /* built in utils */
-t_env				*add_to_env(char *str_env, t_shell *shell);
 char				*get_path(void);
 void				print_strings(char **str, int i);
 void				change_env_paths(t_shell *shell);
+void				list_env_variables(t_shell *shell);
 void				print_env(t_env *env);
-void				malloc_failed_free(t_tok *tok, t_shell *shell, char **env);
 
 /* execute built-in */
 int					execute_built_in(t_tok *tok, t_shell *shell, char **env);

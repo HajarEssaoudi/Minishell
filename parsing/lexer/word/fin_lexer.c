@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 14:18:45 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/30 00:16:27 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 02:46:13 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*final_amg(char *amg, char **final_split)
 	i = 0;
 	while (final_split[i])
 		i++;
-	if (i > 1)
+	if (i > 1 || i == 0)
 		amg = "3";
 	return (amg);
 }
@@ -104,6 +104,8 @@ t_lexer	*ft_final(t_lexer *lexer, t_split *split)
 		add_ch(lexer_final->lexer, "string", final, lexer_final->amg);
 		free(final);
 	}
+	else if (!final && !ft_strcmp(lexer_final->amg, "3"))
+		add_ch(lexer_final->lexer, "string", "", lexer_final->amg);
 	free(lexer_final);
 	free_split(split);
 	return (lexer);

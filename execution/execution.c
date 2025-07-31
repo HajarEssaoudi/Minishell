@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 21:32:18 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:03:22 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-static void	close_fds(int fd1, int fd2)
-{
-	close(fd1);
-	close(fd2);
-}
 
 void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 {
@@ -33,7 +27,8 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		{
 			dup2(shell->saved_stdout, STDOUT_FILENO);
 			dup2(shell->saved_stdin, STDIN_FILENO);
-			close_fds(shell->saved_stdin, shell->saved_stdout);
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
 			return ;
 		}
 	}
@@ -43,7 +38,8 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		execute_with_execve(tok, shell, env);
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	close_fds(shell->saved_stdin, shell->saved_stdout);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 }
 
 void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
@@ -60,6 +56,8 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 		{
 			if (ft_strcmp(redir->type, "<<") == 0)
 				ft_herdoc(tmp, redir, env, shell);
+			if (shell->exit_status == 130)
+				return;
 			redir = redir->next;
 		}
 		tmp = tmp->next;

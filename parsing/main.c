@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 20:39:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 03:13:08 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	{
 		ft_clear(env, shell, tok);
 	}
-	shell->env = create_list_env(env,tok, shell);
+	shell->env = create_list_env(env, shell);
 	// if (!shell->env)
 	// 	return (NULL);
 	shell->exit_status = 0;
