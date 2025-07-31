@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 17:51:56 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 23:45:54 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int					execute_built_in(t_tok *tok, t_shell *shell, char **env);
 int					execute_cd(t_tok *tok, t_shell *shell);
 int					execute_pwd(t_shell *shell);
 int					execute_echo(t_tok *tok);
-int					execute_env(t_tok *tok, char **env);
+int					execute_env(t_tok *tok, t_shell *shell);
 int					execute_exit(t_tok *tok, t_shell *shell, char **env);
 int					execute_unset(t_tok *tok, t_shell *shell);
 int					execute_export(t_tok *tok, t_shell *shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:19:13 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/27 20:56:23 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:09:14 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	ft_clear(char **cp_env,t_shell *shell,t_tok *tok)
 		{
 			free(shell->pwd);
 		}
-		// if (shell->current_path)
-		// 	free(shell->current_path);
-		// if (shell->old_path)
-		// 	free(shell->old_path);
+		if (shell->current_path)
+			free(shell->current_path);
+		if (shell->old_path)
+			free(shell->old_path);
 		free(shell);
 	}
 }

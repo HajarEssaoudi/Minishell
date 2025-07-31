@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 03:13:08 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:13:49 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 		ft_clear(env, shell, tok);
 	}
 	shell->env = create_list_env(env, shell);
-	// if (!shell->env)
-	// 	return (NULL);
 	shell->exit_status = 0;
 	shell->saved_stdout = 0;
 	shell->saved_stdin = 0;
+	shell->current_path = NULL;
+	shell->old_path = NULL;
 	shell->line = 0;
-	shell->pwd = NULL;
+	shell->pwd = get_path();
 	return (shell);
 }
 
@@ -115,7 +115,6 @@ int	main(int argc, char **argv, char **env)
 		tok = get_tok(prompt, cp_env, shell->exit_status);
 		if (!tok)
 			shell->exit_status = 2;
-		// print_tok(tok);
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
@@ -131,9 +130,6 @@ int	main(int argc, char **argv, char **env)
 				tmp = tmp->next;
 			}
 			execute_cmd(tok, shell, cp_env);
-			if (shell->pwd)
-				free(shell->pwd);
-			shell->pwd = get_path();
 			cp_env = update_env_arr(shell->env, cp_env);
 			if (!is_pipeline)
 				free_tok(tok);

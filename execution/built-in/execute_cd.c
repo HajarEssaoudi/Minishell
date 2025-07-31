@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/28 12:17:37 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:04:30 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 	shell->old_path = get_path();
 	if (shell->old_path == NULL)
 		shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
+	if (!tok->str[1])
+	{
+		ft_putstr_fd("Minishell: syntax error: expected relative or absolute path\n", 2);
+		return (2);
+	}
 	if (tok->str[2])
 	{
 		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);

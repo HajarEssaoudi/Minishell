@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 14:29:29 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:25:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		fd[2];
 	int		prev_fd;
 	pid_t	pid;
-	pid_t	last_pid = -1;
+	pid_t	last_pid;
 	int		status;
 	pid_t	w_pid;
 	int		sig;
@@ -120,7 +120,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
 			{
-				ft_printf(2, "Quit (core dumped)\n");
+				ft_putstr_fd("Quit (core dumped)\n", 2);
 				shell->exit_status = 131;
 			}
 			else if (sig == SIGINT)
