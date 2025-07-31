@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 22:00:36 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:17:35 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 {
-	t_tok	*tmp;
 
 	if (*prev_fd != -1)
 		close(*prev_fd);
@@ -25,10 +24,7 @@ static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 	}
 	else
 		*prev_fd = -1;
-	tmp = tok;
-	tok = tok->next;
-	tmp->next = NULL;
-	free_tok(tmp);
+	
 }
 
 static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
@@ -68,24 +64,32 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		prev_fd;
 	pid_t	pid;
 	pid_t	last_pid;
+	t_tok	*tmp;
 
 	prev_fd = -1;
 	while (tok)
 	{
-		open_pipe(tok, fd);
-		pid = fork();
-		if (pid == 0)
+		if (tok->path || tok->redirect)
 		{
-			handle_child_fds(tok, &prev_fd, fd[1], fd[0]);
-			execute_cases(tok, shell, env);
+			open_pipe(tok, fd);
+			pid = fork();
+			if (pid == 0)
+			{
+				handle_child_fds(tok, &prev_fd, fd[1], fd[0]);
+				execute_cases(tok, shell, env);
+			}
+			else if (pid < 0)
+				fork_error();
+			else
+			{
+				last_pid = pid;
+				handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
+			}
 		}
-		else if (pid < 0)
-			fork_error();
-		else
-		{
-			last_pid = pid;
-			handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
-		}
+		tmp = tok;
+		tok = tok->next;
+		tmp->next = NULL;
+		free_tok(tmp);
 	}
 	wait_for_children(last_pid, shell);
 }

@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/25 00:51:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:19:11 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,7 @@ t_lexer	*ft_word(t_lexer *lexer, char *input, int *i, char **env)
 		free(sub);
 		return (free_lexer(lexer), NULL);
 	}
-	if (lexer->flag)
-		free(lexer->flag);
 	herdoc_quot(lexer, is_quoted);
-	lexer->flag = ft_strdup("0");
 	free(sub);
 	return (lexer);
 }
