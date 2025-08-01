@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 23:32:09 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:21:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,30 @@ void	list_env_variables(t_shell *shell)
 	print_env(env);
 }
 
+void	free_env_node(t_env *node)
+{
+	if (!node)
+		return ;
+	free(node->key);
+	free(node->value);
+	free(node);
+}
+
 static int	compare_and_replace(t_env *new, t_env *old)
 {
+	t_env	*tmp;
+
 	if (ft_strcmp(new->key, old->key) == 0)
 	{
+		free(old->key);
 		free(old->value);
+		old->key = new->key;
 		old->value = new->value;
+		free(new);
 		return (1);
 	}
 	return (0);
 }
-
-/*ft_clear before return*/
 
 int	execute_export(t_tok *tok, t_shell *shell)
 {
@@ -99,6 +111,8 @@ int	execute_export(t_tok *tok, t_shell *shell)
 		}
 		if (f == 0)
 			ft_lstadd_back_env(&shell->env, new);
+		// else
+		// 	free_env_node(new);
 		i++;
 	}
 	return (0);

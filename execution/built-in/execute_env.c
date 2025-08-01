@@ -6,31 +6,11 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:13:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 23:45:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:34:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
-
-// int	execute_env(t_tok *tok, char **env)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (tok->str[1])
-// 	{
-// 		ft_printf(2, "env: too many arguments\n");
-// 		return (EXIT_NOT_FOUND);
-// 	}
-// 	while (env[i])
-// 	{
-		
-// 		printf("%s\n", env[i]);
-// 		i++;
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
 
 int	execute_env(t_tok *tok ,t_shell *shell)
 {
@@ -45,7 +25,7 @@ int	execute_env(t_tok *tok ,t_shell *shell)
 	while (tmp)
 	{
 		if (tmp->value)
-			printf("%s=%s", tmp->key, tmp->value);
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
