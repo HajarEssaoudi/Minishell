@@ -6,15 +6,15 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:13:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 14:34:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:35:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	execute_env(t_tok *tok ,t_shell *shell)
+int	execute_env(t_tok *tok, t_shell *shell)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = shell->env;
 	if (tok->str[1])

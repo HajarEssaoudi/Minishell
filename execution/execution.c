@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 11:03:22 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:23:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		dup2(tok->heredoc_fd, STDIN_FILENO);
 		close(tok->heredoc_fd);
 	}
-	if (tok->redirect && tok->heredoc_fd == -1)
+	if (tok->redirect)
 	{
 		if (!execute_redirect(tok, env, shell))
 		{
@@ -38,8 +38,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 		execute_with_execve(tok, shell, env);
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	(close(shell->saved_stdin), close(shell->saved_stdout));
 }
 
 void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
@@ -57,7 +56,7 @@ void	execute_cmd(t_tok *tok, t_shell *shell, char **env)
 			if (ft_strcmp(redir->type, "<<") == 0)
 				ft_herdoc(tmp, redir, env, shell);
 			if (shell->exit_status == 130)
-				return;
+				return ;
 			redir = redir->next;
 		}
 		tmp = tmp->next;

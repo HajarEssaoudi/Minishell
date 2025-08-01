@@ -1,0 +1,14 @@
+execution
+ft_printf
+hello.c
+k
+lib
+ls.txt
+Makefile
+minishell
+minishell_tester
+out.txt
+parsing
+readline.supp
+te.html
+tester.sh

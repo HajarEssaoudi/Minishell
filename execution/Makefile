@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -g3 -fPIE
 # CFLAGS += -Wall -Wextra -Werror 
 
-SRCS =	helpers.c execution.c execute_execve.c execute_builtin.c pipe_executor.c \
+SRCS =	helpers.c env_helpers.c execute_execve_helpers.c pipe_executor_helpers.c execution.c execute_execve.c execute_builtin.c pipe_executor.c \
 		redirections/execute_redirections.c redirections/operations.c \
 		built-in/builtin_helpers.c built-in/execute_cd.c built-in/execute_echo.c \
 		built-in/execute_env.c built-in/execute_exit.c built-in/execute_export.c \

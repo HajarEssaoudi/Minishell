@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 23:45:54 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:56:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ void				ft_append(t_tok *tok, char *filename, char **env,
 int					is_built_in(char *input, char **cp_env);
 char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
+int					ft_lst_size(t_env *lst);
 
 /* handle env */
-t_env				*create_list_env(char **arr_env, t_shell *shell);
+t_env				*create_list_env(char **arr_env, t_tok *tok,
+						t_shell *shell);
 t_env				*init_node_env(char *str_env, t_shell *shell, int f);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new);
@@ -109,5 +111,10 @@ void				ft_clear(char **cp_env, t_shell *shell, t_tok *tok);
 /*signal*/
 void				ft_handl(int sig);
 void				ft_handl_herdoc(int sig);
+
+/*helpers*/
+
+void	open_pipe(t_tok *tok, int *fd);
+void	check_herdoc_fd(t_tok *tok);
 
 #endif

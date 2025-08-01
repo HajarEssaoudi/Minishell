@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:00:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 18:24:29 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:24:13 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strjoin_env(char const *s1, char const *s2, char sep)
 	else if (!s1)
 		return (ft_strdup(s2));
 	else if (!s2)
-		return(ft_strdup(s1));
+		return (ft_strdup(s1));
 	p = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1 + 1);
 	if (!p)
 		return (NULL);

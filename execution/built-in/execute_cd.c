@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 22:04:30 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:48:57 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,18 @@ static char	*search_in_env(t_shell *shell, char *key)
 	return (NULL);
 }
 
-void	free_paths(t_shell *shell)
+static int	get_current_path(t_shell *shell)
 {
-	free(shell->old_path);
-	free(shell->current_path);
+	shell->current_path = get_path();
+	if (shell->current_path == NULL)
+	{
+		ft_putstr_fd("cd: error retrieving current directory:"
+			" getcwd: cannot access parent directories:"
+			"No such file or directory\n",
+			2);
+		return (0);
+	}
+	return (1);
 }
 
 int	execute_cd(t_tok *tok, t_shell *shell)
@@ -72,7 +80,8 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 		shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
 	if (!tok->str[1])
 	{
-		ft_putstr_fd("Minishell: syntax error: expected relative or absolute path\n", 2);
+		ft_putstr_fd("Minishell: syntax error: expected "
+			"relative or absolute path\n", 2);
 		return (2);
 	}
 	if (tok->str[2])
@@ -85,16 +94,8 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 		perror("minishell: cd");
 		return (1);
 	}
-	shell->current_path = get_path();
-	if (shell->current_path == NULL)
-	{
-		ft_putstr_fd("cd: error retrieving current directory:"
-			" getcwd: cannot access parent directories:"
-			"No such file or directory\n", 2);
-		return (0);
-	}
+	get_current_path(shell);
 	search_and_change(shell, "PWD", shell->current_path);
 	search_and_change(shell, "OLDPWD", shell->old_path);
-	free_paths(shell);
 	return (0);
 }

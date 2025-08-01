@@ -6,31 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 21:25:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:54:49 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-extern	int g_flag;
-
-static void	open_pipe(t_tok *tok, int *fd)
-{
-	if (tok->pip && tok->pip[0] == '|' && pipe(fd) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
-}
-
-static void	check_herdoc_fd(t_tok *tok)
-{
-	if (tok->heredoc_fd != -1)
-	{
-		dup2(tok->heredoc_fd, STDIN_FILENO);
-		close(tok->heredoc_fd);
-	}
-}
+extern int	g_flag;
 
 static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 {
@@ -61,7 +43,7 @@ static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd1, int fd0)
 	}
 }
 
-void	fork_error()
+void	fork_error(void)
 {
 	perror("fork");
 	if (errno == EACCES)
@@ -81,6 +63,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		status;
 	pid_t	w_pid;
 	int		sig;
+	t_tok	*tmp;
 
 	prev_fd = -1;
 	g_flag = 1;
@@ -106,8 +89,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 				handle_parent_fds(tok, &prev_fd, fd[1], fd[0]);
 			}
 		}
-		
-		t_tok *tmp = tok;
+		tmp = tok;
 		tok = tok->next;
 		tmp->next = NULL;
 		free_tok(tmp);
@@ -137,4 +119,3 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	}
 	g_flag = 0;
 }
-
