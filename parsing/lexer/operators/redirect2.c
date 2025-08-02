@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 08:51:56 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/06/12 18:50:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:53:44 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	check_redirect2(char *input)
 			if (check_last(i, input))
 				return (1);
 		}
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (0);
 }
