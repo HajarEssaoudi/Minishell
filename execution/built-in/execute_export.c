@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 15:08:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:26:36 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	execute_export(t_tok *tok, t_shell *shell)
 		list_env_variables(shell);
 	while (tok->str[i])
 	{
-		new = init_node_env(tok->str[i], shell, EXPORT);
+		new = add_to_env(tok->str[i], shell);
 		if (!new)
 			return (shell->exit_status);
 		tmp = shell->env;

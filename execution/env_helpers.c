@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:15:57 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 21:49:30 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:26:17 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	malloc_failed_free(t_tok *tok, t_shell *shell, char **env)
 	exit(2);
 }
 
-t_env	*init_node_env(char *str_env, t_shell *shell, int f)
+t_env	*init_node_env(char *str_env, t_shell *shell)
 {
 	t_env	*node_env;
 	char	*equal;
@@ -60,7 +60,7 @@ t_env	*create_list_env(char **arr_env, t_tok *tok, t_shell *shell)
 	tmp = NULL;
 	while (arr_env[i])
 	{
-		new_node = init_node_env(arr_env[i], shell, CREATE_LIST);
+		new_node = init_node_env(arr_env[i], shell);
 		if (new_node == NULL)
 		{
 			ft_putstr_fd("allocation failed\n", 2);

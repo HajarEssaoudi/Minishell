@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 11:05:28 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:29:14 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ typedef struct s_redir
 
 typedef struct s_clean
 {
-t_tok *tok; char **env; t_shell *shell; int fd;
-}	t_clean;
+	t_tok			*tok;
+	char			**env;
+	t_shell			*shell;
+	int				fd;
+}					t_clean;
 
-t_clean *cleane_heredoc(void);
+t_clean				*cleane_heredoc(void);
 
 /*to be deleted */
 void				print_tok(t_tok *tok);
@@ -90,16 +93,16 @@ int					ft_lst_size(t_env *lst);
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,
 						t_shell *shell);
-t_env				*init_node_env(char *str_env, t_shell *shell, int f);
+t_env				*init_node_env(char *str_env, t_shell *shell);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new);
 
 /* built in utils */
 char				*get_path(void);
 void				print_strings(char **str, int i);
-void				change_env_paths(t_shell *shell);
 void				list_env_variables(t_shell *shell);
 void				print_env(t_env *env);
+t_env				*add_to_env(char *str_env, t_shell *shell);
 
 /* execute built-in */
 int					execute_built_in(t_tok *tok, t_shell *shell, char **env);
@@ -121,7 +124,7 @@ void				ft_handl_herdoc(int sig);
 
 /*helpers*/
 
-void	open_pipe(t_tok *tok, int *fd);
-void	check_herdoc_fd(t_tok *tok);
+void				open_pipe(t_tok *tok, int *fd);
+void				check_herdoc_fd(t_tok *tok);
 
 #endif
