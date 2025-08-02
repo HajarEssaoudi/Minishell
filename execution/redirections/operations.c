@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:06:25 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:07:55 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,13 @@ char	*ft_expand(char *line, char **env)
 	return (tmp1);
 }
 
+t_clean *cleane_heredoc(void)
+{
+	static t_clean cleaner;
+
+	return(&cleaner);
+}
+
 void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 {
 	char	*line;
@@ -126,9 +133,14 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	pid_t	pid;
 	int		status;
 	int		sig;
+	t_clean *cleaner;
 
 	g_flag = 1;
 	pid = fork();
+	cleaner = cleane_heredoc();
+	cleaner->env = env;
+	cleaner->tok = tok;
+	cleaner->shell = shell;
 	if (pid == 0)
 	{
 		signal(SIGINT, ft_handl_herdoc);
@@ -139,6 +151,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			perror("open heredoc");
 			return ;
 		}
+		cleaner->fd = fd;
 		while (1)
 		{
 			line = readline("> ");

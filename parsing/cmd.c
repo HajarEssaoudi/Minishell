@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/31 10:29:22 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:06:55 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ char	*relative_path(t_tok *tok, char **cp_env, t_shell *shell)
 	}
 	else if (ex && ft_strcmp(ex, tok->path) == 0)
 	{
-		free(tok->path);
 		ft_printf(2, "Minishell: %s: Permission denied\n", ex);
+		free(tok->path);
 		shell->exit_status = EXIT_NO_PERMISSION;
 		return (NULL);
 	}

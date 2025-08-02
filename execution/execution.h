@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:56:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:05:28 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ typedef struct s_redir
 	char			*last_in;
 	char			*last_append;
 }					t_redir;
+
+typedef struct s_clean
+{
+t_tok *tok; char **env; t_shell *shell; int fd;
+}	t_clean;
+
+t_clean *cleane_heredoc(void);
 
 /*to be deleted */
 void				print_tok(t_tok *tok);
