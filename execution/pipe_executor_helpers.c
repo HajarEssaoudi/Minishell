@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 23:54:15 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:54:59 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:59:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ void	check_herdoc_fd(t_tok *tok)
 		close(tok->heredoc_fd);
 	}
 }
-

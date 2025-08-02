@@ -3,58 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 11:07:55 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:56:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
 extern int	g_flag;
-
-void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
-{
-	int	fd;
-
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("open");
-		shell->exit_status = EXIT_FAILURE;
-		return ;
-	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		close(fd);
-		shell->exit_status = EXIT_FAILURE;
-		return ;
-	}
-	close(fd);
-}
-
-void	ft_in(t_tok *tok, char *filename, char **env, t_shell *shell)
-{
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("open");
-		shell->exit_status = EXIT_FAILURE;
-		return ;
-	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		close(fd);
-		shell->exit_status = EXIT_FAILURE;
-		return ;
-	}
-	close(fd);
-}
 
 int	open_file(char *path, t_shell *shell)
 {
@@ -65,7 +23,6 @@ int	open_file(char *path, t_shell *shell)
 	{
 		perror("open for read heredoc");
 		shell->exit_status = EXIT_FAILURE;
-		// ft_clear_exit
 	}
 	return (fd);
 }
@@ -75,11 +32,9 @@ char	*ft_expand(char *line, char **env)
 	char	*tmp1;
 	char	*tmp2;
 	char	*tmp;
-	int		k;
-	int		var_start;
 	char	*val;
-	int		start;
 
+	int (k), var_start, start;
 	tmp1 = ft_strdup("");
 	k = 0;
 	while (line[k])
@@ -95,7 +50,6 @@ char	*ft_expand(char *line, char **env)
 			tmp = ft_strjoin(tmp1, val);
 			free(tmp1);
 			free(tmp2);
-			;
 			tmp1 = tmp;
 		}
 		else
@@ -103,9 +57,11 @@ char	*ft_expand(char *line, char **env)
 			start = k;
 			while (line[k] && line[k] != '$')
 			{
-				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k
-						+ 1] != '_'))
+				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line [k
+							+ 1] != '_'))
+				{
 					k++;
+				}
 				else
 					k++;
 			}
@@ -119,22 +75,20 @@ char	*ft_expand(char *line, char **env)
 	return (tmp1);
 }
 
-t_clean *cleane_heredoc(void)
+t_clean	*cleane_heredoc(void)
 {
-	static t_clean cleaner;
+	static t_clean	cleaner;
 
-	return(&cleaner);
+	return (&cleaner);
 }
 
 void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 {
 	char	*line;
-	int		fd;
 	pid_t	pid;
-	int		status;
-	int		sig;
-	t_clean *cleaner;
+	t_clean	*cleaner;
 
+	int (fd), status, sig;
 	g_flag = 1;
 	pid = fork();
 	cleaner = cleane_heredoc();
@@ -144,7 +98,6 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	if (pid == 0)
 	{
 		signal(SIGINT, ft_handl_herdoc);
-		// g_flag = 0;
 		fd = open("./.tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
 		if (fd == -1)
 		{
@@ -172,7 +125,6 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 				ft_clear(env, shell, tok);
 				break ;
 			}
-			// printf("quot => %d\n", tok->quot);
 			if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 				line = ft_expand(line, env);
 			if (!redir->next)

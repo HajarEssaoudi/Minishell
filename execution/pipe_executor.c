@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:54:49 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:03:21 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,12 @@ void	fork_error(void)
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	int		fd[2];
-	int		prev_fd;
 	pid_t	pid;
 	pid_t	last_pid;
-	int		status;
 	pid_t	w_pid;
-	int		sig;
 	t_tok	*tmp;
 
-	prev_fd = -1;
+	int (status), sig, prev_fd = -1;
 	g_flag = 1;
 	while (tok)
 	{
@@ -93,7 +90,6 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		tok = tok->next;
 		tmp->next = NULL;
 		free_tok(tmp);
-		// tok = tok->next;
 	}
 	while ((w_pid = wait(&status)) > 0)
 	{

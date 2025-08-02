@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 14:29:14 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:05:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 t_tok				*check_cmd(t_tok *tok, t_shell *shell, char **cp_env);
 void				tok_error_handling(t_tok *tok, t_shell *shell, char **env);
-// void				execute_executable(t_tok *tok, char **env);
 
 /*shell's operations*/
 
@@ -83,12 +82,15 @@ void				ft_herdoc(t_tok *tok, t_rederict *redir, char **env,
 						t_shell *shell);
 void				ft_append(t_tok *tok, char *filename, char **env,
 						t_shell *shell);
+int					out_red(t_redir *redir, char *filename, t_shell *shell);
+int					in_red(t_redir *redir, char *filename, t_shell *shell);
 
 /* helpers */
 int					is_built_in(char *input, char **cp_env);
 char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
 int					ft_lst_size(t_env *lst);
+int					check_ambg(t_rederict *tmp, t_shell *shell);
 
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,
