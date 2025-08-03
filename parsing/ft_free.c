@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:20:36 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/31 08:59:40 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/03 12:49:54 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	free_tok(t_tok *tok)
 	{
 		redir = tok->redirect;
 		free_red(redir);
-		if (tok->execute)
-			free(tok->execute);
 		if (tok->path)
 			free(tok->path);
 		if (tok->pip)
