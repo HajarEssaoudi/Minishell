@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 21:04:57 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/03 11:53:50 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	print_tok(t_tok *tok)
 	while (tok)
 	{
 		printf("Token #%d:\n", index);
-		printf(" execute: %s\n", tok->execute ? tok->execute : "(null)");
 		printf(" path: %s\n", tok->path ? tok->path : "(null)");
 		print_str_array(tok->str);
 		printf("herdoc_fd == %d\n", tok->heredoc_fd);
@@ -74,7 +73,6 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	shell->saved_stdin = 0;
 	shell->current_path = NULL;
 	shell->old_path = NULL;
-	shell->line = 0;
 	shell->pwd = get_path();
 	return (shell);
 }
@@ -102,7 +100,6 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
-		shell->line++;
 		if (!prompt)
 		{
 			status = shell->exit_status;

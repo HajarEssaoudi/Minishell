@@ -20,6 +20,7 @@ EXECUTION_DIR = execution
 SRC         = \
               $(SRC_DIR)/main.c \
               $(SRC_DIR)/cmd.c \
+              $(SRC_DIR)/cmd_utils.c \
               $(SRC_DIR)/copie_env.c \
               $(SRC_DIR)/ft_free.c \
               $(LEXER_DIR)/lexer.c \

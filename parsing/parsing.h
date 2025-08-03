@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/29 02:51:05 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/03 11:44:09 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_rederict
 typedef struct s_tok
 {
 	char				**str;
-	char				*execute;
 	char				*path;
 	t_rederict			*redirect;
 	int					heredoc_fd;
@@ -96,6 +95,8 @@ typedef struct s_lexer_final
 
 t_lexer					*ft_lexer(char *input, char **env, int exit_status);
 char					**ft_split_final(char const *s);
+char					*check_cmd_acces(char *input, char **path_split,
+							char **found);
 int						is_word(char c);
 char					**copy_env(char **env);
 char					*get_env_var(char **cp_env, char *var);

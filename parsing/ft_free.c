@@ -30,7 +30,7 @@ void	free_lexer(t_lexer *lexer)
 	t_lexer	*tmp;
 
 	if (!lexer)
-		return;
+		return ;
 	while (lexer)
 	{
 		tmp = lexer->next;

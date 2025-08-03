@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/30 21:36:29 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/03 10:50:35 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,8 @@
 int	ft_is_quoted(char *input, int *i, char quot)
 {
 	(*i)++;
-	while (input[*i] && input[*i] != quot)
-	{
-		if (input[*i] == quot && input[*i - 1] == '\\')
+	while (input[*i] && (input[*i] != quot || (input[*i - 1] == '\\' && input[*i] == quot)))
 			(*i)++;
-		else
-			(*i)++;
-	}
 	if (!input[*i])
 	{
 		printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
@@ -108,10 +103,7 @@ t_lexer	*ft_word(t_lexer *lexer, char *input, int *i, char **env)
 		free(sub);
 		return (free_lexer(lexer), NULL);
 	}
-	// if (lexer->flag)
-	// 	free(lexer->flag);
 	herdoc_quot(lexer, is_quoted);
-	// lexer->flag = ft_strdup("0");
 	free(sub);
 	return (lexer);
 }

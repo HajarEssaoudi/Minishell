@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/30 17:55:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/03 11:47:54 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,35 @@ void	ft_tok_redirect(t_lexer *lexer, char *type, t_tok *tmp)
 	char	*flag;
 
 	flag = NULL;
-	if (!(ft_strncmp(lexer->type, "filename", ft_strlen("filename"))))
+	if (!ft_strcmp(lexer->type, "filename"))
 	{
 		if (!ft_strcmp(lexer->ambg, "3"))
 			flag = "1";
 		else if (lexer->quot == 0 && ft_strcmp(lexer->ambg, "3"))
 			flag = "2";
-		if (!(ft_strncmp(type, "output", ft_strlen("output"))))
+		if (!ft_strcmp(type, "output"))
 			add_rederict(&tmp->redirect, ">", lexer->args, flag);
-		else if (!(ft_strncmp(type, "input", ft_strlen("input"))))
+		else if (!ft_strcmp(type, "input"))
 			add_rederict(&tmp->redirect, "<", lexer->args, flag);
-		else if (!(ft_strncmp(type, "append", ft_strlen("append"))))
+		else if (!ft_strcmp(type, "append"))
 			add_rederict(&tmp->redirect, ">>", lexer->args, flag);
-		else if (!(ft_strncmp(type, "heredoc", ft_strlen("heredoc"))))
+		else if (!ft_strcmp(type, "heredoc"))
 			add_rederict(&tmp->redirect, "<<", lexer->args, flag);
 	}
 }
 
 void	ft_tok_word_cmd(t_lexer *lexer, t_tok *tmp)
 {
-	if (!(ft_strncmp(lexer->type, "execute", ft_strlen("execute"))))
-	{
-		tmp->execute = ft_strdup(lexer->args);
-	}
-	if (!(ft_strncmp(lexer->type, "cmd", ft_strlen("cmd"))))
+	if (!ft_strcmp(lexer->type, "cmd"))
 	{
 		tmp->path = ft_strdup(lexer->args);
 		tmp->str = ft_argv(tmp->str, lexer->args);
 	}
-	if (!(ft_strncmp(lexer->type, "string", ft_strlen("string"))))
+	if (!ft_strcmp(lexer->type, "string"))
 	{
 		tmp->str = ft_argv(tmp->str, lexer->args);
 	}
-	if (!(ft_strncmp(lexer->type, "pip", ft_strlen("pip"))))
+	if (!ft_strcmp(lexer->type, "pip"))
 		tmp->pip = ft_strdup("|");
 }
 
