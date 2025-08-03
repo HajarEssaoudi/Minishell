@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 14:56:37 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/03 02:07:22 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_expand(char *line, char **env)
 	char	*tmp;
 	char	*val;
 
-	int (k), var_start, start;
+	int(k), var_start, start;
 	tmp1 = ft_strdup("");
 	k = 0;
 	while (line[k])
@@ -57,8 +57,8 @@ char	*ft_expand(char *line, char **env)
 			start = k;
 			while (line[k] && line[k] != '$')
 			{
-				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line [k
-							+ 1] != '_'))
+				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k
+						+ 1] != '_'))
 				{
 					k++;
 				}
@@ -75,7 +75,7 @@ char	*ft_expand(char *line, char **env)
 	return (tmp1);
 }
 
-t_clean	*cleane_heredoc(void)
+t_clean	*clean_heredoc(void)
 {
 	static t_clean	cleaner;
 
@@ -88,10 +88,10 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	pid_t	pid;
 	t_clean	*cleaner;
 
-	int (fd), status, sig;
+	int(fd), status, sig;
 	g_flag = 1;
 	pid = fork();
-	cleaner = cleane_heredoc();
+	cleaner = clean_heredoc();
 	cleaner->env = env;
 	cleaner->tok = tok;
 	cleaner->shell = shell;
@@ -110,10 +110,8 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			line = readline("> ");
 			if (!line)
 			{
-				ft_putstr_fd("Minishell: warning: here-document at line ", 2);
-				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-				ft_putstr_fd(redir->filename, 2);
-				ft_putstr_fd("')\n", 2);
+				ft_printf(2,
+					"Minishell: warning: here-document at line delimited by end-of-file (wanted `%s') \n");
 				close(fd);
 				free_tok(tok);
 				ft_clear(env, shell, tok);
@@ -128,10 +126,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 			if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 				line = ft_expand(line, env);
 			if (!redir->next)
-			{
-				ft_putstr_fd(line, fd);
-				ft_putstr_fd("\n", fd);
-			}
+				ft_printf(fd, "%s\n", line);
 			free(line);
 		}
 		if (line)

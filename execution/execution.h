@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 15:05:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/03 01:41:21 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_clean
 	int				fd;
 }					t_clean;
 
-t_clean				*cleane_heredoc(void);
+t_clean				*clean_heredoc(void);
 
 /*to be deleted */
 void				print_tok(t_tok *tok);
