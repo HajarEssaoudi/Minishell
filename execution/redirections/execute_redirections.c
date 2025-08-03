@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirections.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 14:49:30 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/03 07:49:42 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ int	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 		else if (ft_strcmp(tmp->type, ">>") == 0 && !app_red(&redir,
 				tmp->filename, shell))
 			return (0);
+		else if (ft_strcmp(tmp->type, "<<") == 0)
+			redir.last_in = NULL;
+			
 		tmp = tmp->next;
 	}
 	last_redir(tok, env, &redir, shell);
