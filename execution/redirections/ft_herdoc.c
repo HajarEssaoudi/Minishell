@@ -43,7 +43,7 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 			break ;
 		if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 		{
-			expanded = ft_expand(line, cleaner->env);
+			expanded = ft_expand(line, cleaner->env, cleaner->shell->exit_status);
 			free(line);
 			line = expanded;
 		}
@@ -98,7 +98,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	char	*name;
 
 	g_flag = 1;
-	name = her_name(env);
+	name = her_name();
 	pid = fork();
 	cleaner = clean_heredoc();
 	cleaner->env = env;

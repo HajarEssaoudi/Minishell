@@ -91,7 +91,7 @@ char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
 int					ft_lst_size(t_env *lst);
 int					check_ambg(t_rederict *tmp, t_shell *shell);
-char				*ft_expand(char *line, char **env);
+char	*ft_expand(char *line, char **env, int exit_status);
 int					open_file(char *path, t_shell *shell);
 void				fork_error(void);
 char *her_name();
