@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/03 10:04:26 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/05 02:24:31 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # define EXIT_FAILURE 1
 # define EXIT_NOT_FOUND 127
 # define EXIT_NO_PERMISSION 126
-# define CREATE_LIST 0
-# define EXPORT 1
 
 typedef struct s_env
 {
@@ -90,13 +88,16 @@ char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
 int					ft_lst_size(t_env *lst);
 int					check_ambg(t_rederict *tmp, t_shell *shell);
+char				*ft_expand(char *line, char **env);
+int					open_file(char *path, t_shell *shell);
+void				fork_error(void);
 
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,
 						t_shell *shell);
 t_env				*init_node_env(char *str_env, t_shell *shell);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
-void				ft_lstadd_back_env(t_env **lst, t_env *new);
+void				ft_lstadd_back_env(t_env **lst, t_env *new, int f);
 
 /* built in utils */
 char				*get_path(void);
@@ -120,8 +121,8 @@ void				free_list_env(t_env *env);
 void				ft_clear(char **cp_env, t_shell *shell, t_tok *tok);
 
 /*signal*/
-void				ft_handl(int sig);
-void				ft_handl_herdoc(int sig);
+void				ft_handle(int sig);
+void				ft_handle_herdoc(int sig);
 
 /*helpers*/
 

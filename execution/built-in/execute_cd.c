@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 21:48:57 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 01:45:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,13 @@ static char	*search_in_env(t_shell *shell, char *key)
 	return (NULL);
 }
 
-static int	get_current_path(t_shell *shell)
+static int	update_path(t_shell *shell)
 {
-	shell->current_path = get_path();
+	if (shell->current_path)
+	{
+		free(shell->current_path);
+		shell->current_path = get_path();
+	}
 	if (shell->current_path == NULL)
 	{
 		ft_putstr_fd("cd: error retrieving current directory:"
@@ -70,14 +74,19 @@ static int	get_current_path(t_shell *shell)
 			2);
 		return (0);
 	}
+	search_and_change(shell, "PWD", shell->current_path);
+	search_and_change(shell, "OLDPWD", shell->old_path);
 	return (1);
 }
 
 int	execute_cd(t_tok *tok, t_shell *shell)
 {
-	shell->old_path = get_path();
-	if (shell->old_path == NULL)
-		shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
+	if (shell->old_path)
+	{
+		free(shell->old_path);
+		shell->old_path = NULL;
+	}
+	shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
 	if (!tok->str[1])
 	{
 		ft_putstr_fd("Minishell: syntax error: expected "
@@ -94,8 +103,6 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 		perror("minishell: cd");
 		return (1);
 	}
-	get_current_path(shell);
-	search_and_change(shell, "PWD", shell->current_path);
-	search_and_change(shell, "OLDPWD", shell->old_path);
+	update_path(shell);
 	return (0);
 }

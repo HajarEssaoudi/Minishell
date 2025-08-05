@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handl_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/03 10:50:35 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/05 04:16:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_is_quoted(char *input, int *i, char quot)
 			(*i)++;
 	if (!input[*i])
 	{
-		printf("Minishell: syntax error: unclosed `%c' quote\n", quot);
+		ft_printf(2, "Minishell: syntax error: unclosed `%c' quote\n", quot);
 		return (-1);
 	}
 	(*i)++;

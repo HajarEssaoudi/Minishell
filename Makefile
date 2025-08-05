@@ -73,3 +73,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# make re; make clean; clear; valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-fds=yes --trace-children=no  ./minishell

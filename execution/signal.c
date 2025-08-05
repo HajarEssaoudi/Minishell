@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/03 01:41:15 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 00:40:01 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_flag;
 
-void	ft_handl(int sig)
+void	ft_handle(int sig)
 {
 	if (!g_flag && sig == SIGINT)
 	{
@@ -25,7 +25,7 @@ void	ft_handl(int sig)
 	}
 }
 
-void	ft_handl_herdoc(int sig)
+void	ft_handle_herdoc(int sig)
 {
 	t_clean	*cleaner;
 

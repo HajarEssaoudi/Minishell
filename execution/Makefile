@@ -4,7 +4,7 @@ CFLAGS = -g3 -fPIE
 # CFLAGS += -Wall -Wextra -Werror 
 
 SRCS =	helpers.c env_helpers.c redirections/redirectios_helpers.c execute_execve_helpers.c pipe_executor_helpers.c execution.c execute_execve.c execute_builtin.c pipe_executor.c \
-		redirections/execute_redirections.c redirections/operations.c \
+		redirections/execute_redirections.c redirections/operations.c redirections/herdoc_expansion.c redirections/ft_herdoc.c \
 		built-in/builtin_helpers.c built-in/execute_cd.c built-in/execute_echo.c \
 		built-in/execute_env.c built-in/execute_exit.c built-in/execute_export.c \
 		built-in/execute_pwd.c built-in/execute_unset.c \

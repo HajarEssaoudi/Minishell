@@ -6,13 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 21:49:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 00:38:40 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-static int	valid_variable_name(char *str)
+static	int	valid_variable_name(char *str)
 {
 	int	i;
 

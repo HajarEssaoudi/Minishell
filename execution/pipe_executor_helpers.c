@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 23:54:15 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 14:59:20 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 02:20:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ void	check_herdoc_fd(t_tok *tok)
 		dup2(tok->heredoc_fd, STDIN_FILENO);
 		close(tok->heredoc_fd);
 	}
+}
+
+void	fork_error(void)
+{
+	perror("fork");
+	if (errno == EACCES)
+		exit(EXIT_NO_PERMISSION);
+	else if (errno == ENOENT)
+		exit(EXIT_NOT_FOUND);
+	else
+		exit(EXIT_FAILURE);
 }

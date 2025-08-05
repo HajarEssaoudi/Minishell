@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirectios_helpers.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:49:01 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/03 10:00:32 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:25:04 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,7 @@ int	out_red(t_redir *redir, char *filename, t_shell *shell)
 	if (fd < 0)
 	{
 		perror("open");
-		if (errno == EACCES)
-			shell->exit_status = EXIT_NO_PERMISSION;
-		else if (errno == ENOENT)
-			shell->exit_status = EXIT_NOT_FOUND;
-		else
-			shell->exit_status = EXIT_FAILURE;
+		shell->exit_status = EXIT_FAILURE;
 		return (0);
 	}
 	redir->last_out = filename;
@@ -52,12 +47,7 @@ int	in_red(t_redir *redir, char *filename, t_shell *shell)
 	if (fd < 0)
 	{
 		perror("open");
-		if (errno == EACCES)
-			shell->exit_status = EXIT_NO_PERMISSION;
-		else if (errno == ENOENT)
-			shell->exit_status = EXIT_NOT_FOUND;
-		else
-			shell->exit_status = EXIT_FAILURE;
+		shell->exit_status = EXIT_FAILURE;
 		return (0);
 	}
 	redir->last_in = filename;

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:15:57 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/02 14:26:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 02:24:20 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,20 @@ int	ft_lst_size(t_env *lst)
 	return (count);
 }
 
-void	ft_lstadd_back_env(t_env **lst, t_env *new)
+void	ft_lstadd_back_env(t_env **lst, t_env *new, int f)
 {
 	t_env	*last;
 
-	if (!(*lst))
-		*lst = new;
-	else
+	if (f == 0)
 	{
-		last = *lst;
-		while (last->next)
-			last = last->next;
-		last->next = new;
+		if (!(*lst))
+			*lst = new;
+		else
+		{
+			last = *lst;
+			while (last->next)
+				last = last->next;
+			last->next = new;
+		}
 	}
 }

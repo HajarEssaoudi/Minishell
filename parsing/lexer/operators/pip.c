@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 08:50:35 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/31 22:02:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 04:15:54 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_after_befor_pip(int *i, char *input, int len)
 	j = 0;
 	if (*i == 0 || *i == len - 1 || len == 0 || (len == 1 && input[0] == '|'))
 	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
+		ft_printf(2, "Minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	j = *i - 1;
@@ -27,7 +27,7 @@ int	check_after_befor_pip(int *i, char *input, int len)
 		j--;
 	if (j < 0)
 	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
+		ft_printf(2, "Minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	j = *i + 1;
@@ -35,7 +35,7 @@ int	check_after_befor_pip(int *i, char *input, int len)
 		j++;
 	if (!input[j] || input[j] == '|')
 	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
+		ft_printf(2, "Minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);
@@ -54,7 +54,7 @@ int	check_pip(char *input)
 		{
 			if (input[i + 1] == '|')
 			{
-				printf("Minishell: syntax error near unexpected token `||'\n");
+				ft_printf(2, "Minishell: syntax error near unexpected token `||'\n");
 				return (1);
 			}
 			if ((check_after_befor_pip(&i, input, len)))
