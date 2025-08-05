@@ -19,6 +19,8 @@
 # define EXIT_FAILURE 1
 # define EXIT_NOT_FOUND 127
 # define EXIT_NO_PERMISSION 126
+# define CHARACTER "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+# define EXTENSION ".tmp.txt"
 
 typedef struct s_env
 {
@@ -92,6 +94,7 @@ int					check_ambg(t_rederict *tmp, t_shell *shell);
 char				*ft_expand(char *line, char **env);
 int					open_file(char *path, t_shell *shell);
 void				fork_error(void);
+char *her_name();
 
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,

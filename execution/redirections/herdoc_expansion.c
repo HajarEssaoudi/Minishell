@@ -19,7 +19,7 @@ char	*ft_expand(char *line, char **env)
 	char	*tmp;
 	char	*val;
 
-	int (k), var_start, start;
+	int(k), var_start, start;
 	tmp1 = ft_strdup("");
 	k = 0;
 	while (line[k])
@@ -43,7 +43,7 @@ char	*ft_expand(char *line, char **env)
 			while (line[k] && line[k] != '$')
 			{
 				if (line[k] == '$' && (!ft_isalpha(line[k + 1]) || line[k
-							+ 1] != '_'))
+						+ 1] != '_'))
 				{
 					k++;
 				}

@@ -52,48 +52,7 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 	}
 	free(line);
 }
-char *her_name(char ** env)
-{
-	char	*charact = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	char *s = ".tmp.txt";
-	char	*name;
-	char	buffer[15];
-	int		l = ft_strlen(charact);
-	int		fd;
-	int i;
-	int j;
-	
-	name = malloc(24);
-	if (!name)
-		return (NULL);
-	fd = open("/dev/urandom", O_RDONLY);
-	if (fd < 0)
-	{
-		free(name);
-		return (NULL);
-	}
-	if (read(fd, buffer, 15) != 15)
-	{
-		close(fd);
-		free(name);
-		return (NULL);
-	}
-	close(fd);
-	i = 0;
-	while(i < 15)
-	{
-		name[i] = charact[buffer[i] % l];
-		i++;
-	}
-	j = 0;
-	while (j < 8)
-	{
-		name[i++] = s[j];
-		j++;
-	}
-	name[i] = '\0';
-	return (name);
-}
+
 static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 {
 	int	fd;
