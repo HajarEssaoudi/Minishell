@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 09:52:34 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/05 11:01:10 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,44 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 }
 char *her_name(char ** env)
 {
-	char *s = ft_var("/dev/urandom", env);
-	return (s);
+	char	*charact = "abcdefghijklmnopgrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	char *s = ".tmp.txt";
+	char	*name;
+	char	buffer[15];
+	int		l = ft_strlen(charact);
+	int		fd;
+	int i;
+	int j;
+	
+	name = malloc(24);
+	if (!name)
+		return (NULL);
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+	{
+		free(name);
+		return (NULL);
+	}
+	if (read(fd, buffer, 15) != 15)
+	{
+		close(fd);
+		free(name);
+		return (NULL);
+	}
+	close(fd);
+	i = 0;
+	while(i < 15)
+	{
+		name[i] = charact[buffer[i] % l];
+		i++;
+	}
+	j = 0;
+	while (j < 8)
+	{
+		name[i++] = s[j];
+		j++;
+	}
+	return (name);
 }
 static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 {
@@ -102,8 +138,8 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	char	*name;
 
 	g_flag = 1;
-	pid = fork();
 	name = her_name(env);
+	pid = fork();
 	cleaner = clean_heredoc();
 	cleaner->env = env;
 	cleaner->tok = tok;
