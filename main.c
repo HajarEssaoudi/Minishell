@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution/execution.h"
-#include "parsing.h"
+#include "minishell.h"
 
 int		g_flag = 0;
 

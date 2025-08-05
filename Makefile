@@ -1,77 +1,57 @@
-# **************************************************************************** #
-#                                  Makefile                                   #
-# **************************************************************************** #
-
 NAME        = minishell
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -g
 
-# Répertoires
 SRC_DIR     = parsing
-LEXER_DIR   = $(SRC_DIR)/lexer
-WORD_DIR    = $(LEXER_DIR)/word
-OPER_DIR    = $(LEXER_DIR)/operators
-TOKEN_DIR   = $(SRC_DIR)/token
-PRINTF_DIR  = ft_printf
 LIB_DIR     = lib
+PRINTF_DIR  = ft_printf
 EXECUTION_DIR = execution
 
-# Fichiers sources
-SRC         = \
-              $(SRC_DIR)/main.c \
-              $(SRC_DIR)/cmd.c \
-              $(SRC_DIR)/cmd_utils.c \
-              $(SRC_DIR)/copie_env.c \
-              $(SRC_DIR)/ft_free.c \
-              $(LEXER_DIR)/lexer.c \
-              $(LEXER_DIR)/ft_utils.c \
-              $(WORD_DIR)/expand.c \
-              $(WORD_DIR)/ft_split_final.c \
-              $(WORD_DIR)/get_variable.c \
-              $(WORD_DIR)/ft_utils_word.c \
-              $(WORD_DIR)/fin_lexer.c \
-              $(WORD_DIR)/final.spaces.c \
-              $(WORD_DIR)/get_str.c \
-              $(WORD_DIR)/handl_word.c \
-              $(WORD_DIR)/split_str.c \
-              $(OPER_DIR)/handle_operator.c \
-              $(OPER_DIR)/pip.c \
-              $(OPER_DIR)/redirect.c \
-              $(OPER_DIR)/redirect2.c \
-              $(TOKEN_DIR)/ft_get_type.c \
-              $(TOKEN_DIR)/ft_token.c \
-              $(TOKEN_DIR)/general_tok.c \
-              $(TOKEN_DIR)/utils_tok.c
-
-# Ajout ft_printf et lib
-SRC         += $(wildcard $(PRINTF_DIR)/*.c)
-SRC         += $(wildcard $(LIB_DIR)/*.c)
-
-# Objets
-OBJ         = $(SRC:.c=.o)
-
-# Chemin vers la bibliothèque execution
+LIBFT       = $(LIB_DIR)/libft.a
+PRINTF_LIB  = $(PRINTF_DIR)/libftprintf.a
 EXECUTION_LIB = $(EXECUTION_DIR)/libexecution.a
+PARSING_LIB = $(SRC_DIR)/parsing.a
 
-# Compilation
-all: $(EXECUTION_LIB) $(NAME)
+MAIN_SRC    = main.c
+
+MAIN_OBJ    = $(MAIN_SRC:.c=.o)
+
+all: $(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIB_DIR)
+
+$(PRINTF_LIB):
+	$(MAKE) -C $(PRINTF_DIR)
 
 $(EXECUTION_LIB):
 	$(MAKE) -C $(EXECUTION_DIR)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ $(EXECUTION_LIB) -lreadline -lncurses
+$(PARSING_LIB): $(LIBFT)
+	$(MAKE) -C $(SRC_DIR)
+
+$(NAME): $(MAIN_OBJ) $(PARSING_LIB) $(PRINTF_LIB) $(EXECUTION_LIB)
+	$(CC) $(CFLAGS) -o $@ $(MAIN_OBJ) $(PARSING_LIB) $(PRINTF_LIB) $(EXECUTION_LIB) -lreadline -lncurses
+
+%.o: %.c minishell.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(MAIN_OBJ)
+	$(MAKE) -C $(LIB_DIR) clean
+	$(MAKE) -C $(PRINTF_DIR) clean
 	$(MAKE) -C $(EXECUTION_DIR) clean
+	$(MAKE) -C $(SRC_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIB_DIR) fclean
+	$(MAKE) -C $(PRINTF_DIR) fclean
 	$(MAKE) -C $(EXECUTION_DIR) fclean
+	$(MAKE) -C $(SRC_DIR) fclean
 
 re: fclean all
 
 .PHONY: all clean fclean re
 
-# make re; make clean; clear; valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-fds=yes --trace-children=no  ./minishell
+.SECONDARY: $(MAIN_OBJ)
