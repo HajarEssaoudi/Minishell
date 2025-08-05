@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 08:51:56 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/05 04:15:41 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 08:14:45 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,40 @@ static int	check_herdoc(char *input, int *k)
 	return (0);
 }
 
+static int	check_append(int *k, char *input)
+{
+	if (input[*k] == '>' && input[*k + 1] != '>')
+	{
+		ft_printf(2, "Minishell: syntax error near unexpected token `>'\n");
+		return (1);
+	}
+	if (input[*k] == '>' && input[*k + 1] == '>')
+	{
+		ft_printf(2, "Minishell: syntax error near unexpected token `>>'\n");
+		return (1);
+	}
+	return (0);
+}
+
 static int	check_last(int i, char *input)
 {
 	int	k;
 
 	k = ++i;
 	k = skip_spaces(input, k);
-	if (input[k] == '>' && input[k + 1] != '>')
+	if (input[k] == '|')
 	{
-		ft_printf(2, "Minishell: syntax error near unexpected token `>'\n");
+		ft_printf(2, "Minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
-	if (input[k] == '>' && input[k + 1] == '>')
-	{
-		ft_printf(2, "Minishell: syntax error near unexpected token `>>'\n");
-		return (1);
-	}
+	else if (input[k] == '>')
+		return (check_append(&k, input));
 	else if (input[k] == '<')
 		return (check_herdoc(input, &k));
 	else if (input[k] == '\0')
 	{
-		ft_printf(2, "Minishell: syntax error near unexpected token `newline'\n");
+		ft_printf(2,
+			"Minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);

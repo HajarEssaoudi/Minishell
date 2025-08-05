@@ -34,10 +34,23 @@ char	*expand_exit(char *input, int *i, t_str_list *str_list)
 
 	tmp = NULL;
 	if (input[*i + 1] == '?' && ft_strcmp(str_list->flag, "1"))
+	{
 		tmp = ft_itoa(str_list->lexer->exit_status);
+		*i += 2;
+	}
 	else
-		tmp = ft_substr(input, *i, 2);
-	*i += 2;
+	{
+		if (input[*i + 1] == '$')
+		{
+			tmp = ft_substr(input, *i, 1);
+			*i += 1;
+		}
+		else
+		{
+			tmp = ft_substr(input, *i, 2);
+			*i += 2;
+		}
+	}
 	return (tmp);
 }
 

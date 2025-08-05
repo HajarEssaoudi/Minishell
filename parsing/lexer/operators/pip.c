@@ -54,7 +54,8 @@ int	check_pip(char *input)
 		{
 			if (input[i + 1] == '|')
 			{
-				ft_printf(2, "Minishell: syntax error near unexpected token `||'\n");
+				ft_printf(2,
+					"Minishell: syntax error near unexpected token `||'\n");
 				return (1);
 			}
 			if ((check_after_befor_pip(&i, input, len)))

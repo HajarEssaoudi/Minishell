@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 01:29:22 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 09:52:34 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,17 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 	}
 	free(line);
 }
-
-static void	ft_heredoc_child(t_clean *cleaner, t_rederict *redir)
+char *her_name(char ** env)
+{
+	char *s = ft_var("/dev/urandom", env);
+	return (s);
+}
+static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 {
 	int	fd;
 
 	signal(SIGINT, ft_handle_herdoc);
-	fd = open("./.tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
+	fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 	{
 		perror("open heredoc");
@@ -72,7 +76,7 @@ static void	ft_heredoc_child(t_clean *cleaner, t_rederict *redir)
 	exit(EXIT_SUCCESS);
 }
 
-static void	ft_heredoc_parent(pid_t pid, t_shell *shell, t_tok *tok)
+static void	ft_heredoc_parent(char *name, pid_t pid, t_shell *shell, t_tok *tok)
 {
 	int	status;
 	int	sig;
@@ -83,7 +87,7 @@ static void	ft_heredoc_parent(pid_t pid, t_shell *shell, t_tok *tok)
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		shell->exit_status = 130;
-		unlink("./.tmp.txt");
+		unlink(name);
 		g_flag = 0;
 		tok->heredoc_fd = -1;
 	}
@@ -95,20 +99,22 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 {
 	t_clean	*cleaner;
 	pid_t	pid;
+	char	*name;
 
 	g_flag = 1;
 	pid = fork();
+	name = her_name(env);
 	cleaner = clean_heredoc();
 	cleaner->env = env;
 	cleaner->tok = tok;
 	cleaner->shell = shell;
 	if (pid == 0)
-		ft_heredoc_child(cleaner, redir);
+		ft_heredoc_child(name, cleaner, redir);
 	else if (pid > 0)
 	{
-		ft_heredoc_parent(pid, shell, tok);
+		ft_heredoc_parent(name, pid, shell, tok);
 	}
-	tok->heredoc_fd = open_file("./.tmp.txt", shell);
-	unlink("./.tmp.txt");
+	tok->heredoc_fd = open_file(name, shell);
+	unlink(name);
 	g_flag = 0;
 }

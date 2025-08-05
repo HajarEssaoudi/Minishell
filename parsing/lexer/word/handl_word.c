@@ -15,8 +15,9 @@
 int	ft_is_quoted(char *input, int *i, char quot)
 {
 	(*i)++;
-	while (input[*i] && (input[*i] != quot || (input[*i - 1] == '\\' && input[*i] == quot)))
-			(*i)++;
+	while (input[*i] && (input[*i] != quot || (input[*i - 1] == '\\'
+				&& input[*i] == quot)))
+		(*i)++;
 	if (!input[*i])
 	{
 		ft_printf(2, "Minishell: syntax error: unclosed `%c' quote\n", quot);

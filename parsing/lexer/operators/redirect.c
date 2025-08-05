@@ -70,7 +70,8 @@ static int	check_last(int i, char *input)
 		return (check_in(input, &k));
 	else if (!input[k])
 	{
-		ft_printf(2, "Minishell: syntax error near unexpected token `newline'\n");
+		ft_printf(2,
+			"Minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);
