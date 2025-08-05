@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 11:01:10 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:53:56 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 }
 char *her_name(char ** env)
 {
-	char	*charact = "abcdefghijklmnopgrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	char	*charact = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	char *s = ".tmp.txt";
 	char	*name;
 	char	buffer[15];
@@ -91,6 +91,7 @@ char *her_name(char ** env)
 		name[i++] = s[j];
 		j++;
 	}
+	name[i] = '\0';
 	return (name);
 }
 static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
@@ -144,6 +145,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	cleaner->env = env;
 	cleaner->tok = tok;
 	cleaner->shell = shell;
+	cleaner->name = name;
 	if (pid == 0)
 		ft_heredoc_child(name, cleaner, redir);
 	else if (pid > 0)
@@ -152,5 +154,6 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	}
 	tok->heredoc_fd = open_file(name, shell);
 	unlink(name);
+	free(name);
 	g_flag = 0;
 }

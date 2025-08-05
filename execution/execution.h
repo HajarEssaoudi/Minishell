@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 02:24:31 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:51:23 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_clean
 	char			**env;
 	t_shell			*shell;
 	int				fd;
+	char			*name;
 }					t_clean;
 
 t_clean				*clean_heredoc(void);
