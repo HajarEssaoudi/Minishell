@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 03:29:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 04:36:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd[2])
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	check_herdoc_fd(tok);
 	if (*prev_fd != -1)
 	{
 		dup2(*prev_fd, STDIN_FILENO);
@@ -43,6 +42,7 @@ static void	handle_child_fds(t_tok *tok, int *prev_fd, int fd[2])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	check_herdoc_fd(tok);
 }
 
 void	ft_wait(pid_t last_pid, t_shell *shell)
@@ -95,7 +95,9 @@ void	handle_pipe(t_tok *tok, t_shell *shell, pid_t *last_pid, int *prev_fd)
 		handle_parent_fds(tok, prev_fd, fd);
 	}
 	if (tok->heredoc_fd != -1)
+	{
 		close(tok->heredoc_fd);
+	}
 }
 
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)

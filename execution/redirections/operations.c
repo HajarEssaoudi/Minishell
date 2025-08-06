@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:47:12 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:42:54 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 04:33:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_clean	*clean_heredoc(void)
 	return (&cleaner);
 }
 
-void	ft_append (char *filename, t_shell *shell)
+void	ft_append(char *filename, t_shell *shell)
 {
 	int	fd;
 

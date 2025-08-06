@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 01:33:48 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:44:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 04:38:33 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*expand_exit_status(char *tmp1, int *k, int exit_status)
 	return (tmp);
 }
 
-char	*expand_variable(char *line , char *tmp1, char **env, int *k)
+char	*expand_variable(char *line, char *tmp1, char **env, int *k)
 {
 	char	*tmp2;
 	char	*tmp;
@@ -83,17 +83,19 @@ char	*simple_character(char *line, char *tmp1, int *k)
 
 char	*ft_expand(char *line, char **env, int exit_status)
 {
-	char	*tmp1 = ft_strdup("");
-	int		k = 0;
+	char	*tmp1;
+	int		k;
 
+	tmp1 = ft_strdup("");
+	k = 0;
 	if (!tmp1)
 		return (NULL);
-
 	while (line[k])
 	{
 		if (line[k] == '$' && line[k + 1] == '?')
 			tmp1 = expand_exit_status(tmp1, &k, exit_status);
-		else if (line[k] == '$' && (ft_isalpha(line[k + 1]) || line[k + 1] == '_'))
+		else if (line[k] == '$' && (ft_isalpha(line[k + 1]) || line[k
+					+ 1] == '_'))
 			tmp1 = expand_variable(line, tmp1, env, &k);
 		else if (line[k] == '$')
 			tmp1 = other_character(line, tmp1, &k);
@@ -102,4 +104,3 @@ char	*ft_expand(char *line, char **env, int exit_status)
 	}
 	return (tmp1);
 }
-

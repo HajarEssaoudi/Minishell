@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 03:33:08 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 04:38:11 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 		line = readline("> ");
 		if (!line)
 		{
-			ft_printf(2,
-				"Minishell: warning: here-document delimited by EOF"
+			ft_printf(2, "Minishell: warning: here-document delimited by EOF"
 				"(wanted `%s')\n", redir->filename);
 			ft_heredoc_cleanup_and_exit(cleaner, fd, NULL);
 		}
@@ -43,7 +42,8 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 			break ;
 		if (redir->flag && ft_strcmp(redir->flag, "2") == 0)
 		{
-			expanded = ft_expand(line, cleaner->env, cleaner->shell->exit_status);
+			expanded = ft_expand(line, cleaner->env,
+					cleaner->shell->exit_status);
 			free(line);
 			line = expanded;
 		}
