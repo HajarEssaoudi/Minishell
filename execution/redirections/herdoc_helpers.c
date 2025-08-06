@@ -29,7 +29,7 @@ int	random_name(char *name, char *characters)
 		return (-1);
 	}
 	close(fd);
-	i = 0;
+	i = 5;
 	while (i < 15)
 	{
 		name[i] = characters[(unsigned char)buffer[i] % l];
@@ -38,15 +38,29 @@ int	random_name(char *name, char *characters)
 	return (0);
 }
 
+void	cp_tmp(char *name)
+{
+	int	i;
+
+	i = 0;
+	i = 0;
+	while (i < 5)
+	{
+		name[i] = TMP[i];
+		i++;
+	}
+}
+
 char	*generate_name(void)
 {
 	char	*name;
 	int		j;
 	int		i;
 
-	name = malloc(24);
+	name = malloc(29);
 	if (!name)
 		return (NULL);
+	cp_tmp(name);
 	if (random_name(name, CHARACTER) < 0)
 	{
 		free(name);

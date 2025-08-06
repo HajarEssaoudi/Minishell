@@ -19,6 +19,7 @@
 # define EXIT_FAILURE 1
 # define EXIT_NOT_FOUND 127
 # define EXIT_NO_PERMISSION 126
+# define TMP "/tmp/"
 # define CHARACTER "abcdefghijklmnopqrstuvwxyz0123456789"
 # define EXTENSION ".tmp.txt"
 
