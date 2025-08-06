@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:47:17 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 03:33:08 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 	close(fd);
 	free_tok(cleaner->tok);
 	ft_clear(cleaner->env, cleaner->shell);
+	free(name);
 	exit(EXIT_SUCCESS);
 }
 

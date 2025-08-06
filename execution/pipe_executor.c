@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 02:54:39 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 03:29:58 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	handle_pipe(t_tok *tok, t_shell *shell, pid_t *last_pid, int *prev_fd)
 		*last_pid = pid;
 		handle_parent_fds(tok, prev_fd, fd);
 	}
+	if (tok->heredoc_fd != -1)
+		close(tok->heredoc_fd);
 }
 
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
