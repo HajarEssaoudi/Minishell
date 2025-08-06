@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:51:49 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:51:03 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	child_process(t_tok *tok, t_shell *shell, char **env)
 	signal(SIGQUIT, SIG_DFL);
 	tok = check_cmd(tok, shell, env);
 	if (!tok)
-		tok_error_handling(tok, shell, env);
+		tok_error_handling(shell, env);
 	ft_execve(tok, env);
 }
 

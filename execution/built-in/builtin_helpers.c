@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 00:38:40 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:45:13 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,8 @@ char	**update_env_arr(t_env *lst_env, char **arr_env)
 
 void	print_env(t_env *env)
 {
-	int		i;
 	t_env	*tmp;
 
-	i = 0;
 	tmp = env;
 	while (tmp)
 	{

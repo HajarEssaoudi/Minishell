@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:49:01 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/03 22:25:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:06:30 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	in_red(t_redir *redir, char *filename, t_shell *shell)
 	return (1);
 }
 
-void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
+void	ft_out(char *filename, t_shell *shell)
 {
 	int	fd;
 
@@ -76,7 +76,7 @@ void	ft_out(t_tok *tok, char *filename, char **env, t_shell *shell)
 	close(fd);
 }
 
-void	ft_in(t_tok *tok, char *filename, char **env, t_shell *shell)
+void	ft_in( char *filename, t_shell *shell)
 {
 	int	fd;
 

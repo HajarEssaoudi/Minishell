@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 04:30:51 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 01:29:42 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,14 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
-		ft_clear(env, shell, tok);
+		ft_clear(env, shell);
 	}
 	shell->env = create_list_env(env, tok, shell);
 	shell->exit_status = 0;
 	shell->saved_stdout = 0;
 	shell->saved_stdin = 0;
-	shell->current_path = NULL;
+	shell->current_path = get_path();
 	shell->old_path = NULL;
-	shell->pwd = get_path();
 	return (shell);
 }
 
@@ -102,7 +101,7 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt)
 		{
 			status = shell->exit_status;
-			ft_clear(cp_env, shell, tok);
+			ft_clear(cp_env, shell);
 			ft_printf(2, "exit\n");
 			exit(status);
 		}

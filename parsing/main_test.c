@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 03:19:18 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:47:43 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
-		ft_clear(env, shell, tok);
+		ft_clear(env, shell);
 	}
 	shell->env = create_list_env(env, tok, shell);
 	shell->exit_status = 0;
@@ -323,7 +323,7 @@ int	main(int argc, char **argv, char **env)
 		if (!prompt)
 		{
 			status = shell->exit_status;
-			ft_clear(cp_env, shell, tok);
+			ft_clear(cp_env, shell);
 			if (interactive) // only print "exit" in interactive mode
 				ft_printf(2, "exit\n");
 			exit(status);
@@ -366,6 +366,6 @@ int	main(int argc, char **argv, char **env)
 	}
 
 	// Cleanup on non-interactive exit
-	ft_clear(cp_env, shell, tok);
+	ft_clear(cp_env, shell);
 	return (0);
 }

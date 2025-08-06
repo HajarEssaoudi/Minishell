@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:15:57 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 02:24:20 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:46:38 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	malloc_failed_free(t_tok *tok, t_shell *shell, char **env)
 	if (tok)
 		free_tok(tok);
 	if (shell)
-		ft_clear(env, shell, tok);
+		ft_clear(env, shell);
 	exit(2);
 }
 

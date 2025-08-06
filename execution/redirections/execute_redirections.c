@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:45:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 01:32:42 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:16:50 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,29 @@ int	app_red(t_redir *redir, char *filename, t_shell *shell)
 	return (1);
 }
 
-void	last_redir(t_tok *tok, char **env, t_redir *redir, t_shell *shell)
+void	last_redir(t_redir *redir, t_shell *shell)
 {
 	if (redir->last_in)
-		ft_in(tok, redir->last_in, env, shell);
+		ft_in(redir->last_in, shell);
 	if (redir->last_append)
-		ft_append(tok, redir->last_append, env, shell);
+		ft_append(redir->last_append, shell);
 	if (redir->last_out)
-		ft_out(tok, redir->last_out, env, shell);
+		ft_out(redir->last_out, shell);
 }
 
-void	init_redirect(t_redir *redir, t_tok *tok)
+void	init_redirect(t_redir *redir)
 {
 	redir->last_out = NULL;
 	redir->last_in = NULL;
 	redir->last_append = NULL;
 }
 
-int	execute_redirect(t_tok *tok, char **env, t_shell *shell)
+int	execute_redirect(t_tok *tok, t_shell *shell)
 {
 	t_rederict	*tmp;
 	t_redir		redir;
 
-	init_redirect(&redir, tok);
+	init_redirect(&redir);
 	tmp = tok->redirect;
 	while (tmp)
 	{
@@ -69,6 +69,6 @@ int	execute_redirect(t_tok *tok, char **env, t_shell *shell)
 			redir.last_in = NULL;
 		tmp = tmp->next;
 	}
-	last_redir(tok, env, &redir, shell);
+	last_redir(&redir, shell);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 23:51:15 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 02:12:38 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:50:41 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_execve(t_tok *tok, char **env)
 
 void	ft_clean(t_tok *tok, t_shell *shell, char **env)
 {
-	ft_clear(env, shell, tok);
+	ft_clear(env, shell);
 	free_tok(tok);
 }
 
@@ -40,7 +40,7 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 {
 	int	exit_status;
 
-	if (tok->str && !is_built_in(tok->str[0], env))
+	if (tok->str && !is_built_in(tok->str[0]))
 		tok = check_cmd(tok, shell, env);
 	if (!tok)
 	{
@@ -48,12 +48,12 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 		ft_clean(tok, shell, env);
 		exit(exit_status);
 	}
-	if (!execute_redirect(tok, env, shell))
+	if (!execute_redirect(tok, shell))
 	{
 		ft_clean(tok, shell, env);
 		exit(EXIT_FAILURE);
 	}
-	if (tok->str && is_built_in(tok->str[0], env))
+	if (tok->str && is_built_in(tok->str[0]))
 	{
 		exit_status = execute_built_in(tok, shell, env);
 		ft_clean(tok, shell, env);
@@ -64,13 +64,13 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	exit(shell->exit_status);
 }
 
-void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
+void	tok_error_handling(t_shell *shell, char **env)
 {
 	int	exit_status;
 
 	exit_status = shell->exit_status;
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
-	ft_clear(env, shell, tok);
+	ft_clear(env, shell);
 	exit(exit_status);
 }

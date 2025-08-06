@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:16:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/07/30 18:02:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:51:23 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exit_with_error(t_tok *tok, t_shell *shell, char **env)
 	ft_printf(2, "Minishell: exit: %s: numeric argument required\n",
 		tok->str[1]);
 	free_tok(tok);
-	tok_error_handling(tok, shell, env);
+	tok_error_handling(shell, env);
 }
 
 static void	exit_with_value(t_tok *tok, t_shell *shell, char **env)
@@ -27,7 +27,7 @@ static void	exit_with_value(t_tok *tok, t_shell *shell, char **env)
 	shell->exit_status = (unsigned char)ft_atoi(tok->str[1]);
 	ft_putstr_fd("exit\n", 1);
 	free_tok(tok);
-	tok_error_handling(tok, shell, env);
+	tok_error_handling(shell, env);
 }
 
 static void	handle_exit_args(t_tok *tok, t_shell *shell, char **env)
@@ -58,7 +58,7 @@ int	execute_exit(t_tok *tok, t_shell *shell, char **env)
 	{
 		printf("exit\n");
 		free_tok(tok);
-		tok_error_handling(tok, shell, env);
+		tok_error_handling(shell, env);
 	}
 	return (0);
 }

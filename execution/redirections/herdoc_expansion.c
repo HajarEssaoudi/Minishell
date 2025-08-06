@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 01:33:48 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 01:34:04 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:44:23 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,7 @@ char	*simple_character(char *line, char *tmp1, int *k)
 char	*ft_expand(char *line, char **env, int exit_status)
 {
 	char	*tmp1 = ft_strdup("");
-	char	*tmp2;
-	char	*tmp;
-	char	*val;
 	int		k = 0;
-	int		var_start, start;
 
 	if (!tmp1)
 		return (NULL);

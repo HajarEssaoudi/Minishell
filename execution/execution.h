@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 12:51:23 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 01:29:53 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_shell
 {
 	char			*old_path;
 	char			*current_path;
-	char			*pwd;
 	int				exit_status;
 	int				saved_stdout;
 	int				saved_stdin;
@@ -69,32 +68,29 @@ void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 t_tok				*check_cmd(t_tok *tok, t_shell *shell, char **cp_env);
-void				tok_error_handling(t_tok *tok, t_shell *shell, char **env);
+void				tok_error_handling(t_shell *shell, char **env);
 
 /*shell's operations*/
 
-int					execute_redirect(t_tok *tok, char **env, t_shell *shell);
-void				ft_out(t_tok *tok, char *filename, char **env,
-						t_shell *shell);
-void				ft_in(t_tok *tok, char *filename, char **env,
-						t_shell *shell);
+int					execute_redirect(t_tok *tok, t_shell *shell);
+void				ft_out(char *filename, t_shell *shell);
+void				ft_in(char *filename, t_shell *shell);
 void				ft_herdoc(t_tok *tok, t_rederict *redir, char **env,
 						t_shell *shell);
-void				ft_append(t_tok *tok, char *filename, char **env,
-						t_shell *shell);
+void				ft_append(char *filename, t_shell *shell);
 int					out_red(t_redir *redir, char *filename, t_shell *shell);
 int					in_red(t_redir *redir, char *filename, t_shell *shell);
 
 /* helpers */
-int					is_built_in(char *input, char **cp_env);
+int					is_built_in(char *input);
 char				*ft_strjoin_env(char const *s1, char const *s2, char sep);
 int					ft_str_num(char *str);
 int					ft_lst_size(t_env *lst);
 int					check_ambg(t_rederict *tmp, t_shell *shell);
-char	*ft_expand(char *line, char **env, int exit_status);
+char				*ft_expand(char *line, char **env, int exit_status);
 int					open_file(char *path, t_shell *shell);
 void				fork_error(void);
-char *her_name();
+char				*her_name(void);
 
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,
@@ -122,7 +118,7 @@ int					execute_export(t_tok *tok, t_shell *shell);
 
 /*freeing*/
 void				free_list_env(t_env *env);
-void				ft_clear(char **cp_env, t_shell *shell, t_tok *tok);
+void				ft_clear(char **cp_env, t_shell *shell);
 
 /*signal*/
 void				ft_handle(int sig);

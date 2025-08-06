@@ -6,13 +6,13 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:00:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 23:24:13 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:01:00 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	is_built_in(char *input, char **cp_env)
+int	is_built_in(char *input)
 {
 	char	**cmd;
 	int		i;

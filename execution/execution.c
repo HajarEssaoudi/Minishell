@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:40:23 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/03 11:54:03 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:23:02 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 	}
 	if (tok->redirect)
 	{
-		if (!execute_redirect(tok, env, shell))
+		if (!execute_redirect(tok, shell))
 		{
 			dup2(shell->saved_stdout, STDOUT_FILENO);
 			dup2(shell->saved_stdin, STDIN_FILENO);
@@ -32,7 +32,7 @@ void	execute_without_pipe(t_tok *tok, t_shell *shell, char **env)
 			return ;
 		}
 	}
-	if (tok->str && is_built_in(tok->str[0], env))
+	if (tok->str && is_built_in(tok->str[0]))
 		execute_built_in(tok, shell, env);
 	else if (tok->str)
 		execute_with_execve(tok, shell, env);

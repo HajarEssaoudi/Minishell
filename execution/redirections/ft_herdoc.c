@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 12:53:56 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:47:17 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_heredoc_cleanup_and_exit(t_clean *cleaner, int fd, char *line)
 		free(line);
 	close(fd);
 	free_tok(cleaner->tok);
-	ft_clear(cleaner->env, cleaner->shell, cleaner->tok);
+	ft_clear(cleaner->env, cleaner->shell);
 	exit(EXIT_SUCCESS);
 }
 
@@ -68,14 +68,13 @@ static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 	ft_heredoc_loop(fd, redir, cleaner);
 	close(fd);
 	free_tok(cleaner->tok);
-	ft_clear(cleaner->env, cleaner->shell, cleaner->tok);
+	ft_clear(cleaner->env, cleaner->shell);
 	exit(EXIT_SUCCESS);
 }
 
 static void	ft_heredoc_parent(char *name, pid_t pid, t_shell *shell, t_tok *tok)
 {
 	int	status;
-	int	sig;
 
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);

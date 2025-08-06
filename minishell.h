@@ -14,10 +14,7 @@
 # define MINISHELL_H
 
 # include "parsing/parsing.h"
-
 # include "execution/execution.h"
-
-extern int	g_flag;
 
 void	print_str_array(char **arr);
 void	print_tok(t_tok *tok);

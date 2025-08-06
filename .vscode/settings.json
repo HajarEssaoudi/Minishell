@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"execution.h": "c",
-		"cerrno": "c",
-		"cstdlib": "c",
-		"parsing.h": "c",
-		"ft_printf.h": "c"
-	}
-}

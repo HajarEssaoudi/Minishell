@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 09:44:25 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/03 09:47:15 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/05 21:50:18 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "execution.h"
 
 char	*get_dir(char *input, char *path)
 {

@@ -1,57 +1,54 @@
 NAME        = minishell
-CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -g
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
 
-SRC_DIR     = parsing
+EXEC_DIR    = execution
+PARSING_DIR = parsing
 LIB_DIR     = lib
 PRINTF_DIR  = ft_printf
-EXECUTION_DIR = execution
 
+EXEC_LIB    = $(EXEC_DIR)/libexecution.a
+PARSING_LIB = $(PARSING_DIR)/libparsing.a
 LIBFT       = $(LIB_DIR)/libft.a
-PRINTF_LIB  = $(PRINTF_DIR)/libftprintf.a
-EXECUTION_LIB = $(EXECUTION_DIR)/libexecution.a
-PARSING_LIB = $(SRC_DIR)/parsing.a
+PRINTF      = $(PRINTF_DIR)/libftprintf.a
 
-MAIN_SRC    = main.c
-
-MAIN_OBJ    = $(MAIN_SRC:.c=.o)
+INCLUDES    = -Iincludes -I$(LIB_DIR) -I$(PRINTF_DIR)
+LIBS        = $(EXEC_LIB) $(PARSING_LIB) $(LIBFT) $(PRINTF)
+SRC         = main.c
+OBJ         = $(SRC:.c=.o)
 
 all: $(NAME)
+
+$(EXEC_LIB):
+	$(MAKE) -C $(EXEC_DIR)
+
+$(PARSING_LIB):
+	$(MAKE) -C $(PARSING_DIR)
 
 $(LIBFT):
 	$(MAKE) -C $(LIB_DIR)
 
-$(PRINTF_LIB):
+$(PRINTF):
 	$(MAKE) -C $(PRINTF_DIR)
 
-$(EXECUTION_LIB):
-	$(MAKE) -C $(EXECUTION_DIR)
+$(NAME): $(OBJ) $(EXEC_LIB) $(PARSING_LIB) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBS) -lreadline -o $(NAME)
 
-$(PARSING_LIB): $(LIBFT)
-	$(MAKE) -C $(SRC_DIR)
-
-$(NAME): $(MAIN_OBJ) $(PARSING_LIB) $(PRINTF_LIB) $(EXECUTION_LIB)
-	$(CC) $(CFLAGS) -o $@ $(MAIN_OBJ) $(PARSING_LIB) $(PRINTF_LIB) $(EXECUTION_LIB) -lreadline -lncurses
-
-%.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(MAIN_OBJ)
-	$(MAKE) -C $(LIB_DIR) clean
-	$(MAKE) -C $(PRINTF_DIR) clean
-	$(MAKE) -C $(EXECUTION_DIR) clean
-	$(MAKE) -C $(SRC_DIR) clean
+	$(MAKE) clean -C $(EXEC_DIR)
+	$(MAKE) clean -C $(PARSING_DIR)
+	$(MAKE) clean -C $(LIB_DIR)
+	$(MAKE) clean -C $(PRINTF_DIR)
+	rm -f $(OBJ)
 
 fclean: clean
+	$(MAKE) fclean -C $(EXEC_DIR)
+	$(MAKE) fclean -C $(PARSING_DIR)
+	$(MAKE) fclean -C $(LIB_DIR)
+	$(MAKE) fclean -C $(PRINTF_DIR)
 	rm -f $(NAME)
-	$(MAKE) -C $(LIB_DIR) fclean
-	$(MAKE) -C $(PRINTF_DIR) fclean
-	$(MAKE) -C $(EXECUTION_DIR) fclean
-	$(MAKE) -C $(SRC_DIR) fclean
 
 re: fclean all
-
-.PHONY: all clean fclean re
-
-.SECONDARY: $(MAIN_OBJ)
