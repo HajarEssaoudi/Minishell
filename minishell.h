@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhaqmarouan <abdelhaqmarouan@student.42.fr>  #+#  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-05 16:22:40 by abdelhaqmarouan   #+#    #+#             */
-/*   Updated: 2025-08-05 16:22:40 by abdelhaqmarouan  ###   ########.fr       */
+/*   Created: 2025/08/06 22:59:42 by hes-saou          #+#    #+#             */
+/*   Updated: 2025/08/06 22:59:44 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "parsing/parsing.h"
 # include "execution/execution.h"
+# include "parsing/parsing.h"
 
 void	print_str_array(char **arr);
 void	print_tok(t_tok *tok);
