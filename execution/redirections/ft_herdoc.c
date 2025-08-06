@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:55 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:11:49 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-static void	ft_heredoc_cleanup_and_exit(t_clean *cleaner, int fd, char *line)
+static void	ft_heredoc_cleanup_and_exit(t_clean *cleaner, int fd)
 {
-	if (line)
-		free(line);
 	close(fd);
 	free_tok(cleaner->tok);
 	ft_clear(cleaner->env, cleaner->shell);
@@ -34,7 +32,7 @@ static void	ft_heredoc_loop(int fd, t_rederict *redir, t_clean *cleaner)
 		{
 			ft_printf(2, "Minishell: warning: here-document delimited by EOF"
 				"(wanted `%s')\n", redir->filename);
-			ft_heredoc_cleanup_and_exit(cleaner, fd, NULL);
+			ft_heredoc_cleanup_and_exit(cleaner, fd);
 		}
 		if (ft_strcmp(line, redir->filename) == 0)
 			break ;
