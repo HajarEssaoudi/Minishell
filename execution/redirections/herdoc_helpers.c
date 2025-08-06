@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 04:38:44 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 04:38:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:17:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	random_name(char *name, char *characters)
 	return (0);
 }
 
-char	*her_name(void)
+char	*generate_name(void)
 {
 	char	*name;
 	int		j;

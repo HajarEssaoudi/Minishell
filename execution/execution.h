@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 10:35:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:16:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int					check_ambg(t_rederict *tmp, t_shell *shell);
 char				*ft_expand(char *line, char **env, int exit_status);
 int					open_file(char *path, t_shell *shell);
 void				fork_error(void);
-char				*her_name(void);
+char				*generate_name(void);
 
 /* handle env */
 t_env				*create_list_env(char **arr_env, t_tok *tok,

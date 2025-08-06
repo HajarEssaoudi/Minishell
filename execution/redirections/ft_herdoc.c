@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 14:11:49 by root             ###   ########.fr       */
+/*   Updated: 2025/08/06 14:18:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	pid_t	pid;
 	char	*name;
 
-	name = her_name();
+	name = generate_name();
 	pid = fork();
 	cleaner = clean_heredoc();
 	cleaner->env = env;
