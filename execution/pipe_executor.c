@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:12:13 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 01:56:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void	handle_pipe(t_clean *clean, pid_t *last_pid, int *prev_fd)
 void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	pid_t	last_pid;
-	t_tok	*tmp;
 	int		prev_fd;
 	t_clean	clean;
+	t_tok	*next;
 
 	g_flag = 1;
 	prev_fd = -1;
@@ -111,14 +111,13 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	clean.shell = shell;
 	while (tok)
 	{
+		next = tok->next;
+		tok->next = NULL;
+		clean.tok = tok;
 		if (tok->path || tok->redirect)
-		{
 			handle_pipe(&clean, &last_pid, &prev_fd);
-		}
-		tmp = tok;
-		tok = tok->next;
-		tmp->next = NULL;
-		free_tok(tmp);
+		free_tok(tok);
+		tok = next;
 	}
 	ft_wait(last_pid, shell);
 	g_flag = 0;
