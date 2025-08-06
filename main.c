@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 23:10:32 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 23:26:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,6 @@ void	handle_ctrl_d(t_shell *shell, char **env)
 	exit(status);
 }
 
-void	init_var(t_tok *tok, t_shell *shell, int ac, char **av)
-{
-	(void)ac;
-	(void)av;
-	tok = NULL;
-	shell = NULL;
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char	*prompt;
@@ -100,7 +92,10 @@ int	main(int argc, char **argv, char **env)
 	t_shell	*shell;
 	t_tok	*tmp;
 
-	init_var(tok, shell, argc, argv);
+	(void)argc;
+	(void)argv;
+	tok = NULL;
+	shell = NULL;
 	signal(SIGINT, ft_handle);
 	signal(SIGQUIT, SIG_IGN);
 	cp_env = copy_env(env);
