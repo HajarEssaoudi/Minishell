@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/06 10:36:16 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:15:17 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_handle(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		write(2, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -28,7 +28,7 @@ void	ft_handle_herdoc(int sig)
 	t_clean	*cleaner;
 
 	(void)sig;
-	printf("\n");
+	write(2, "\n", 1);
 	cleaner = clean_heredoc();
 	close(cleaner->fd);
 	free_tok(cleaner->tok);
