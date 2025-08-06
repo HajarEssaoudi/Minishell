@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:21:08 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:45:48 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 03:03:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	list_env_variables(t_shell *shell)
 
 static int	compare_and_replace(t_env *new, t_env *old)
 {
-
 	if (ft_strcmp(new->key, old->key) == 0)
 	{
 		free(old->key);

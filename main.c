@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 01:29:42 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 02:53:59 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
 	shell->saved_stdin = 0;
 	shell->current_path = get_path();
 	shell->old_path = NULL;
+	shell->arr_env = NULL;
 	return (shell);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:43:24 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 01:29:53 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 02:53:47 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_shell
 	int				exit_status;
 	int				saved_stdout;
 	int				saved_stdin;
+	char			**arr_env;
 	struct s_env	*env;
 }					t_shell;
 

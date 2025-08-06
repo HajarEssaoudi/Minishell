@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 01:56:06 by root             ###   ########.fr       */
+/*   Updated: 2025/08/06 02:54:39 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,25 @@ void	ft_wait(pid_t last_pid, t_shell *shell)
 	}
 }
 
-void	handle_pipe(t_clean *clean, pid_t *last_pid, int *prev_fd)
+void	handle_pipe(t_tok *tok, t_shell *shell, pid_t *last_pid, int *prev_fd)
 {
 	pid_t	pid;
 	int		fd[2];
 
-	open_pipe(clean->tok, fd);
+	open_pipe(tok, fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		handle_child_fds(clean->tok, prev_fd, fd);
-		execute_cases(clean->tok, clean->shell, clean->env);
-		exit(clean->shell->exit_status);
+		handle_child_fds(tok, prev_fd, fd);
+		execute_cases(tok, shell, shell->arr_env);
+		exit(shell->exit_status);
 	}
 	else if (pid < 0)
 		fork_error();
 	else
 	{
 		*last_pid = pid;
-		handle_parent_fds(clean->tok, prev_fd, fd);
+		handle_parent_fds(tok, prev_fd, fd);
 	}
 }
 
@@ -100,24 +100,19 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 {
 	pid_t	last_pid;
 	int		prev_fd;
-	t_clean	clean;
-	t_tok	*next;
+	t_tok	*tmp;
 
 	g_flag = 1;
 	prev_fd = -1;
-	ft_memset(&clean, 0, sizeof(t_clean));
-	clean.env = env;
-	clean.tok = tok;
-	clean.shell = shell;
+	shell->arr_env = env;
 	while (tok)
 	{
-		next = tok->next;
-		tok->next = NULL;
-		clean.tok = tok;
 		if (tok->path || tok->redirect)
-			handle_pipe(&clean, &last_pid, &prev_fd);
-		free_tok(tok);
-		tok = next;
+			handle_pipe(tok, shell, &last_pid, &prev_fd);
+		tmp = tok;
+		tok = tok->next;
+		tmp->next = NULL;
+		free_tok(tmp);
 	}
 	ft_wait(last_pid, shell);
 	g_flag = 0;
