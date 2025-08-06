@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 04:36:46 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:34 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-extern int	g_flag;
 
 static void	handle_parent_fds(t_tok *tok, int *prev_fd, int fd[2])
 {
@@ -106,7 +104,6 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 	int		prev_fd;
 	t_tok	*tmp;
 
-	g_flag = 1;
 	prev_fd = -1;
 	shell->arr_env = env;
 	while (tok)
@@ -119,5 +116,4 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		free_tok(tmp);
 	}
 	ft_wait(last_pid, shell);
-	g_flag = 0;
 }

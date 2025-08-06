@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:51:03 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:21 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-extern int	g_flag;
 
 static void	child_process(t_tok *tok, t_shell *shell, char **env)
 {
@@ -29,7 +27,9 @@ static void	parent_process(pid_t pid, t_shell *shell)
 	int	status;
 	int	sig;
 
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, ft_handle);
 	if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
@@ -52,7 +52,6 @@ void	execute_with_execve(t_tok *tok, t_shell *shell, char **env)
 {
 	pid_t	pid;
 
-	g_flag = 1;
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
@@ -60,5 +59,4 @@ void	execute_with_execve(t_tok *tok, t_shell *shell, char **env)
 		child_process(tok, shell, env);
 	else
 		parent_process(pid, shell);
-	g_flag = 0;
 }

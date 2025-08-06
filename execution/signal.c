@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/06 00:47:08 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:36:16 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-extern int	g_flag;
-
 void	ft_handle(int sig)
 {
-	if (!g_flag && sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
@@ -30,7 +28,6 @@ void	ft_handle_herdoc(int sig)
 	t_clean	*cleaner;
 
 	(void)sig;
-	g_flag = 1;
 	printf("\n");
 	cleaner = clean_heredoc();
 	close(cleaner->fd);

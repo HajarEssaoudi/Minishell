@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 04:38:11 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:55 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
-
-extern int	g_flag;
 
 static void	ft_heredoc_cleanup_and_exit(t_clean *cleaner, int fd, char *line)
 {
@@ -84,7 +82,6 @@ static void	ft_heredoc_parent(char *name, pid_t pid, t_shell *shell, t_tok *tok)
 	{
 		shell->exit_status = 130;
 		unlink(name);
-		g_flag = 0;
 		tok->heredoc_fd = -1;
 	}
 	else if (WIFEXITED(status))
@@ -97,7 +94,6 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	pid_t	pid;
 	char	*name;
 
-	g_flag = 1;
 	name = her_name();
 	pid = fork();
 	cleaner = clean_heredoc();
@@ -114,5 +110,4 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	tok->heredoc_fd = open_file(name, shell);
 	unlink(name);
 	free(name);
-	g_flag = 0;
 }
