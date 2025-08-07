@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:59:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 22:59:08 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:04:28 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ void				fork_error(void);
 char				*generate_name(void);
 
 /* handle env */
-t_env				*create_list_env(char **arr_env, t_tok *tok,
-						t_shell *shell);
+t_env				*create_list_env(char **arr_env, t_shell *shell);
 t_env				*init_node_env(char *str_env, t_shell *shell);
 char				**update_env_arr(t_env *lst_env, char **arr_env);
 void				ft_lstadd_back_env(t_env **lst, t_env *new, int f);

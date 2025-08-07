@@ -6,7 +6,7 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:36 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 21:50:23 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:28:22 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*relative_path(t_tok *tok, char **cp_env, t_shell *shell)
 	}
 	else if (ex && ft_strcmp(ex, tok->path) == 0)
 	{
-		ft_printf(2, "Minishell: %s: Permission denied\n", ex);
+		write (2, "Minishell: Permission denied\n", 30);
 		free(tok->path);
 		shell->exit_status = EXIT_NO_PERMISSION;
 		return (NULL);
@@ -58,8 +58,7 @@ char	*relative_path(t_tok *tok, char **cp_env, t_shell *shell)
 	else if (!ex)
 	{
 		free(tok->path);
-		write(2, "Minishell:command not found\n",
-			ft_strlen("Minishell:command not found\n"));
+		write (2, "Minishell: Command not found\n", 30);
 		shell->exit_status = EXIT_NOT_FOUND;
 		return (NULL);
 	}
@@ -74,7 +73,7 @@ int	check_is_dir(t_tok *tok, t_shell *shell)
 	stat(tok->path, &dir);
 	if (S_ISDIR(dir.st_mode))
 	{
-		ft_putstr_fd("Minishell: Is a directory\n", 2);
+		write (2, "Minishell: Is a directory\n", 27);
 		free_tok(tok);
 		shell->exit_status = EXIT_NO_PERMISSION;
 		return (1);
@@ -88,14 +87,14 @@ int	absolut_path(t_tok *tok, t_shell *shell)
 		return (1);
 	else if (access(tok->path, F_OK) != 0)
 	{
-		ft_printf(2, "Minishell: %s: No such file or directory\n", tok->path);
+		write (2, "Minishell: No such a file or a directory\n", 42);
 		shell->exit_status = EXIT_NOT_FOUND;
 		free_tok(tok);
 		return (1);
 	}
 	else if (access(tok->path, X_OK) != 0)
 	{
-		ft_printf(2, "Minishell: %s: Permission denied\n", tok->path);
+		write (2, "Minishell: Permission denied\n", 30);
 		shell->exit_status = EXIT_NO_PERMISSION;
 		free_tok(tok);
 		return (1);
@@ -109,8 +108,7 @@ t_tok	*check_cmd(t_tok *tok, t_shell *shell, char **cp_env)
 	{
 		if (!tok->path || !tok->path[0])
 		{
-			write(2, "Minishell:command not found\n",
-				ft_strlen("Minishell:command not found\n"));
+			write(2, "Minishell:command not found\n", 29);
 			free_tok(tok);
 			shell->exit_status = EXIT_NOT_FOUND;
 			return (NULL);

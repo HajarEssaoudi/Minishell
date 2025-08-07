@@ -6,20 +6,11 @@
 /*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:15:57 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:46:38 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:03:46 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-void	malloc_failed_free(t_tok *tok, t_shell *shell, char **env)
-{
-	if (tok)
-		free_tok(tok);
-	if (shell)
-		ft_clear(env, shell);
-	exit(2);
-}
 
 t_env	*init_node_env(char *str_env, t_shell *shell)
 {
@@ -48,7 +39,7 @@ t_env	*init_node_env(char *str_env, t_shell *shell)
 	return (node_env);
 }
 
-t_env	*create_list_env(char **arr_env, t_tok *tok, t_shell *shell)
+t_env	*create_list_env(char **arr_env, t_shell *shell)
 {
 	t_env	*head;
 	t_env	*tmp;
@@ -64,7 +55,8 @@ t_env	*create_list_env(char **arr_env, t_tok *tok, t_shell *shell)
 		if (new_node == NULL)
 		{
 			ft_putstr_fd("allocation failed\n", 2);
-			malloc_failed_free(tok, shell, arr_env);
+			ft_clear(arr_env, shell);
+			exit (2);
 		}
 		if (!head)
 			head = new_node;

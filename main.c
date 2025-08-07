@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 09:45:58 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:05:37 by hes-saou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	*initialise_struct(char **env, t_shell *shell, t_tok *tok)
+t_shell	*initialise_struct(char **env, t_shell *shell)
 {
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
 		ft_clear(env, shell);
+		ft_printf(2, "allocation failed\n");
+		exit(2);
 	}
-	shell->env = create_list_env(env, tok, shell);
+	shell->env = create_list_env(env, shell);
 	shell->exit_status = 0;
 	shell->saved_stdout = 0;
 	shell->saved_stdin = 0;
@@ -82,7 +84,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, ft_handle);
 	signal(SIGQUIT, SIG_IGN);
 	cp_env = copy_env(env);
-	shell = initialise_struct(env, shell, tok);
+	shell = initialise_struct(env, shell);
 	if (!shell)
 		return (1);
 	minishell_loop(shell, cp_env, tok);
