@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 19:06:34 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/07/25 02:18:36 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:59:22 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,8 @@ void	add_ch(t_lexer **lexer, char *type, char *input, char *ambg)
 	token->flag = NULL;
 	token->ambg = ft_strdup(ambg);
 	token->quot = (*lexer)->quot;
-	if (!*lexer || !(*lexer)->type)
-	{
-		if (*lexer)
-			free(*lexer);
+	if (!*lexer)
 		*lexer = token;
-	}
 	else
 		add_lexer(*lexer, token);
 }
