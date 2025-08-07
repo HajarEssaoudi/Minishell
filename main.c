@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 10:05:37 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/07 10:48:51 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	handle_ctrl_d(t_shell *shell, char **env)
 void	minishell_loop(t_shell *shell, char **cp_env, t_tok *tok)
 {
 	char	*prompt;
-	t_tok	*tmp;
+	char	*tmp_pip;
 
 	while (1)
 	{
@@ -60,10 +60,10 @@ void	minishell_loop(t_shell *shell, char **cp_env, t_tok *tok)
 		if (tok != NULL)
 		{
 			tok->heredoc_fd = -1;
-			tmp = tok;
-			execute_cmd(tmp, shell, cp_env);
+			tmp_pip = tok->pip;
+			execute_cmd(tok, shell, cp_env);
 			cp_env = update_env_arr(shell->env, cp_env);
-			if (!tok->pip)
+			if (!tmp_pip && tok)
 				free_tok(tok);
 		}
 		add_history(prompt);
