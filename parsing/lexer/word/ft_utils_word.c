@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhaqmarouan <abdelhaqmarouan@student.42.fr>  #+#  +:+
-	+#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-24 02:20:33 by abdelhaqmarouan   #+#    #+#             */
-/*   Updated: 2025-07-24 02:20:33 by abdelhaqmarouan  ###   ########.fr       */
+/*   Created: 2025/08/07 10:59:50 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/08/07 10:59:52 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhaqmarouan <abdelhaqmarouan@student.42.fr>  #+#  +:+
-	+#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-23 15:10:27 by abdelhaqmarouan   #+#    #+#             */
-/*   Updated: 2025-07-23 15:10:27 by abdelhaqmarouan  ###   ########.fr       */
+/*   Created: 2025/08/07 10:59:08 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/08/07 10:59:11 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

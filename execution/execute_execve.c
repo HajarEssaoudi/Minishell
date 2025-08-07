@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:21 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:17:38 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	parent_process(pid_t pid, t_shell *shell)
 		sig = WTERMSIG(status);
 		if (sig == SIGQUIT)
 		{
-			ft_printf(2, "Quit (core dumped)\n");
+			ft_printf(2, "Quit\n");
 			shell->exit_status = 131;
 		}
 		else if (sig == SIGINT)

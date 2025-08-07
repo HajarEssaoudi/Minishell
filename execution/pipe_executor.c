@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:34 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:17:54 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_wait(pid_t last_pid, t_shell *shell)
 			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
 			{
-				ft_putstr_fd("Quit (core dumped)\n", 2);
+				ft_putstr_fd("Quit\n", 2);
 				shell->exit_status = 131;
 			}
 			else if (sig == SIGINT)

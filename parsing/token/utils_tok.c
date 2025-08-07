@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhaqmarouan <abdelhaqmarouan@student.42.fr>  #+#  +:+      
-	+#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-23 15:23:07 by abdelhaqmarouan   #+#    #+#             */
-/*   Updated: 2025-07-23 15:23:07 by abdelhaqmarouan  ###   ########.fr       */
+/*   Created: 2025/08/07 10:58:45 by mabdelha          #+#    #+#             */
+/*   Updated: 2025/08/07 10:58:49 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
