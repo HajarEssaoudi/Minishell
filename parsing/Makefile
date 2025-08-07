@@ -29,7 +29,6 @@ SRC         = \
 			  $(TOKEN_DIR)/ft_get_type.c \
 			  $(TOKEN_DIR)/ft_token.c \
 			  $(TOKEN_DIR)/general_tok.c \
-			  $(TOKEN_DIR)/utils_tok.c
 
 OBJ         = $(SRC:.c=.o)
 

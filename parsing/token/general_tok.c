@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 20:36:46 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/03 11:47:54 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 22:11:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ t_tok	*get_tok(char *prompt, char **env, int exit_status)
 	if (lexer)
 	{
 		ft_type(lexer);
-		ft_amg(lexer);
 		tok = ft_token(lexer);
 	}
 	free_lexer(lexer);

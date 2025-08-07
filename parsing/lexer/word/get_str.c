@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:00:00 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/07 11:00:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:54:47 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,7 @@ t_lexer	*get_str(char *input, t_lexer *lexer, char **cp_env, char *flag)
 	while (input[i])
 	{
 		if (input[i] == '"' || input[i] == '\'')
-		{
 			i = handl_quote(input, i, &split, &str_list);
-			if (i == -1)
-				return (NULL);
-		}
 		else
 			i = handl_unquote(input, i, &split, &str_list);
 	}

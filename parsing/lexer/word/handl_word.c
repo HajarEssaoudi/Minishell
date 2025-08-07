@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handl_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 01:39:53 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/05 04:16:02 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/07 19:00:46 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 int	ft_is_quoted(char *input, int *i, char quot)
 {
 	(*i)++;
-	while (input[*i] && (input[*i] != quot || (input[*i - 1] == '\\'
-				&& input[*i] == quot)))
+	while (input[*i] && input[*i] != quot)
 		(*i)++;
 	if (!input[*i])
 	{
@@ -101,8 +100,9 @@ t_lexer	*ft_word(t_lexer *lexer, char *input, int *i, char **env)
 	lexer = get_str(sub, lexer, env, flag);
 	if (!lexer)
 	{
-		free(sub);
-		return (free_lexer(lexer), NULL);
+		if (sub)
+			free(sub);
+		return (NULL);
 	}
 	herdoc_quot(lexer, is_quoted);
 	free(sub);

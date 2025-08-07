@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/07 10:58:10 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 22:08:15 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ t_lexer					*ft_word(t_lexer *lexer, char *input, int *i,
 							char **env);
 t_lexer					*ft_final(t_lexer *lexer, t_split *split);
 t_tok					*get_tok(char *prompt, char **env, int exit_status);
-void					ft_amg(t_lexer *lexer);
 int						check_redirect2(char *input);
 int						check_redirect1(char *input);
 char					*expand_exit(char *input, int *i, t_str_list *str_list);
