@@ -4,7 +4,7 @@ CFLAGS      = -Wall -Wextra -Werror
 
 EXEC_DIR    = execution
 PARSING_DIR = parsing
-LIB_DIR     = lib
+LIB_DIR     = libft
 PRINTF_DIR  = ft_printf
 
 EXEC_LIB    = $(EXEC_DIR)/libexecution.a

@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 09:45:17 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/03 11:44:09 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/07 09:56:57 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSING_H
 
 # include "../ft_printf/ft_printf.h"
-# include "../lib/libft.h"
+# include "../libft/libft.h"
 # include <ctype.h>
 # include <errno.h>
 # include <limits.h>

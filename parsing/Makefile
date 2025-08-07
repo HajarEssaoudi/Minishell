@@ -33,7 +33,7 @@ SRC         = \
 
 OBJ         = $(SRC:.c=.o)
 
-INCLUDES    = -I../includes -I../lib
+INCLUDES    = -I../includes -I../libft
 
 all: $(NAME)
 

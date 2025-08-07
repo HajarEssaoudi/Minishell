@@ -17,10 +17,10 @@ SRC         = \
 
 OBJ         = $(SRC:.c=.o)
 
-LIBFT       = ../lib/libft.a
+LIBFT       = ../libft/libft.a
 PRINTF      = ../ft_printf/libftprintf.a
 
-INCLUDES    = -I../includes -I../lib -I../ft_printf
+INCLUDES    = -I../includes -I../libft -I../ft_printf
 
 all: $(NAME)
 
