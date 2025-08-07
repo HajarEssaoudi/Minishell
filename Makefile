@@ -17,18 +17,23 @@ LIBS        = $(EXEC_LIB) $(PARSING_LIB) $(LIBFT) $(PRINTF)
 SRC         = main.c
 OBJ         = $(SRC:.c=.o)
 
+EXEC_SRCS   = $(wildcard $(EXEC_DIR)/*.c $(EXEC_DIR)/*/*.c)
+PARSING_SRCS = $(wildcard $(PARSING_DIR)/*.c $(PARSING_DIR)/*/*.c)
+LIBFT_SRCS  = $(wildcard $(LIB_DIR)/*.c)
+PRINTF_SRCS = $(wildcard $(PRINTF_DIR)/*.c)
+
 all: $(NAME)
 
-$(EXEC_LIB):
+$(EXEC_LIB): $(EXEC_SRCS)
 	$(MAKE) -C $(EXEC_DIR)
 
-$(PARSING_LIB):
+$(PARSING_LIB): $(PARSING_SRCS)
 	$(MAKE) -C $(PARSING_DIR)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRCS)
 	$(MAKE) -C $(LIB_DIR)
 
-$(PRINTF):
+$(PRINTF): $(PRINTF_SRCS)
 	$(MAKE) -C $(PRINTF_DIR)
 
 $(NAME): $(OBJ) $(EXEC_LIB) $(PARSING_LIB) $(LIBFT) $(PRINTF)
@@ -52,3 +57,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
