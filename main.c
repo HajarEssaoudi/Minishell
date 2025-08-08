@@ -6,13 +6,13 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/08 11:50:02 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/09 00:16:11 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_sign = 0;
+int		g_sign = 0;
 
 t_shell	*initialise_struct(char **env, t_shell *shell)
 {
@@ -33,7 +33,7 @@ t_shell	*initialise_struct(char **env, t_shell *shell)
 	return (shell);
 }
 
-void	handle_ctrl_d(t_shell *shell, char **env, char *prompt)
+void	handle_ctrl_d_c(t_shell *shell, char **env, char *prompt)
 {
 	int	status;
 
@@ -60,9 +60,8 @@ void	minishell_loop(t_shell *shell, char **cp_env, t_tok *tok)
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
-		
 		if (!prompt || g_sign == SIGINT)
-			handle_ctrl_d(shell, cp_env, prompt);
+			handle_ctrl_d_c(shell, cp_env, prompt);
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env, shell->exit_status);

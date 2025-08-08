@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 00:45:07 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 17:44:51 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/09 00:10:11 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,18 @@ void	ft_wait(pid_t last_pid, t_shell *shell)
 		{
 			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
-			{
-				ft_putstr_fd("Quit\n", 2);
 				shell->exit_status = 131;
-			}
 			else if (sig == SIGINT)
-			{
-				write(1, "\n", 1);
 				shell->exit_status = 130;
-			}
 		}
 		else if (w_pid == last_pid && WIFEXITED(status))
 			shell->exit_status = WEXITSTATUS(status);
 		w_pid = wait(&status);
 	}
+	if (shell->exit_status == 130)
+		write(2, "\n", 1);
+	else if (shell->exit_status == 131)
+		ft_putstr_fd("Quit\n", 2);
 }
 
 void	handle_pipe(t_tok *tok, t_shell *shell, pid_t *last_pid, int *prev_fd)
@@ -106,6 +104,7 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 
 	prev_fd = -1;
 	shell->arr_env = env;
+	signal(SIGINT, SIG_IGN);
 	while (tok)
 	{
 		if (tok->path || tok->redirect)
@@ -116,4 +115,5 @@ void	execute_with_pipe(t_tok *tok, char **env, t_shell *shell)
 		free_tok(tmp);
 	}
 	ft_wait(last_pid, shell);
+	signal(SIGINT, ft_handle);
 }

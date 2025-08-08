@@ -12,7 +12,7 @@
 
 #include "execution.h"
 
-extern int g_sign;
+extern int	g_sign;
 
 void	ft_handle(int sig)
 {
