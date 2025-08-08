@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 13:17:38 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:45:13 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	parent_process(pid_t pid, t_shell *shell)
 		}
 		else if (sig == SIGINT)
 		{
-			write(1, "\n", 1);
+			write(2, "\n", 1);
 			shell->exit_status = 130;
 		}
 	}

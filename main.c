@@ -6,11 +6,13 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 10:48:51 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:09:24 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_sign = 0;
 
 t_shell	*initialise_struct(char **env, t_shell *shell)
 {
@@ -31,15 +33,22 @@ t_shell	*initialise_struct(char **env, t_shell *shell)
 	return (shell);
 }
 
-void	handle_ctrl_d(t_shell *shell, char **env)
+void	handle_ctrl_d(t_shell *shell, char **env, char *prompt)
 {
 	int	status;
 
-	status = shell->exit_status;
-	ft_clear(env, shell);
-	if (isatty(STDIN_FILENO))
+	if (g_sign == SIGINT)
+	{
+		g_sign = 0;
+		shell->exit_status = 130;
+	}
+	if (!prompt)
+	{
+		status = shell->exit_status;
+		ft_clear(env, shell);
 		write(2, "exit\n", 6);
-	exit(status);
+		exit(status);
+	}
 }
 
 void	minishell_loop(t_shell *shell, char **cp_env, t_tok *tok)
@@ -50,8 +59,9 @@ void	minishell_loop(t_shell *shell, char **cp_env, t_tok *tok)
 	while (1)
 	{
 		prompt = readline("Minishell$> ");
-		if (!prompt)
-			handle_ctrl_d(shell, cp_env);
+		
+		if (!prompt || g_sign == SIGINT)
+			handle_ctrl_d(shell, cp_env, prompt);
 		if (!prompt[0])
 			continue ;
 		tok = get_tok(prompt, cp_env, shell->exit_status);
@@ -83,8 +93,9 @@ int	main(int argc, char **argv, char **env)
 	shell = NULL;
 	signal(SIGINT, ft_handle);
 	signal(SIGQUIT, SIG_IGN);
-	cp_env = copy_env(env);
+	rl_outstream = stderr;
 	shell = initialise_struct(env, shell);
+	cp_env = copy_env(env);
 	if (!shell)
 		return (1);
 	minishell_loop(shell, cp_env, tok);

@@ -6,16 +6,19 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 03:22:14 by mabdelha          #+#    #+#             */
-/*   Updated: 2025/08/07 11:12:24 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/08 09:36:53 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+extern int g_sign;
+
 void	ft_handle(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_sign = SIGINT;
 		write(2, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
