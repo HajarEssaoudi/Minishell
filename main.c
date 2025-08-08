@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:57:50 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/08 10:09:24 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:50:02 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	handle_ctrl_d(t_shell *shell, char **env, char *prompt)
 {
 	int	status;
 
+	status = 0;
 	if (g_sign == SIGINT)
 	{
 		g_sign = 0;
