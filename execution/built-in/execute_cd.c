@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:07:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/05 01:45:58 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:54:40 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,14 @@ int	execute_cd(t_tok *tok, t_shell *shell)
 	shell->old_path = ft_strdup(search_in_env(shell, "PWD"));
 	if (!tok->str[1])
 	{
-		ft_putstr_fd("Minishell: syntax error: expected "
-			"relative or absolute path\n", 2);
+		write(2,
+			"Minishell: syntax error: expected relative or absolute path\n",
+			61);
 		return (2);
 	}
 	if (tok->str[2])
 	{
-		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+		write(2, "Minishell: cd: too many arguments\n", 35);
 		return (1);
 	}
 	if (chdir(tok->str[1]) == -1)

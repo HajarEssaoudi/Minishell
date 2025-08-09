@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 21:19:10 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/08 11:45:13 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/09 01:36:43 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	child_process(t_tok *tok, t_shell *shell, char **env)
 	signal(SIGQUIT, SIG_DFL);
 	tok = check_cmd(tok, shell, env);
 	if (!tok)
-		tok_error_handling(shell, env);
+		tok_error_handling(tok, shell, env);
 	ft_execve(tok, env);
 }
 

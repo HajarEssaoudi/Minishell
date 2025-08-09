@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:59:05 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/07 10:04:28 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:47:41 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				execute_with_execve(t_tok *tok, t_shell *shell, char **env);
 void				execute_cases(t_tok *tok, t_shell *shell, char **env);
 void				execute_with_pipe(t_tok *tok, char **env, t_shell *shell);
 t_tok				*check_cmd(t_tok *tok, t_shell *shell, char **cp_env);
-void				tok_error_handling(t_shell *shell, char **env);
+void				tok_error_handling(t_tok *tok, t_shell *shell, char **env);
 
 /*shell's operations*/
 

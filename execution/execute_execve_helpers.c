@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_execve_helpers.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 23:51:15 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 04:18:12 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:11:05 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-/*a ajouter ft_clear exit*/
 void	ft_execve(t_tok *tok, char **env)
 {
 	if (tok->path)
@@ -64,13 +63,19 @@ void	execute_cases(t_tok *tok, t_shell *shell, char **env)
 	exit(shell->exit_status);
 }
 
-void	tok_error_handling(t_shell *shell, char **env)
+void	tok_error_handling(t_tok *tok, t_shell *shell, char **env)
 {
 	int	exit_status;
 
 	exit_status = shell->exit_status;
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	if (shell->saved_stdin != -1)
+		close(shell->saved_stdin);
+	if (shell->saved_stdout != -1)
+		close(shell->saved_stdout);
+	if (tok && tok->heredoc_fd != -1)
+		close(tok->heredoc_fd);
 	ft_clear(env, shell);
+	if (tok)
+		free_tok(tok);
 	exit(exit_status);
 }

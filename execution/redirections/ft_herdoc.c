@@ -6,7 +6,7 @@
 /*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 00:45:20 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/08 10:26:16 by mabdelha         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:48:00 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	ft_heredoc_cleanup_and_exit(t_clean *cleaner, int fd)
 	close(fd);
 	free_tok(cleaner->tok);
 	ft_clear(cleaner->env, cleaner->shell);
+	free(cleaner->name);
 	exit(EXIT_SUCCESS);
 }
 
@@ -58,6 +59,8 @@ static void	ft_heredoc_child(char *name, t_clean *cleaner, t_rederict *redir)
 	if (fd == -1)
 	{
 		perror("open heredoc");
+		ft_clear(cleaner->env, cleaner->shell);
+		free_tok(cleaner->tok);
 		exit(EXIT_FAILURE);
 	}
 	cleaner->fd = fd;
@@ -105,7 +108,11 @@ void	ft_herdoc(t_tok *tok, t_rederict *redir, char **env, t_shell *shell)
 	{
 		ft_heredoc_parent(name, pid, shell, tok);
 	}
-	tok->heredoc_fd = open_file(name, shell);
-	unlink(name);
-	free(name);
+	if (shell && shell->exit_status != 130)
+	{
+		tok->heredoc_fd = open_file(name, shell);
+		unlink(name);
+	}
+	if (name)
+		free(name);
 }

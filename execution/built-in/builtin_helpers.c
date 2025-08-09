@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:26:30 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/06 00:45:13 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/09 02:55:19 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ t_env	*add_to_env(char *str_env, t_shell *shell)
 	shell->exit_status = valid_variable_name(str_env);
 	if (shell->exit_status == 1)
 	{
-		ft_printf(2, "minishell: export: %s: not a valid identifier\n",
-			str_env);
+		write(2, "Minishell: export: not a valid identifier\n", 43);
 		return (NULL);
 	}
 	node_env = create_env_node(str_env);

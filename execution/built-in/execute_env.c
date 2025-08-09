@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hes-saou <hes-saou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mabdelha <mabdelha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:13:40 by hes-saou          #+#    #+#             */
-/*   Updated: 2025/08/01 14:35:33 by hes-saou         ###   ########.fr       */
+/*   Updated: 2025/08/09 01:29:36 by mabdelha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_env(t_tok *tok, t_shell *shell)
 	tmp = shell->env;
 	if (tok->str[1])
 	{
-		ft_printf(2, "env: too many arguments\n");
+		write(2, "env: too many arguments\n", 25);
 		return (EXIT_NOT_FOUND);
 	}
 	while (tmp)
